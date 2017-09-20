@@ -3,14 +3,14 @@ package org.bdyb.hotel.domain;
 import lombok.*;
 import org.bdyb.hotel.enums.ReservationStatus;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
 
+import static org.bdyb.hotel.config.Constants.DB_PREFIX;
+
 @Entity
+@Table(name = DB_PREFIX + "Reservation")
 @Setter
 @Getter
 @Builder
@@ -25,8 +25,12 @@ public class Reservation {
     private ReservationStatus reservationStatus;
     private Date since;
     private Date upTo;
-    private Price price;
+    private Double price;
 
+    @ManyToMany(mappedBy = "reservationList")
     private List<Customer> customersList;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "room_id")
     private Room room;
 }

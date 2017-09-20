@@ -6,7 +6,12 @@ import org.bdyb.hotel.enums.RoomType;
 
 import javax.persistence.*;
 
+import java.util.List;
+
+import static org.bdyb.hotel.config.Constants.DB_PREFIX;
+
 @Entity
+@Table(name = DB_PREFIX + "Room")
 @Setter
 @Getter
 @Builder
@@ -20,9 +25,22 @@ public class Room {
     private Long id;
     private String number;
     private int capacity;
-    private Double price;
     @Enumerated(EnumType.STRING)
     private RoomType roomType;
     private RoomStatus roomStatus;
 
+
+    @OneToMany(
+            mappedBy = "room",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    private List<Price> prices;
+
+    @OneToMany(
+            mappedBy = "room",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    private List<Reservation> reservations;
 }

@@ -2,13 +2,14 @@ package org.bdyb.hotel.domain;
 
 import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
+
+import static org.bdyb.hotel.config.Constants.DB_PREFIX;
 
 @Entity
+@Table(name = DB_PREFIX + "Price")
 @Setter
 @Getter
 @Builder
@@ -24,4 +25,7 @@ public class Price {
     private Date validSince;
     private Date validUpto;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "room_id")
+    private Room room;
 }

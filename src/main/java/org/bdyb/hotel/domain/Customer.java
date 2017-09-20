@@ -2,12 +2,15 @@ package org.bdyb.hotel.domain;
 
 import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
-@Entity
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.bdyb.hotel.config.Constants.DB_PREFIX;
+
+@Entity(name = "customer")
+@Table(name = DB_PREFIX + "customer")
 @Setter
 @Getter
 @Builder
@@ -21,5 +24,16 @@ public class Customer {
     private Long id;
     private String name;
 
+    @OneToOne
     private IdentityCard identityCard;
+
+    @ManyToMany(cascade = {
+            CascadeType.PERSIST,
+            CascadeType.MERGE
+    })
+    @JoinTable(name = DB_PREFIX + "customer_reservation",
+            joinColumns = @JoinColumn(name = "customer_id"),
+            inverseJoinColumns =  @JoinColumn(name = "reservation_id")
+    )
+    private List<Reservation> reservationList;
 }
