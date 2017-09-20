@@ -3,8 +3,8 @@ package org.bdyb.hotel.domain;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.bdyb.hotel.config.Constants.DB_PREFIX;
@@ -24,6 +24,7 @@ public class Customer {
     private Long id;
     private String name;
 
+    @NotNull
     @OneToOne
     private IdentityCard identityCard;
 
