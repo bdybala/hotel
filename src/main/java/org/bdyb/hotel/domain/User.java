@@ -9,19 +9,20 @@ import java.util.List;
 
 import static org.bdyb.hotel.config.Constants.DB_PREFIX;
 
-@Entity(name = "customer")
-@Table(name = DB_PREFIX + "customer")
+@Entity(name = "user")
+@Table(name = DB_PREFIX + "user")
 @Setter
 @Getter
 @Builder
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class Customer {
+public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private String email;
     private String name;
 
     @NotNull
@@ -32,8 +33,8 @@ public class Customer {
             CascadeType.PERSIST,
             CascadeType.MERGE
     })
-    @JoinTable(name = DB_PREFIX + "customer_reservation",
-            joinColumns = @JoinColumn(name = "customer_id"),
+    @JoinTable(name = DB_PREFIX + "user_reservation",
+            joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns =  @JoinColumn(name = "reservation_id")
     )
     private List<Reservation> reservationList;

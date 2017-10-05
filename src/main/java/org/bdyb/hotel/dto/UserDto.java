@@ -12,8 +12,9 @@ import java.util.List;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class CustomerDto {
+public class UserDto {
     private Long id;
+    private String email;
     private String name;
 
     private IdentityCardDto identityCardDto;
