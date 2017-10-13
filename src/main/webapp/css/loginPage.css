@@ -265,7 +265,7 @@ label:hover:before {
 /* selected mark aspect */
 [type="checkbox"]:not(:checked) + label:after,
 [type="checkbox"]:checked + label:after {
-  content: '✔';
+  content: &#10004;
   top: 0;
   left: 2px;
   font-size: 14px;
