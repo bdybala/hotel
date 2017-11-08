@@ -25,7 +25,6 @@ public class User {
     private String email;
     private String name;
 
-    @NotNull
     @OneToOne
     private IdentityCard identityCard;
 

@@ -17,17 +17,21 @@ public class UserMapper implements EntityMapper<User, UserDto> {
                 .id(user.getId())
                 .email(user.getEmail())
                 .name(user.getName())
-                .identityCardDto(identityCardMapper.mapToDto(user.getIdentityCard()))
                 .build();
+        if (user.getIdentityCard() != null)
+            userDto.setIdentityCardDto(identityCardMapper.mapToDto(user.getIdentityCard()));
         return userDto;
     }
 
     @Override
     public User mapToEntity(UserDto userDto) {
-        return User.builder()
+        User user = User.builder()
                 .id(userDto.getId())
                 .email(userDto.getEmail())
                 .name(userDto.getName())
                 .build();
+        if (userDto.getIdentityCardDto() != null)
+            user.setIdentityCard(identityCardMapper.mapToEntity(userDto.getIdentityCardDto()));
+        return user;
     }
 }
