@@ -10,7 +10,8 @@ app.config(['$routeProvider',function($routeProvider) {
 		controller : 'LoginPageCtrl'
 	})
 	.when("/client", {
-		templateUrl : "views/client/clientPage.html"
+		templateUrl : "views/client/clientPage.html",
+		controller : 'ClientPageCtrl'
 	})
 	.otherwise({
 		redirectTo : "/"
