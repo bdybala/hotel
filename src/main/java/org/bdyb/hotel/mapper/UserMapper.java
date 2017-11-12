@@ -2,22 +2,21 @@ package org.bdyb.hotel.mapper;
 
 import org.bdyb.hotel.domain.User;
 import org.bdyb.hotel.dto.UserDto;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
 public class UserMapper implements EntityMapper<User, UserDto> {
 
+    private ModelMapper modelMapper = new ModelMapper();
+
     @Autowired
     private IdentityCardMapper identityCardMapper;
 
     @Override
     public UserDto mapToDto(User user) {
-        UserDto userDto = UserDto.builder()
-                .id(user.getId())
-                .email(user.getEmail())
-                .name(user.getName())
-                .build();
+        UserDto userDto = modelMapper.map(user, UserDto.class);
         if (user.getIdentityCard() != null)
             userDto.setIdentityCardDto(identityCardMapper.mapToDto(user.getIdentityCard()));
         return userDto;
@@ -25,11 +24,7 @@ public class UserMapper implements EntityMapper<User, UserDto> {
 
     @Override
     public User mapToEntity(UserDto userDto) {
-        User user = User.builder()
-                .id(userDto.getId())
-                .email(userDto.getEmail())
-                .name(userDto.getName())
-                .build();
+        User user = modelMapper.map(userDto, User.class);
         if (userDto.getIdentityCardDto() != null)
             user.setIdentityCard(identityCardMapper.mapToEntity(userDto.getIdentityCardDto()));
         return user;
