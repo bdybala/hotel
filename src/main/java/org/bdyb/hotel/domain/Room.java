@@ -1,17 +1,15 @@
 package org.bdyb.hotel.domain;
 
 import lombok.*;
+import org.bdyb.hotel.config.Constants;
 import org.bdyb.hotel.enums.RoomStatus;
 import org.bdyb.hotel.enums.RoomType;
 
 import javax.persistence.*;
-
 import java.util.List;
 
-import static org.bdyb.hotel.config.Constants.DB_PREFIX;
-
 @Entity
-@Table(name = DB_PREFIX + "Room")
+@Table(name = Constants.DB_PREFIX + "Room")
 @Setter
 @Getter
 @Builder

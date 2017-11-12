@@ -15,6 +15,7 @@ import java.util.List;
 public class UserDto {
     private Long id;
     private String email;
+    private String password;
     private String name;
 
     private IdentityCardDto identityCardDto;

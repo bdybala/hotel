@@ -13,20 +13,11 @@ import javax.annotation.PostConstruct;
 public class Init {
 
     @Autowired
-    UserRepository userRepository;
+    InitUser initUser;
 
     @PostConstruct
     public void initAll() {
-        initAdmin();
+        initUser.init();
     }
 
-    private void initAdmin() {
-        if (!userRepository.existsByEmail("admin")) {
-            userRepository.save(User.builder()
-                    .id(1L)
-                    .email("admin")
-                    .name("Admin")
-                    .build());
-        }
-    }
 }

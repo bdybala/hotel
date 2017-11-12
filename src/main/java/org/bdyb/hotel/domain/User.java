@@ -1,16 +1,13 @@
 package org.bdyb.hotel.domain;
 
 import lombok.*;
+import org.bdyb.hotel.config.Constants;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-
 import java.util.List;
 
-import static org.bdyb.hotel.config.Constants.DB_PREFIX;
-
 @Entity(name = "user")
-@Table(name = DB_PREFIX + "user")
+@Table(name = Constants.DB_PREFIX + "user")
 @Setter
 @Getter
 @Builder
@@ -23,6 +20,7 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String email;
+    private String password;
     private String name;
 
     @OneToOne
@@ -32,9 +30,9 @@ public class User {
             CascadeType.PERSIST,
             CascadeType.MERGE
     })
-    @JoinTable(name = DB_PREFIX + "user_reservation",
+    @JoinTable(name = Constants.DB_PREFIX + "user_reservation",
             joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns =  @JoinColumn(name = "reservation_id")
+            inverseJoinColumns = @JoinColumn(name = "reservation_id")
     )
     private List<Reservation> reservationList;
 }

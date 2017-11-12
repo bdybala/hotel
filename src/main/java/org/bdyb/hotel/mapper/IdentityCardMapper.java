@@ -10,7 +10,7 @@ public class IdentityCardMapper implements EntityMapper<IdentityCard, IdentityCa
     public IdentityCardDto mapToDto(IdentityCard identityCard) {
         return IdentityCardDto.builder()
                 .id(identityCard.getId())
-                .idCardEnum(identityCard.getIdCardEnum())
+                .idCardType(identityCard.getIdCardType())
                 .idCardNumber(identityCard.getIdCardNumber())
                 .build();
     }
@@ -19,7 +19,7 @@ public class IdentityCardMapper implements EntityMapper<IdentityCard, IdentityCa
     public IdentityCard mapToEntity(IdentityCardDto identityCardDto) {
         return IdentityCard.builder()
                 .id(identityCardDto.getId())
-                .idCardEnum(identityCardDto.getIdCardEnum())
+                .idCardType(identityCardDto.getIdCardType())
                 .idCardNumber(identityCardDto.getIdCardNumber())
                 .build();
     }

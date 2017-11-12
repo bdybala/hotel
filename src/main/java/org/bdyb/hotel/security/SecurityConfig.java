@@ -20,14 +20,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-                .authorizeRequests()
-                    .antMatchers("/js" ,"/bootstrap", "/css", "/resources/**", "/api/user/logged").permitAll()
-                    .anyRequest().authenticated()
-                    .and()
-                .formLogin()
-                    .and()
-                .logout()
-                    .permitAll();
+            .authorizeRequests()
+//                .antMatchers("/js" ,"/bootstrap", "/css", "/resources/**", "/api/user/logged").permitAll()
+                .antMatchers("*").permitAll()
+                .anyRequest().authenticated()
+                .and()
+            .formLogin()
+                .and()
+            .logout()
+                .permitAll();
     }
 
 }
