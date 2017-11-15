@@ -22,9 +22,10 @@ public class Room {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String number;
-    private int capacity;
+    private Integer capacity;
     @Enumerated(EnumType.STRING)
     private RoomType roomType;
+    @Enumerated(EnumType.STRING)
     private RoomStatus roomStatus;
 
 

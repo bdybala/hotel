@@ -22,7 +22,7 @@ public class Price {
     private Long id;
     private Double value;
     private Date validSince;
-    private Date validUpto;
+    private Date validUpTo;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "room_id")
