@@ -1,7 +1,5 @@
 package org.bdyb.hotel.controller;
 
-import lombok.extern.slf4j.Slf4j;
-import org.bdyb.hotel.dto.RegisterNewUserDto;
 import org.bdyb.hotel.dto.UserDto;
 import org.bdyb.hotel.exceptions.ConflictException;
 import org.bdyb.hotel.exceptions.EntityNotFoundException;
@@ -15,7 +13,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/user")
-@Slf4j
 public class UserController {
 
     @Autowired
@@ -54,11 +51,6 @@ public class UserController {
         } else {
             throw new EntityNotFoundException("There is no logged user!");
         }
-    }
-
-    @RequestMapping(value = "/register", method = RequestMethod.POST)
-    public UserDto registerUser(@RequestBody RegisterNewUserDto registerNewUserDto) throws ConflictException {
-        return userService.register(registerNewUserDto);
     }
 
 }

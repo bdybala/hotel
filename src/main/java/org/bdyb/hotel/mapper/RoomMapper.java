@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class RoomMapper implements EntityMapper<Room,RoomDto> {
+public class RoomMapper implements EntityMapper<Room, RoomDto> {
 
     @Autowired
     private RoomRepository roomRepository;

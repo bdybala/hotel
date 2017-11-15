@@ -1,7 +1,8 @@
 package org.bdyb.hotel.init;
 
 import lombok.extern.slf4j.Slf4j;
-import org.bdyb.hotel.dto.RegisterNewUserDto;
+import org.bdyb.hotel.dto.IdentityCardDto;
+import org.bdyb.hotel.dto.UserDto;
 import org.bdyb.hotel.enums.IdCardType;
 import org.bdyb.hotel.exceptions.ConflictException;
 import org.bdyb.hotel.service.UserService;
@@ -18,20 +19,21 @@ public class InitUser {
     public void init() {
         String email = "admin@admin.pl";
         try {
-            userService.register(RegisterNewUserDto.builder()
+            userService.addOne(UserDto.builder()
                     .email(email)
                     .password("123456")
                     .name("FirstName")
                     .surname("LastName")
-                    .idCardType(IdCardType.ID_CARD)
-                    .idCardNumber("AWK707070")
-                    .monthExpiring(6)
-                    .yearExpiring(2018)
+                    .identityCard(IdentityCardDto.builder()
+                            .idCardType(IdCardType.ID_CARD)
+                            .idCardNumber("AWK707070")
+                            .monthExpiring(6)
+                            .yearExpiring(2018)
+                            .build())
                     .build());
             log.info("INIT User " + email + " created");
         } catch (ConflictException e) {
             log.info("INIT User " + email + " exists");
         }
-
     }
 }

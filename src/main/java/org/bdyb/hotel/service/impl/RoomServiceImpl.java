@@ -7,9 +7,14 @@ import org.bdyb.hotel.mapper.RoomMapper;
 import org.bdyb.hotel.repository.RoomRepository;
 import org.bdyb.hotel.service.RoomService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Primary;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
+@Primary
+@Service
 public class RoomServiceImpl implements RoomService {
 
     @Autowired
@@ -20,16 +25,24 @@ public class RoomServiceImpl implements RoomService {
 
     @Override
     public RoomDto findOne(Long id) throws EntityNotFoundException {
-        return null;
+        return roomMapper.mapToDto(Optional.ofNullable(roomRepository.findOne(id))
+                .orElseThrow(() -> new EntityNotFoundException("User with that id not found! : " + id)));
     }
 
     @Override
     public List<RoomDto> findAll() {
-        return null;
+        return roomMapper.mapToDto(roomRepository.findAll());
     }
 
     @Override
     public RoomDto addOne(RoomDto dtoToAdd) throws ConflictException {
+        try {
+            return roomMapper.mapToDto(roomRepository.save(roomMapper.mapToEntity(dtoToAdd)));
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println(e.getCause().toString());
+            System.out.println(e.getCause().getClass());
+        }
         return null;
     }
 

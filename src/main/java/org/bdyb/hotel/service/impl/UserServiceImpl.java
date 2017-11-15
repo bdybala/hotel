@@ -1,20 +1,18 @@
 package org.bdyb.hotel.service.impl;
 
 import org.bdyb.hotel.domain.User;
-import org.bdyb.hotel.dto.IdentityCardDto;
-import org.bdyb.hotel.dto.RegisterNewUserDto;
 import org.bdyb.hotel.dto.UserDto;
 import org.bdyb.hotel.exceptions.ConflictException;
 import org.bdyb.hotel.exceptions.EntityNotFoundException;
-import org.bdyb.hotel.mapper.UserMapper;
 import org.bdyb.hotel.mapper.IdentityCardMapper;
+import org.bdyb.hotel.mapper.UserMapper;
+import org.bdyb.hotel.repository.IdentityCardRepository;
 import org.bdyb.hotel.repository.UserRepository;
 import org.bdyb.hotel.service.IdentityCardService;
 import org.bdyb.hotel.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -25,6 +23,8 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private IdentityCardRepository identityCardRepository;
 
     @Autowired
     private UserMapper userMapper;
@@ -51,6 +51,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto addOne(UserDto dtoToAdd) throws ConflictException {
+        if (userRepository.existsByEmail(dtoToAdd.getEmail()))
+            throw new ConflictException("That e-mail is already in use! : " + dtoToAdd.getEmail());
+        if (identityCardRepository.existsByIdCardNumber(dtoToAdd.getIdentityCard().getIdCardNumber()))
+            throw new ConflictException("User with that IdCardNumber is already in db! :" + dtoToAdd.getIdentityCard().getIdCardNumber());
         return userMapper.mapToDto(userRepository.save(userMapper.mapToEntity(dtoToAdd)));
     }
 
@@ -81,27 +85,6 @@ public class UserServiceImpl implements UserService {
     public UserDto findByEmail(String email) throws EntityNotFoundException {
         return userMapper.mapToDto(Optional.ofNullable(userRepository.findByEmail(email)).orElseThrow(
                 () -> new EntityNotFoundException("User with that email not found! :" + email)));
-    }
-
-    @Override
-    @Transactional
-    public UserDto register(RegisterNewUserDto registerNewUserDto) throws ConflictException {
-
-        IdentityCardDto savedIdentityCardDto = identityCardService.addOne(IdentityCardDto.builder()
-                .idCardType(registerNewUserDto.getIdCardType())
-                .idCardNumber(registerNewUserDto.getIdCardNumber())
-                .monthExpiring(registerNewUserDto.getMonthExpiring())
-                .yearExpiring(registerNewUserDto.getYearExpiring())
-                .build());
-
-        UserDto savedUser = addOne(UserDto.builder()
-                .email(registerNewUserDto.getEmail())
-                .name(registerNewUserDto.getName())
-                .password(registerNewUserDto.getPassword())
-                .identityCard(savedIdentityCardDto)
-                .build());
-
-        return savedUser;
     }
 
 }

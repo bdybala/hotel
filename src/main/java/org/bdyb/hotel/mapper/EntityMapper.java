@@ -13,5 +13,7 @@ public interface EntityMapper<Entity, Dto> {
         return from.stream().map(this::mapToDto).collect(Collectors.toList());
     }
 
-    default List<Entity> mapToEntity(List<Dto> to) { return to.stream().map(this::mapToEntity).collect(Collectors.toList()); }
+    default List<Entity> mapToEntity(List<Dto> to) {
+        return to.stream().map(this::mapToEntity).collect(Collectors.toList());
+    }
 }

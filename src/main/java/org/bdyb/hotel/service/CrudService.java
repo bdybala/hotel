@@ -5,7 +5,7 @@ import org.bdyb.hotel.exceptions.EntityNotFoundException;
 
 import java.util.List;
 
-public interface CrudService <Entity, Dto> {
+public interface CrudService<Entity, Dto> {
 
     Dto findOne(Long id) throws EntityNotFoundException;
 
