@@ -61,8 +61,8 @@ public class UserServiceImpl implements UserService {
     }
 
     private User updateCustomer(UserDto editedCustomer, User user) {
-        if (editedCustomer.getIdentityCardDto() != null) {
-            user.setIdentityCard(identityCardMapper.mapToEntity(editedCustomer.getIdentityCardDto()));
+        if (editedCustomer.getIdentityCard() != null) {
+            user.setIdentityCard(identityCardMapper.mapToEntity(editedCustomer.getIdentityCard()));
         }
         if (editedCustomer.getName() != null) {
             user.setName(editedCustomer.getName());
@@ -98,7 +98,7 @@ public class UserServiceImpl implements UserService {
                 .email(registerNewUserDto.getEmail())
                 .name(registerNewUserDto.getName())
                 .password(registerNewUserDto.getPassword())
-                .identityCardDto(savedIdentityCardDto)
+                .identityCard(savedIdentityCardDto)
                 .build());
 
         return savedUser;
