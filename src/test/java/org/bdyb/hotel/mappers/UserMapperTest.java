@@ -40,6 +40,7 @@ public class UserMapperTest {
         Assert.assertEquals(user.getEmail(), userDto.getEmail());
         Assert.assertEquals(user.getPassword(), userDto.getPassword());
         Assert.assertEquals(user.getName(), userDto.getName());
+        Assert.assertEquals(user.getSurname(), userDto.getSurname());
         //id
         Assert.assertEquals(user.getIdentityCard().getId(), userDto.getIdentityCard().getId());
         Assert.assertEquals(user.getIdentityCard().getIdCardType(), userDto.getIdentityCard().getIdCardType());
@@ -64,6 +65,7 @@ public class UserMapperTest {
                 .email("email")
                 .password("password")
                 .name("name")
+                .surname("surname")
                 .identityCard(prepareIdentityCard())
                 .build();
     }
@@ -89,6 +91,7 @@ public class UserMapperTest {
         Assert.assertEquals(userDto.getEmail(), user.getEmail());
         Assert.assertEquals(userDto.getPassword(), user.getPassword());
         Assert.assertEquals(userDto.getName(), user.getName());
+        Assert.assertEquals(userDto.getSurname(), user.getSurname());
         //id
         Assert.assertNull(user.getIdentityCard());
     }
@@ -99,6 +102,7 @@ public class UserMapperTest {
                 .email("email")
                 .password("password")
                 .name("name")
+                .surname("surname")
                 .identityCard(prepareIdentityCardDto())
                 .build();
     }
@@ -114,6 +118,7 @@ public class UserMapperTest {
         Assert.assertEquals(userDto.getEmail(), user.getEmail());
         Assert.assertEquals(userDto.getPassword(), user.getPassword());
         Assert.assertEquals(userDto.getName(), user.getName());
+        Assert.assertEquals(userDto.getSurname(), user.getSurname());
         //id
         Assert.assertEquals(userDto.getIdentityCard().getId(), user.getIdentityCard().getId());
         Assert.assertEquals(userDto.getIdentityCard().getIdCardType(), user.getIdentityCard().getIdCardType());

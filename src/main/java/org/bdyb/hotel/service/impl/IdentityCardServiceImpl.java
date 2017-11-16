@@ -40,6 +40,8 @@ public class IdentityCardServiceImpl implements IdentityCardService {
 
     @Override
     public IdentityCardDto addOne(IdentityCardDto dtoToAdd) throws ConflictException {
+        if (identityCardRepository.existsByIdCardNumber(dtoToAdd.getIdCardNumber()))
+            throw new ConflictException("IdentityCard with that IdCardNumber is already in db! : " + dtoToAdd.getIdCardNumber());
         return identityCardMapper.mapToDto(identityCardRepository.save(identityCardMapper.mapToEntity(dtoToAdd)));
     }
 

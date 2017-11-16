@@ -36,18 +36,14 @@ public class RoomServiceImpl implements RoomService {
 
     @Override
     public RoomDto addOne(RoomDto dtoToAdd) throws ConflictException {
-        try {
-            return roomMapper.mapToDto(roomRepository.save(roomMapper.mapToEntity(dtoToAdd)));
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.out.println(e.getCause().toString());
-            System.out.println(e.getCause().getClass());
-        }
-        return null;
+        if (roomRepository.existsByNumber(dtoToAdd.getNumber()))
+            throw new ConflictException("Room with that number already exists! : " + dtoToAdd.getNumber());
+        return roomMapper.mapToDto(roomRepository.save(roomMapper.mapToEntity(dtoToAdd)));
     }
 
     @Override
     public RoomDto editOne(RoomDto dtoToEdit) throws EntityNotFoundException, ConflictException {
+
         return null;
     }
 

@@ -41,7 +41,7 @@ public class UserServiceImpl implements UserService {
 
     private User findOneEntity(Long id) throws EntityNotFoundException {
         return Optional.ofNullable(userRepository.findOne(id)).orElseThrow(
-                () -> new EntityNotFoundException("User with that id not found! :" + id));
+                () -> new EntityNotFoundException("User with that id not found! : " + id));
     }
 
     @Override
@@ -54,22 +54,25 @@ public class UserServiceImpl implements UserService {
         if (userRepository.existsByEmail(dtoToAdd.getEmail()))
             throw new ConflictException("That e-mail is already in use! : " + dtoToAdd.getEmail());
         if (identityCardRepository.existsByIdCardNumber(dtoToAdd.getIdentityCard().getIdCardNumber()))
-            throw new ConflictException("User with that IdCardNumber is already in db! :" + dtoToAdd.getIdentityCard().getIdCardNumber());
+            throw new ConflictException("User with that IdCardNumber is already in db! : " + dtoToAdd.getIdentityCard().getIdCardNumber());
         return userMapper.mapToDto(userRepository.save(userMapper.mapToEntity(dtoToAdd)));
     }
 
     @Override
     public UserDto editOne(UserDto dtoToEdit) throws EntityNotFoundException, ConflictException {
-        User user = userRepository.findOne(dtoToEdit.getId());
-        return userMapper.mapToDto(userRepository.save(updateCustomer(dtoToEdit, user)));
+        User user = findOneEntity(dtoToEdit.getId());
+        return userMapper.mapToDto(userRepository.save(updateUser(dtoToEdit, user)));
     }
 
-    private User updateCustomer(UserDto editedCustomer, User user) {
-        if (editedCustomer.getIdentityCard() != null) {
-            user.setIdentityCard(identityCardMapper.mapToEntity(editedCustomer.getIdentityCard()));
+    private User updateUser(UserDto editedUser, User user) {
+        if (editedUser.getIdentityCard() != null) {
+            user.setIdentityCard(identityCardMapper.mapToEntity(editedUser.getIdentityCard()));
         }
-        if (editedCustomer.getName() != null) {
-            user.setName(editedCustomer.getName());
+        if (editedUser.getName() != null) {
+            user.setName(editedUser.getName());
+        }
+        if (editedUser.getSurname() != null) {
+            user.setSurname(editedUser.getSurname());
         }
         return user;
     }
