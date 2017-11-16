@@ -4,24 +4,23 @@ import lombok.*;
 import org.bdyb.hotel.config.Constants;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.List;
 
-@Entity(name = "user")
-@Table(name = Constants.DB_PREFIX + "user")
+@Entity(name = "customer")
+@Table(name = Constants.DB_PREFIX + "customer")
 @Setter
 @Getter
 @Builder
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class User {
+public class Customer {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(unique = true)
-    private String email;
-    private String password;
+    private Date birthday;
     private String name;
     private String surname;
 
@@ -32,8 +31,8 @@ public class User {
             CascadeType.PERSIST,
             CascadeType.MERGE
     })
-    @JoinTable(name = Constants.DB_PREFIX + "user_reservation",
-            joinColumns = @JoinColumn(name = "user_id"),
+    @JoinTable(name = Constants.DB_PREFIX + "customer_reservation",
+            joinColumns = @JoinColumn(name = "customer_id"),
             inverseJoinColumns = @JoinColumn(name = "reservation_id")
     )
     private List<Reservation> reservationList;

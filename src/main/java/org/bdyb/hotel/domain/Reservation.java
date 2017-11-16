@@ -28,7 +28,7 @@ public class Reservation {
     private Double price;
 
     @ManyToMany(mappedBy = "reservationList")
-    private List<User> usersList;
+    private List<Customer> customers;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "room_id")

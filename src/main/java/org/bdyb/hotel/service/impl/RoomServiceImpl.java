@@ -26,7 +26,7 @@ public class RoomServiceImpl implements RoomService {
     @Override
     public RoomDto findOne(Long id) throws EntityNotFoundException {
         return roomMapper.mapToDto(Optional.ofNullable(roomRepository.findOne(id))
-                .orElseThrow(() -> new EntityNotFoundException("User with that id not found! : " + id)));
+                .orElseThrow(() -> new EntityNotFoundException("Customer with that id not found! : " + id)));
     }
 
     @Override

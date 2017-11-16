@@ -11,11 +11,11 @@ import javax.annotation.PostConstruct;
 public class Init {
 
     @Autowired
-    InitUser initUser;
+    InitCustomer initCustomer;
 
     @PostConstruct
     public void initAll() {
-        initUser.init();
+        initCustomer.init();
     }
 
 }

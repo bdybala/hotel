@@ -31,6 +31,7 @@ dependencies {
 	compile group: 'postgresql', name: 'postgresql', version: '9.1-901-1.jdbc4'
 
 	compile group: 'org.modelmapper', name: 'modelmapper', version: '1.1.1'
+    compile group: 'joda-time', name: 'joda-time', version: '2.9.9'
 
 
 	// https://mvnrepository.com/artifact/org.mockito/mockito-all
