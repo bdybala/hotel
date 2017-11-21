@@ -12,7 +12,6 @@ import java.util.Date;
 @Setter
 @Getter
 @Builder
-@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 public class Price {

@@ -12,10 +12,13 @@ public class Init {
 
     @Autowired
     InitCustomer initCustomer;
+    @Autowired
+    InitRoom initRoom;
 
     @PostConstruct
     public void initAll() {
         initCustomer.init();
+        initRoom.init();
     }
 
 }
