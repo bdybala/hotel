@@ -18,5 +18,5 @@ public class RoomStatusDto {
     private Date upTo;
     private RoomStatusEnum name;
 
-    private RoomDto roomDto;
+    private RoomDto room;
 }
