@@ -18,23 +18,27 @@ public class InitCustomer {
     private CustomerService customerService;
 
     public void init() {
-        String name = "FirstName";
-        String surname = "LastName";
-        try {
-            customerService.addOne(CustomerDto.builder()
-                    .name(name)
-                    .surname(surname)
-                    .birthday(new DateTime().minusYears(21).toDate())
-                    .identityCard(IdentityCardDto.builder()
-                            .idCardType(IdCardType.ID_CARD)
-                            .idCardNumber("AWK707070")
-                            .monthExpiring(6)
-                            .yearExpiring(2018)
-                            .build())
-                    .build());
-            log.info("INIT Customer " + name + " " + surname + " created");
-        } catch (ConflictException e) {
-            log.info("INIT Customer " + name + " " + surname + " exists");
+        String name = "Jan";
+        String surname = "Kowalski";
+        String idCardNumber = "AWK70707";
+        DateTime birthday = new DateTime().minusYears(21);
+        for (int i = 0; i < 2; i++) {
+            try {
+                customerService.addOne(CustomerDto.builder()
+                        .name(name)
+                        .surname(surname )
+                        .birthday(birthday.plusYears(i).toDate())
+                        .identityCard(IdentityCardDto.builder()
+                                .idCardType(IdCardType.ID_CARD)
+                                .idCardNumber(idCardNumber + i)
+                                .monthExpiring(6)
+                                .yearExpiring(2018)
+                                .build())
+                        .build());
+                log.info("INIT Customer " + name + " " + surname + " created");
+            } catch (ConflictException e) {
+                log.info("INIT Customer " + name + " " + surname + " exists");
+            }
         }
     }
 }

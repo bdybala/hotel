@@ -3,7 +3,7 @@ package org.bdyb.hotel.init;
 import lombok.extern.slf4j.Slf4j;
 import org.bdyb.hotel.dto.PriceDto;
 import org.bdyb.hotel.dto.RoomDto;
-import org.bdyb.hotel.enums.RoomStatus;
+import org.bdyb.hotel.enums.RoomStatusEnum;
 import org.bdyb.hotel.enums.RoomType;
 import org.bdyb.hotel.exceptions.ConflictException;
 import org.bdyb.hotel.service.PriceService;
@@ -23,23 +23,23 @@ public class InitRoom {
 
     public void init() {
         RoomDto roomDto = initRoom();
-        initPrice(roomDto);
     }
 
 
     public RoomDto initRoom() {
-        String roomNumber = "1A";
-        try {
-            RoomDto roomDto = roomService.addOne(RoomDto.builder()
-                    .number(roomNumber)
-                    .capacity(4)
-                    .roomType(RoomType.DORMITORY)
-                    .roomStatus(RoomStatus.FREE)
-                    .build());
-            log.info("INIT Room " + roomNumber + " created");
-            return roomDto;
-        } catch (ConflictException e) {
-            log.info("INIT Room " + roomNumber + " exists");
+        String roomNumber = "10";
+        for (int i = 0; i < 3; i++) {
+            try {
+                RoomDto roomDto = roomService.addOne(RoomDto.builder()
+                        .number(roomNumber + i)
+                        .capacity(4)
+                        .roomType(RoomType.DORMITORY)
+                        .build());
+                log.info("INIT Room " + roomNumber + " created");
+                initPrice(roomDto);
+            } catch (ConflictException e) {
+                log.info("INIT Room " + roomNumber + " exists");
+            }
         }
         return null;
     }

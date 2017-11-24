@@ -2,14 +2,13 @@ package org.bdyb.hotel.domain;
 
 import lombok.*;
 import org.bdyb.hotel.config.Constants;
-import org.bdyb.hotel.enums.RoomStatus;
 import org.bdyb.hotel.enums.RoomType;
 
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
-@Table(name = Constants.DB_PREFIX + "Room")
+@Table(name = Constants.DB_PREFIX + "Rooms")
 @Setter
 @Getter
 @Builder
@@ -26,9 +25,11 @@ public class Room {
     private Integer capacity;
     @Enumerated(EnumType.STRING)
     private RoomType roomType;
-    @Enumerated(EnumType.STRING)
-    private RoomStatus roomStatus;
 
+    @OneToMany(
+            mappedBy = "room",
+            orphanRemoval = true)
+    private List<RoomStatus> roomStatuses;
 
     @OneToMany(
             mappedBy = "room",

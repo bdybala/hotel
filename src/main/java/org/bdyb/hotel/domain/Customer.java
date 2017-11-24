@@ -8,7 +8,7 @@ import java.util.Date;
 import java.util.List;
 
 @Entity(name = "customer")
-@Table(name = Constants.DB_PREFIX + "customer")
+@Table(name = Constants.DB_PREFIX + "Customers")
 @Setter
 @Getter
 @Builder

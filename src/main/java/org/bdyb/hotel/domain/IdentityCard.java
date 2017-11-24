@@ -8,7 +8,7 @@ import javax.persistence.*;
 
 
 @Entity
-@Table(name = Constants.DB_PREFIX + "IdentityCard")
+@Table(name = Constants.DB_PREFIX + "IdentityCards")
 @Setter
 @Getter
 @Builder

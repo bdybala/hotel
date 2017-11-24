@@ -2,7 +2,6 @@ package org.bdyb.hotel.mappers;
 
 import org.bdyb.hotel.domain.Room;
 import org.bdyb.hotel.dto.RoomDto;
-import org.bdyb.hotel.enums.RoomStatus;
 import org.bdyb.hotel.enums.RoomType;
 import org.bdyb.hotel.mapper.RoomMapper;
 import org.bdyb.hotel.repository.RoomRepository;
@@ -35,7 +34,6 @@ public class RoomMapperTest {
         Assert.assertEquals(room.getNumber(), roomDto.getNumber());
         Assert.assertEquals(room.getCapacity(), roomDto.getCapacity());
         Assert.assertEquals(room.getRoomType(), roomDto.getRoomType());
-        Assert.assertEquals(room.getRoomStatus(), roomDto.getRoomStatus());
     }
 
     private Room prepareRoom() {
@@ -44,7 +42,6 @@ public class RoomMapperTest {
                 .number("1a")
                 .capacity(3)
                 .roomType(RoomType.DOUBLE_ROOM)
-                .roomStatus(RoomStatus.FREE)
                 .build();
     }
 
@@ -58,7 +55,6 @@ public class RoomMapperTest {
         Assert.assertEquals(roomDto.getNumber(), room.getNumber());
         Assert.assertEquals(roomDto.getCapacity(), room.getCapacity());
         Assert.assertEquals(roomDto.getRoomType(), room.getRoomType());
-        Assert.assertEquals(roomDto.getRoomStatus(), room.getRoomStatus());
     }
 
     private RoomDto prepareRoomDto() {
@@ -67,7 +63,6 @@ public class RoomMapperTest {
                 .number("1a")
                 .capacity(3)
                 .roomType(RoomType.DOUBLE_ROOM)
-                .roomStatus(RoomStatus.FREE)
                 .build();
     }
 
@@ -82,6 +77,5 @@ public class RoomMapperTest {
         Assert.assertEquals(roomDto.getNumber(), room.getNumber());
         Assert.assertEquals(roomDto.getCapacity(), room.getCapacity());
         Assert.assertEquals(roomDto.getRoomType(), room.getRoomType());
-        Assert.assertEquals(roomDto.getRoomStatus(), room.getRoomStatus());
     }
 }

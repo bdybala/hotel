@@ -8,7 +8,7 @@ import java.util.Date;
 
 
 @Entity
-@Table(name = Constants.DB_PREFIX + "Price")
+@Table(name = Constants.DB_PREFIX + "Prices")
 @Setter
 @Getter
 @Builder

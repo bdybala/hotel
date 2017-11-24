@@ -1,7 +1,6 @@
 package org.bdyb.hotel.dto;
 
 import lombok.*;
-import org.bdyb.hotel.enums.RoomStatus;
 import org.bdyb.hotel.enums.RoomType;
 
 @Getter
@@ -16,5 +15,4 @@ public class RoomDto {
     private String number;
     private Integer capacity;
     private RoomType roomType;
-    private RoomStatus roomStatus;
 }

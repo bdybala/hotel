@@ -2,35 +2,29 @@ package org.bdyb.hotel.domain;
 
 import lombok.*;
 import org.bdyb.hotel.config.Constants;
-import org.bdyb.hotel.enums.ReservationStatus;
+import org.bdyb.hotel.enums.RoomStatusEnum;
 
 import javax.persistence.*;
 import java.util.Date;
-import java.util.List;
 
 @Entity
-@Table(name = Constants.DB_PREFIX + "Reservations")
+@Table(name = Constants.DB_PREFIX + "RoomStatuses")
 @Setter
 @Getter
 @Builder
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class Reservation {
+public class RoomStatus {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Enumerated(EnumType.STRING)
-    private ReservationStatus reservationStatus;
     private Date since;
     private Date upTo;
-    private Double price;
-
-    @ManyToMany(mappedBy = "reservationList")
-    private List<Customer> customers;
+    @Enumerated(EnumType.STRING)
+    private RoomStatusEnum name;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "room_id")
     private Room room;
 }

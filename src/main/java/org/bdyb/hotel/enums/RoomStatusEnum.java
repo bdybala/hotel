@@ -1,5 +1,5 @@
 package org.bdyb.hotel.enums;
 
-public enum RoomStatus {
+public enum RoomStatusEnum {
     FREE, TO_CLEAN, RESERVED, OCCUPIED
 }
