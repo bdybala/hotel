@@ -2,6 +2,7 @@ package org.bdyb.hotel.service.impl;
 
 import org.bdyb.hotel.domain.Price;
 import org.bdyb.hotel.dto.PriceDto;
+import org.bdyb.hotel.dto.RoomIdAndDay;
 import org.bdyb.hotel.exceptions.ConflictException;
 import org.bdyb.hotel.exceptions.EntityNotFoundException;
 import org.bdyb.hotel.mapper.PriceMapper;
@@ -13,6 +14,7 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -72,5 +74,11 @@ public class PriceServiceImpl implements PriceService {
     @Override
     public List<PriceDto> findByRoomId(Long roomId) throws EntityNotFoundException {
         return priceMapper.mapToDto(priceRepository.findByRoomId(roomId));
+    }
+
+    @Override
+    public PriceDto findByRoomIdAndForDay(RoomIdAndDay roomIdAndDay) throws EntityNotFoundException {
+        return priceMapper.mapToDto(Optional.ofNullable(priceRepository.findByRoomIdAndForDay(roomIdAndDay.getRoomId(), roomIdAndDay.getDay()))
+                .orElseThrow(() -> new EntityNotFoundException("Price for that day and room not found! : " + roomIdAndDay)));
     }
 }

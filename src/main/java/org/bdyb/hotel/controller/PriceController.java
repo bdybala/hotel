@@ -1,6 +1,7 @@
 package org.bdyb.hotel.controller;
 
 import org.bdyb.hotel.dto.PriceDto;
+import org.bdyb.hotel.dto.RoomIdAndDay;
 import org.bdyb.hotel.exceptions.ConflictException;
 import org.bdyb.hotel.exceptions.EntityNotFoundException;
 import org.bdyb.hotel.service.PriceService;
@@ -44,5 +45,10 @@ public class PriceController {
     @RequestMapping(value = "/byRoom/{roomId}", method = RequestMethod.GET)
     public List<PriceDto> findByRoomId(@PathVariable("roomId") Long roomId) throws EntityNotFoundException {
         return priceService.findByRoomId(roomId);
+    }
+
+    @RequestMapping(value = "/byRoom", method = RequestMethod.POST)
+    public PriceDto findByRoomId(@RequestBody RoomIdAndDay roomIdAndDay) throws EntityNotFoundException {
+        return priceService.findByRoomIdAndForDay(roomIdAndDay);
     }
 }
