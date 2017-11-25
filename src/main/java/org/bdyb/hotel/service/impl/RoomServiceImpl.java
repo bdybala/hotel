@@ -1,5 +1,7 @@
 package org.bdyb.hotel.service.impl;
 
+import org.bdyb.hotel.domain.Room;
+import org.bdyb.hotel.dto.DateRangeDto;
 import org.bdyb.hotel.dto.RoomDto;
 import org.bdyb.hotel.exceptions.ConflictException;
 import org.bdyb.hotel.exceptions.EntityNotFoundException;
@@ -25,8 +27,12 @@ public class RoomServiceImpl implements RoomService {
 
     @Override
     public RoomDto findOne(Long id) throws EntityNotFoundException {
-        return roomMapper.mapToDto(Optional.ofNullable(roomRepository.findOne(id))
-                .orElseThrow(() -> new EntityNotFoundException("Customer with that id not found! : " + id)));
+        return roomMapper.mapToDto(findOneEntity(id));
+    }
+
+    private Room findOneEntity(Long id) throws EntityNotFoundException {
+        return Optional.ofNullable(roomRepository.findOne(id))
+                .orElseThrow(() -> new EntityNotFoundException("Customer with that id not found! : " + id));
     }
 
     @Override
@@ -43,12 +49,26 @@ public class RoomServiceImpl implements RoomService {
 
     @Override
     public RoomDto editOne(RoomDto dtoToEdit) throws EntityNotFoundException, ConflictException {
+        Room room = findOneEntity(dtoToEdit.getId());
+        return roomMapper.mapToDto(roomRepository.save(updateRoom(room, dtoToEdit)));
+    }
 
-        return null;
+    private Room updateRoom(Room room, RoomDto dtoToEdit) {
+        room.setCapacity(dtoToEdit.getCapacity());
+        room.setNumber(dtoToEdit.getNumber());
+        room.setRoomType(dtoToEdit.getRoomType());
+        return room;
     }
 
     @Override
     public RoomDto delete(Long id) throws EntityNotFoundException {
-        return null;
+        RoomDto roomDto = findOne(id);
+        roomRepository.delete(id);
+        return roomDto;
+    }
+
+    @Override
+    public List<RoomDto> findFreeInInterval(DateRangeDto dateRangeDto) {
+        return roomMapper.mapToDto(roomRepository.findFreeInInterval(dateRangeDto.getFrom(), dateRangeDto.getTo()));
     }
 }

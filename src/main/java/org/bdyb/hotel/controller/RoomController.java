@@ -1,5 +1,6 @@
 package org.bdyb.hotel.controller;
 
+import org.bdyb.hotel.dto.DateRangeDto;
 import org.bdyb.hotel.dto.RoomDto;
 import org.bdyb.hotel.exceptions.ConflictException;
 import org.bdyb.hotel.exceptions.EntityNotFoundException;
@@ -39,7 +40,12 @@ public class RoomController {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-    public void deleteCustomer(@PathVariable Long id) throws InternalServerErrorException, EntityNotFoundException {
-        roomService.delete(id);
+    public RoomDto deleteCustomer(@PathVariable Long id) throws InternalServerErrorException, EntityNotFoundException {
+        return roomService.delete(id);
+    }
+
+    @RequestMapping(value = "/free", method = RequestMethod.POST)
+    public List<RoomDto> findFreeInInterval(@RequestBody DateRangeDto dateRangeDto) {
+        return roomService.findFreeInInterval(dateRangeDto);
     }
 }
