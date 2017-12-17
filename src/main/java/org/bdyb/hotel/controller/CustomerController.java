@@ -17,15 +17,14 @@ public class CustomerController {
     @Autowired
     private CustomerService customerService;
 
-
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public CustomerDto findOne(@PathVariable("id") Long id) throws EntityNotFoundException {
         return customerService.findOne(id);
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    public List<CustomerDto> findAll() {
-        return customerService.findAll();
+    public List<CustomerDto> findAll(@RequestParam(value = "search") String search) {
+        return customerService.findAll(search);
     }
 
     @RequestMapping(method = RequestMethod.POST)
@@ -42,6 +41,5 @@ public class CustomerController {
     public void deleteCustomer(@PathVariable Long id) throws InternalServerErrorException, EntityNotFoundException {
         customerService.delete(id);
     }
-
 
 }

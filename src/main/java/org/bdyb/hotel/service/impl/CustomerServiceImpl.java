@@ -2,20 +2,24 @@ package org.bdyb.hotel.service.impl;
 
 import org.bdyb.hotel.domain.Customer;
 import org.bdyb.hotel.dto.CustomerDto;
+import org.bdyb.hotel.dto.specification.CustomerSpecificationBuilder;
 import org.bdyb.hotel.exceptions.ConflictException;
 import org.bdyb.hotel.exceptions.EntityNotFoundException;
-import org.bdyb.hotel.mapper.IdentityCardMapper;
 import org.bdyb.hotel.mapper.CustomerMapper;
-import org.bdyb.hotel.repository.IdentityCardRepository;
+import org.bdyb.hotel.mapper.IdentityCardMapper;
 import org.bdyb.hotel.repository.CustomerRepository;
-import org.bdyb.hotel.service.IdentityCardService;
+import org.bdyb.hotel.repository.IdentityCardRepository;
 import org.bdyb.hotel.service.CustomerService;
+import org.bdyb.hotel.service.IdentityCardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Primary
 @Service
@@ -82,4 +86,16 @@ public class CustomerServiceImpl implements CustomerService {
         return customerDto;
     }
 
+    @Override
+    public List<CustomerDto> findAll(String search) {
+
+        CustomerSpecificationBuilder builder = new CustomerSpecificationBuilder();
+        Pattern pattern = Pattern.compile("(\\w+?)(:)(\\w+?),");
+        Matcher matcher = pattern.matcher(search + ",");
+        while (matcher.find()) {
+            builder.with(matcher.group(1), matcher.group(2), matcher.group(3));
+        }
+        Specification<Customer> spec = builder.build();
+        return customerMapper.mapToDto(customerRepository.findAll(spec));
+    }
 }
