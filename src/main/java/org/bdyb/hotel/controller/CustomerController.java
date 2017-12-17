@@ -23,8 +23,12 @@ public class CustomerController {
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    public List<CustomerDto> findAll(@RequestParam(value = "search") String search) {
-        return customerService.findAll(search);
+    public List<CustomerDto> findAll(@RequestParam(value = "search", required = false) String search) {
+        if (search != null) {
+            return customerService.findAll(search);
+        } else {
+            return customerService.findAll();
+        }
     }
 
     @RequestMapping(method = RequestMethod.POST)
