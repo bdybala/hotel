@@ -10,8 +10,15 @@ import javax.annotation.PostConstruct;
 @Slf4j
 public class Init {
 
+    @Autowired
+    private InitRoomTypes initRoomTypes;
+    @Autowired
+    private InitRoles initRoles;
+
     @PostConstruct
     public void initAll() {
+        initRoomTypes.init();
+        initRoles.init();
     }
 
 }
