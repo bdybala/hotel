@@ -2,6 +2,7 @@ package org.bdyb.hotel.domain;
 
 import lombok.*;
 import org.bdyb.hotel.config.Constants;
+import org.hibernate.validator.constraints.Email;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 
@@ -14,20 +15,24 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = Constants.DB_PREFIX + "rooms")
-public class Room {
+@Table(name = Constants.DB_PREFIX + "users")
+public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String number;
-    private Integer maxCapacity;
+    private String username;
+    @Email
+    private String email;
+    private String password;
+    private String firstName;
+    private String lastName;
     @CreatedDate
     private Date createdTime;
     @CreatedBy
     private String createdBy;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "room_types_id")
-    private RoomType roomType;
+    @JoinColumn(name = "roles_id")
+    private Role role;
 }

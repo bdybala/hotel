@@ -4,5 +4,5 @@ import org.bdyb.hotel.domain.IdentityCard;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface IdentityCardRepository extends JpaRepository<IdentityCard, Long> {
-    boolean existsByIdCardNumber(String idCardNumber);
+    boolean existsByNumber(String number);
 }

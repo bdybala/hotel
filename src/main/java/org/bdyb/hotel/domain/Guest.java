@@ -7,6 +7,7 @@ import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -14,20 +15,19 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = Constants.DB_PREFIX + "rooms")
-public class Room {
+@Table(name = Constants.DB_PREFIX + "guests")
+public class Guest {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String number;
-    private Integer maxCapacity;
+    private Date since;
+    private Date upTo;
     @CreatedDate
     private Date createdTime;
     @CreatedBy
     private String createdBy;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "room_types_id")
-    private RoomType roomType;
+    @ManyToMany(mappedBy = "guests")
+    private Set<OccupiedRoom> occupiedRooms;
 }

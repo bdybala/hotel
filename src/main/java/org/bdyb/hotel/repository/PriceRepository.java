@@ -14,7 +14,7 @@ public interface PriceRepository extends JpaRepository<Price, Long> {
 
     @Query(
             "select p from Price p " +
-                    "where p.room.id = ?1 and ?2 between p.validSince and p.validUpTo"
+                    "where p.room.id = ?1 and ?2 between p.since and p.upTo"
     )
     Price findByRoomIdAndForDay(@NotNull Long roomId, @NotNull Date forDay);
 }

@@ -2,38 +2,34 @@ package org.bdyb.hotel.domain;
 
 import lombok.*;
 import org.bdyb.hotel.config.Constants;
+import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
 
-@Entity(name = "customer")
-@Table(name = Constants.DB_PREFIX + "Customers")
-@Setter
 @Getter
+@Setter
 @Builder
-@ToString
 @NoArgsConstructor
 @AllArgsConstructor
+@Entity
+@Table(name = Constants.DB_PREFIX + "customers")
 public class Customer {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private String firstName;
+    private String lastName;
+    private Integer pesel;
     private Date birthday;
-    private String name;
-    private String surname;
+    @CreatedDate
+    private Date createdTime;
+    @CreatedBy
+    private String createdBy;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.LAZY)
     private IdentityCard identityCard;
-
-    @ManyToMany(cascade = {
-            CascadeType.PERSIST,
-            CascadeType.MERGE
-    })
-    @JoinTable(name = Constants.DB_PREFIX + "customer_reservation",
-            joinColumns = @JoinColumn(name = "customer_id"),
-            inverseJoinColumns = @JoinColumn(name = "reservation_id")
-    )
-    private List<Reservation> reservationList;
 }

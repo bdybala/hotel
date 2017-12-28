@@ -5,7 +5,6 @@ import org.bdyb.hotel.dto.CustomerDto;
 import org.bdyb.hotel.dto.IdentityCardDto;
 import org.bdyb.hotel.enums.IdCardType;
 import org.bdyb.hotel.exceptions.ConflictException;
-import org.bdyb.hotel.service.CustomerService;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

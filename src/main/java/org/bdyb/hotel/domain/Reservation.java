@@ -3,34 +3,32 @@ package org.bdyb.hotel.domain;
 import lombok.*;
 import org.bdyb.hotel.config.Constants;
 import org.bdyb.hotel.enums.ReservationStatus;
+import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
 
-@Entity
-@Table(name = Constants.DB_PREFIX + "Reservations")
-@Setter
 @Getter
+@Setter
 @Builder
-@ToString
 @NoArgsConstructor
 @AllArgsConstructor
+@Entity
+@Table(name = Constants.DB_PREFIX + "reservations")
 public class Reservation {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Enumerated(EnumType.STRING)
-    private ReservationStatus reservationStatus;
-    private Date since;
-    private Date upTo;
-    private Double price;
+    @CreatedDate
+    private Date createdTime;
+    @CreatedBy
+    private String createdBy;
 
-    @ManyToMany(mappedBy = "reservationList")
-    private List<Customer> customers;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "room_id")
-    private Room room;
+    @JoinColumn(name = "customers_id")
+    private Customer customer;
 }
