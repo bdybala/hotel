@@ -15,5 +15,5 @@ public interface CrudService<Entity, Dto> {
 
     Dto editOne(Dto dtoToEdit) throws EntityNotFoundException, ConflictException;
 
-    Dto delete(Long id) throws EntityNotFoundException;
+    void delete(Long id) throws EntityNotFoundException;
 }
