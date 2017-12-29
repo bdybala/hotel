@@ -6,7 +6,7 @@ import org.bdyb.hotel.exceptions.ConflictException;
 import org.bdyb.hotel.exceptions.EntityNotFoundException;
 import org.bdyb.hotel.mapper.CustomerMapper;
 import org.bdyb.hotel.repository.CustomerRepository;
-import org.bdyb.hotel.service.CrudService;
+import org.bdyb.hotel.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
@@ -16,7 +16,7 @@ import java.util.Optional;
 
 @Service
 @Primary
-public class CustomerServiceImpl implements CrudService<Customer, CustomerDto> {
+public class CustomerServiceImpl implements CustomerService {
 
     @Autowired
     private CustomerRepository customerRepository;
@@ -36,7 +36,8 @@ public class CustomerServiceImpl implements CrudService<Customer, CustomerDto> {
 
     @Override
     public CustomerDto addOne(CustomerDto dtoToAdd) throws ConflictException {
-        // TODO conflictException
+        if (customerRepository.existsByPesel(dtoToAdd.getPesel()))
+            throw new ConflictException("Customer with that PESEL already exists : " + dtoToAdd);
         return customerMapper.mapToDto(customerRepository.save(customerMapper.mapToEntity(dtoToAdd)));
     }
 
@@ -50,7 +51,18 @@ public class CustomerServiceImpl implements CrudService<Customer, CustomerDto> {
     }
 
     private Customer updateCustomer(Customer customer, CustomerDto dtoToEdit) {
-        // TODO update fields
+        if (dtoToEdit.getFirstName() != null) {
+            customer.setFirstName(dtoToEdit.getFirstName());
+        }
+        if (dtoToEdit.getLastName() != null) {
+            customer.setLastName(dtoToEdit.getLastName());
+        }
+        if (dtoToEdit.getPesel() != null) {
+            customer.setPesel(dtoToEdit.getPesel());
+        }
+        if (dtoToEdit.getBirthday() != null) {
+            customer.setBirthday(dtoToEdit.getBirthday());
+        }
         return customer;
     }
 

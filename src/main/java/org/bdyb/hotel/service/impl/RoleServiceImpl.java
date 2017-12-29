@@ -1,6 +1,7 @@
 package org.bdyb.hotel.service.impl;
 
 import lombok.extern.slf4j.Slf4j;
+import org.bdyb.hotel.domain.Role;
 import org.bdyb.hotel.dto.RoleDto;
 import org.bdyb.hotel.exceptions.ConflictException;
 import org.bdyb.hotel.exceptions.EntityNotFoundException;
@@ -44,7 +45,19 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public RoleDto editOne(RoleDto dtoToEdit) throws EntityNotFoundException, ConflictException {
-        return null;
+        Role role = Optional.ofNullable(roleRepository.findOne(dtoToEdit.getId()))
+                .orElseThrow(() -> new EntityNotFoundException("Role to edit not found! : " + dtoToEdit));
+        return roleMapper.mapToDto(roleRepository.save(updateRole(role, dtoToEdit)));
+    }
+
+    private Role updateRole(Role role, RoleDto dtoToEdit) {
+        if (dtoToEdit.getName() != null) {
+            role.setName(dtoToEdit.getName());
+        }
+        if (dtoToEdit.getDescription() != null) {
+            role.setDescription(dtoToEdit.getDescription());
+        }
+        return role;
     }
 
     @Override
