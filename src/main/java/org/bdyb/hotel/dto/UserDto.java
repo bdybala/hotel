@@ -20,4 +20,6 @@ public class UserDto {
     private String lastName;
     private Date createdTime;
     private String createdBy;
+
+    private RoleDto role;
 }

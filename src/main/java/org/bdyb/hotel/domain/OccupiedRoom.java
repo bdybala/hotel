@@ -7,7 +7,6 @@ import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
 import java.util.Date;
-import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -37,8 +36,8 @@ public class OccupiedRoom {
             CascadeType.MERGE,
             CascadeType.PERSIST
     })
-    @JoinTable(name = "occupied_rooms_has_guests",
-    joinColumns = @JoinColumn(name = "occupied_rooms_id"),
-    inverseJoinColumns = @JoinColumn(name = "guests_id"))
-    private Set<Guest> guests;
+    @JoinTable(name = "occupied_rooms_has_customers",
+            joinColumns = @JoinColumn(name = "occupied_rooms_id"),
+            inverseJoinColumns = @JoinColumn(name = "customers_id"))
+    private Set<Customer> customers;
 }

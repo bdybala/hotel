@@ -8,6 +8,7 @@ import org.springframework.data.annotation.CreatedDate;
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -32,4 +33,7 @@ public class Customer {
 
     @OneToOne(fetch = FetchType.LAZY)
     private IdentityCard identityCard;
+
+    @ManyToMany(mappedBy = "customers")
+    private Set<OccupiedRoom> occupiedRooms;
 }

@@ -21,5 +21,5 @@ public class OccupiedRoomDto {
 
     private RoomDto room;
 
-    private Set<GuestDto> guests;
+    private Set<CustomerDto> customers;
 }

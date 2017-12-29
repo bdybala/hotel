@@ -23,11 +23,10 @@ public class ReservedRoom {
 
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "reservations_id")
-    private Reservation reservation;
-
-
-    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "rooms_id")
     private Room room;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "customers_id")
+    private Customer customer;
 }

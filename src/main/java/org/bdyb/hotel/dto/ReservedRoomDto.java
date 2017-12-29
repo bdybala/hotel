@@ -16,7 +16,5 @@ public class ReservedRoomDto {
     private Date since;
     private Date upTo;
 
-    private ReservationDto reservation;
-
     private RoomDto room;
 }

@@ -3,6 +3,7 @@ package org.bdyb.hotel.dto;
 import lombok.*;
 
 import java.util.Date;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -21,4 +22,5 @@ public class CustomerDto {
     private String createdBy;
 
     private IdentityCardDto identityCard;
+    private Set<OccupiedRoomDto> occupiedRooms;
 }
