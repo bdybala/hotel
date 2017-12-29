@@ -10,6 +10,7 @@ import org.bdyb.hotel.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -35,8 +36,9 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
+    @Transactional
     public CustomerDto addOne(CustomerDto dtoToAdd) throws ConflictException {
-        if (customerRepository.existsByPesel(dtoToAdd.getPesel()))
+        if (dtoToAdd.getPesel() != null && customerRepository.existsByPesel(dtoToAdd.getPesel()))
             throw new ConflictException("Customer with that PESEL already exists : " + dtoToAdd);
         return customerMapper.mapToDto(customerRepository.save(customerMapper.mapToEntity(dtoToAdd)));
     }

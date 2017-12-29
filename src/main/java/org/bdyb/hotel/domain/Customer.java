@@ -31,7 +31,7 @@ public class Customer {
     @CreatedBy
     private String createdBy;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(cascade = CascadeType.ALL)
     private IdentityCard identityCard;
 
     @ManyToMany(mappedBy = "customers")

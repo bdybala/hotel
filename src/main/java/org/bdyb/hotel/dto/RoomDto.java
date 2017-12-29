@@ -19,5 +19,5 @@ public class RoomDto {
     private Date createdTime;
     private String createdBy;
 
-    private RoomType roomType;
+    private RoomTypeDto roomType;
 }

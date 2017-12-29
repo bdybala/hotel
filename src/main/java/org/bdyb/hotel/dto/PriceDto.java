@@ -20,5 +20,5 @@ public class PriceDto {
     private Date createdTime;
     private String createdBy;
 
-    private Room room;
+    private RoomDto room;
 }
