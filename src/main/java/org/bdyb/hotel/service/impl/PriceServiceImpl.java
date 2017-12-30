@@ -2,6 +2,7 @@ package org.bdyb.hotel.service.impl;
 
 import org.bdyb.hotel.domain.Price;
 import org.bdyb.hotel.dto.PriceDto;
+import org.bdyb.hotel.dto.RoomIdAndDay;
 import org.bdyb.hotel.exceptions.ConflictException;
 import org.bdyb.hotel.exceptions.EntityNotFoundException;
 import org.bdyb.hotel.mapper.PriceMapper;
@@ -64,5 +65,11 @@ public class PriceServiceImpl implements PriceService {
     public void delete(Long id) throws EntityNotFoundException {
         if (!priceRepository.exists(id))
             throw new EntityNotFoundException("Price to delete not found with that ID! : " + id);
+    }
+
+    @Override
+    public PriceDto findByRoomIdAndDay(RoomIdAndDay roomIdAndDay) throws EntityNotFoundException {
+        return priceMapper.mapToDto(Optional.ofNullable(priceRepository.findByRoomIdAndForDay(roomIdAndDay.getRoomId(), roomIdAndDay.getDay()))
+                .orElseThrow(() -> new EntityNotFoundException("Price for that roomId and Day not found! : " + roomIdAndDay)));
     }
 }

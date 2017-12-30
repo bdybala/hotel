@@ -36,7 +36,7 @@ public class OccupiedRoom {
             CascadeType.MERGE,
             CascadeType.PERSIST
     })
-    @JoinTable(name = "occupied_rooms_has_customers",
+    @JoinTable(name = Constants.DB_PREFIX + "occupied_rooms_has_customers",
             joinColumns = @JoinColumn(name = "occupied_rooms_id"),
             inverseJoinColumns = @JoinColumn(name = "customers_id"))
     private Set<Customer> customers;

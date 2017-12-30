@@ -71,3 +71,13 @@ PAYLOAD:
     }
 }
 ```
+
+⋅⋅* Sprawdzenie ceny pokoju w dniu
+```
+POST: /api/prices/byRoom
+PAYLOAD:
+{
+    "roomId":1,
+    "day":"2017-12-24"
+}
+```
