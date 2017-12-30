@@ -53,6 +53,11 @@ PAYLOAD:
 GET: /api/customers
 ```
 
+⋅⋅* Pobranie listy klientów z wyszukiwaniem
+```
+GET: /api/customers/search=firstName:jan,lastName:kowal
+```
+
 ⋅⋅* Pobranie wolnych pokoi
 ```
 POST: /api/rooms/free
