@@ -1,6 +1,7 @@
 package org.bdyb.hotel.service.impl;
 
 import org.bdyb.hotel.domain.Room;
+import org.bdyb.hotel.dto.DateRange;
 import org.bdyb.hotel.dto.RoomDto;
 import org.bdyb.hotel.exceptions.ConflictException;
 import org.bdyb.hotel.exceptions.EntityNotFoundException;
@@ -69,5 +70,10 @@ public class RoomServiceImpl implements RoomService {
         if (!roomRepository.exists(id))
             throw new EntityNotFoundException("Room to delete not found with that ID! : " + id);
         roomRepository.delete(id);
+    }
+
+    @Override
+    public List<RoomDto> findAllFree(DateRange dateRange) {
+        return roomMapper.mapToDto(roomRepository.findAllFree(dateRange.getSince(), dateRange.getUpTo()));
     }
 }

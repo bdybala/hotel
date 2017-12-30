@@ -82,3 +82,14 @@ PAYLOAD:
     "day":"2017-12-24"
 }
 ```
+
+⋅⋅* Pobranie wolnych pokoi
+```
+POST: /api/rooms/free
+PAYLOAD:
+{
+    "since":"2018-01-03",
+    "upTo":"2018-01-08"
+}
+```
+

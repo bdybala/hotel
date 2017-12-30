@@ -7,6 +7,7 @@ import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 @Getter
 @Setter
@@ -30,4 +31,10 @@ public class Room {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "room_types_id")
     private RoomType roomType;
+
+    @OneToMany(mappedBy = "room")
+    List<OccupiedRoom> occupiedRooms;
+
+    @OneToMany(mappedBy = "room")
+    List<ReservedRoom> reservedRooms;
 }
