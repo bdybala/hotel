@@ -104,3 +104,8 @@ PAYLOAD:
     "day":"2017-12-24"
 }
 ```
+
+⋅⋅* Pobranie listy rezerwacji jednego klienta
+```
+GET: /api/reservedRooms/{customerId}
+```

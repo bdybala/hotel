@@ -62,4 +62,9 @@ public class ReservedRoomServiceImpl implements ReservedRoomService {
             throw new EntityNotFoundException("ReservedRoom to dolete not found with that ID! : " + id);
         reservedRoomRepository.delete(id);
     }
+
+    @Override
+    public List<ReservedRoomDto> findByCustomerId(Long customerId) {
+        return reservedRoomMapper.mapToDto(reservedRoomRepository.findByCustomerId(customerId));
+    }
 }
