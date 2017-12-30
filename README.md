@@ -1,5 +1,9 @@
 1. Rest API
 
+⋅⋅* Pobranie listy dostępnych ról
+```
+GET: /api/roles
+```
 
 ⋅⋅* Rejestracja użytkownika
 ```
@@ -13,6 +17,10 @@ PAYLOAD:
     "lastName":"Nazwisko",
     "role": {"id":1}
 }
+```
+⋅⋅* Pobranie listy dostępnych rodzajów pokoi
+```
+GET: /api/roomTypes
 ```
 ⋅⋅* Dodanie pokoju
 ```
@@ -38,6 +46,20 @@ PAYLOAD:
         "number":"12312312",
         "expiringDate":"2020-10-10"
         }
+}
+```
+⋅⋅* Pobranie listy klientów
+```
+GET: /api/customers
+```
+
+⋅⋅* Pobranie wolnych pokoi
+```
+POST: /api/rooms/free
+PAYLOAD:
+{
+    "since":"2018-01-03",
+    "upTo":"2018-01-08"
 }
 ```
 
@@ -82,14 +104,3 @@ PAYLOAD:
     "day":"2017-12-24"
 }
 ```
-
-⋅⋅* Pobranie wolnych pokoi
-```
-POST: /api/rooms/free
-PAYLOAD:
-{
-    "since":"2018-01-03",
-    "upTo":"2018-01-08"
-}
-```
-
