@@ -22,5 +22,4 @@ public class CustomerDto {
     private String createdBy;
 
     private IdentityCardDto identityCard;
-    private Set<OccupiedRoomDto> occupiedRooms;
 }

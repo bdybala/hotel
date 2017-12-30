@@ -17,4 +17,5 @@ public class ReservedRoomDto {
     private Date upTo;
 
     private RoomDto room;
+    private CustomerDto customer;
 }

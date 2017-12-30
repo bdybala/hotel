@@ -33,8 +33,7 @@ public class OccupiedRoom {
     private Room room;
 
     @ManyToMany(cascade = {
-            CascadeType.MERGE,
-            CascadeType.PERSIST
+            CascadeType.MERGE
     })
     @JoinTable(name = Constants.DB_PREFIX + "occupied_rooms_has_customers",
             joinColumns = @JoinColumn(name = "occupied_rooms_id"),

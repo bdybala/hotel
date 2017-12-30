@@ -65,10 +65,11 @@ PAYLOAD:
     "upTo":"2018-01-05",
     "room": { 
         "id":1
-        },
-    "customer":{
-        "id":1
-    }
+    },
+    "customers": [
+    	{"id":1},
+    	{"id":2}
+	]
 }
 ```
 
