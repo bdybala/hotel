@@ -72,4 +72,9 @@ public class PriceServiceImpl implements PriceService {
         return priceMapper.mapToDto(Optional.ofNullable(priceRepository.findByRoomIdAndForDay(roomIdAndDay.getRoomId(), roomIdAndDay.getDay()))
                 .orElseThrow(() -> new EntityNotFoundException("Price for that roomId and Day not found! : " + roomIdAndDay)));
     }
+
+    @Override
+    public List<PriceDto> findByRoomId(Long roomId) {
+        return priceMapper.mapToDto(priceRepository.findByRoomId(roomId));
+    }
 }

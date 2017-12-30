@@ -104,6 +104,10 @@ PAYLOAD:
     "day":"2017-12-24"
 }
 ```
+⋅⋅* Sprawdzenie cen pokoju
+```
+GET: /api/prices/byRoom/{roomId}
+```
 
 ⋅⋅* Pobranie listy rezerwacji jednego klienta
 ```
