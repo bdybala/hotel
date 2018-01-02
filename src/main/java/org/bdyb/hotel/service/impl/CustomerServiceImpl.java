@@ -90,4 +90,10 @@ public class CustomerServiceImpl implements CustomerService {
         Specification<Customer> spec = builder.build();
         return customerMapper.mapToDto(customerRepository.findAll(spec));
     }
+
+    @Override
+    public CustomerDto findByIdentityCardNumber(String number) throws EntityNotFoundException {
+        return customerMapper.mapToDto(Optional.ofNullable(customerRepository.findByIdentityCardNumber(number))
+                .orElseThrow(() -> new EntityNotFoundException("Customer not found with that ID Card number! : " + number)));
+    }
 }

@@ -3,6 +3,7 @@ package org.bdyb.hotel.init;
 import lombok.extern.slf4j.Slf4j;
 import org.bdyb.hotel.dto.CustomerDto;
 import org.bdyb.hotel.dto.IdentityCardDto;
+import org.bdyb.hotel.enums.IdCardType;
 import org.bdyb.hotel.exceptions.ConflictException;
 import org.bdyb.hotel.service.CustomerService;
 import org.joda.time.DateTime;
@@ -28,6 +29,7 @@ public class InitCustomers {
                         .lastName(surname)
                         .birthday(birthday.plusYears(i).toDate())
                         .identityCard(IdentityCardDto.builder()
+                                .type(IdCardType.ID_CARD)
                                 .number(idCardNumber + i)
                                 .expiringDate(new DateTime().plusYears(1).toDate())
                                 .build())

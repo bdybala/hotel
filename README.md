@@ -58,6 +58,12 @@ GET: /api/customers
 GET: /api/customers/?search=firstName:jan,lastName:kowal
 ```
 
+⋅⋅* Wyszukanie klienta przez nr dowodu lub paszportu
+```
+GET: /api/customers/byIdCard/{idCardNumber}
+Throws: 404 when not found
+```
+
 ⋅⋅* Pobranie wolnych pokoi
 ```
 POST: /api/rooms/free

@@ -2,11 +2,9 @@ package org.bdyb.hotel.controller;
 
 import org.bdyb.hotel.domain.Customer;
 import org.bdyb.hotel.dto.CustomerDto;
+import org.bdyb.hotel.exceptions.EntityNotFoundException;
 import org.bdyb.hotel.service.CustomerService;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -25,5 +23,10 @@ public class CustomerController extends AbstractCrudController<Customer, Custome
         } else {
             return service.findAll();
         }
+    }
+
+    @RequestMapping(value = "/byIdCard/{number}", method = RequestMethod.GET)
+    public CustomerDto findByIdCardNumber(@PathVariable("number") String number) throws EntityNotFoundException {
+        return ((CustomerService) service).findByIdentityCardNumber(number);
     }
 }
