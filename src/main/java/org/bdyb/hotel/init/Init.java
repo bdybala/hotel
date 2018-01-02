@@ -18,6 +18,8 @@ public class Init {
     private InitRooms initRooms;
     @Autowired
     private InitCustomers initCustomers;
+    @Autowired
+    private InitUsers initUsers;
 
     @PostConstruct
     public void initAll() {
@@ -25,6 +27,7 @@ public class Init {
         initRoles.init();
         initRooms.init();
         initCustomers.init();
+        initUsers.init();
     }
 
 }

@@ -18,6 +18,18 @@ PAYLOAD:
     "role": {"id":1}
 }
 ```
+
+⋅⋅* Logowanie
+```
+POST: /api/users/login
+THROWS: 401 when failed
+PAYLOAD:
+{
+    "username":"login",
+    "password":"haslo",
+}
+```
+
 ⋅⋅* Pobranie listy dostępnych rodzajów pokoi
 ```
 GET: /api/roomTypes
@@ -74,6 +86,7 @@ PAYLOAD:
 }
 ```
 
+
 ⋅⋅* Dodanie rezerwacji dla klienta
 ```
 POST: /api/reservedRooms
@@ -89,6 +102,16 @@ PAYLOAD:
     }
 }
 ```
+
+⋅⋅* Wyszukanie rezerwacji w przedziale czasowym
+```
+GET: /api/reservedRooms/betweenTwoDates
+REQUEST PARAMS:
+    "since":"2018-01-03",
+    "to":"2018-01-08"
+
+```
+
 ⋅⋅* Dodanie meldunku 
 ```
 POST: /api/occupiedRooms

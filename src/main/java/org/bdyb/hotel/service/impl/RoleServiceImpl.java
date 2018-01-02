@@ -65,4 +65,10 @@ public class RoleServiceImpl implements RoleService {
         if (!roleRepository.exists(id));
         roleRepository.delete(id);
     }
+
+    @Override
+    public RoleDto findByName(String name) throws EntityNotFoundException {
+        return roleMapper.mapToDto(Optional.ofNullable(roleRepository.findByName(name))
+        .orElseThrow(() -> new EntityNotFoundException("Role not found with that name! : " + name)));
+    }
 }

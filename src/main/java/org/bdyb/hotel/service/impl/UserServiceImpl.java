@@ -1,9 +1,11 @@
 package org.bdyb.hotel.service.impl;
 
 import org.bdyb.hotel.domain.User;
+import org.bdyb.hotel.dto.LoginDto;
 import org.bdyb.hotel.dto.UserDto;
 import org.bdyb.hotel.exceptions.ConflictException;
 import org.bdyb.hotel.exceptions.EntityNotFoundException;
+import org.bdyb.hotel.exceptions.LoginFailedException;
 import org.bdyb.hotel.mapper.UserMapper;
 import org.bdyb.hotel.repository.UserRepository;
 import org.bdyb.hotel.service.UserService;
@@ -71,5 +73,11 @@ public class UserServiceImpl implements UserService {
         if (!userRepository.exists(id))
             throw new EntityNotFoundException("User to delete not found with that ID! : " + id);
         userRepository.delete(id);
+    }
+
+    @Override
+    public UserDto login(LoginDto loginDto) throws LoginFailedException {
+        return userMapper.mapToDto(Optional.ofNullable(userRepository.findByUsernameAndPassword(loginDto.getUsername(), loginDto.getPassword()))
+                .orElseThrow(() -> new LoginFailedException("Login unsuccessful for: " + loginDto.getUsername())));
     }
 }

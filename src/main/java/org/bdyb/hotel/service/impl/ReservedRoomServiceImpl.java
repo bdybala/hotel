@@ -1,5 +1,6 @@
 package org.bdyb.hotel.service.impl;
 
+import org.bdyb.hotel.config.Constants;
 import org.bdyb.hotel.domain.ReservedRoom;
 import org.bdyb.hotel.dto.ReservedRoomDto;
 import org.bdyb.hotel.exceptions.ConflictException;
@@ -7,6 +8,7 @@ import org.bdyb.hotel.exceptions.EntityNotFoundException;
 import org.bdyb.hotel.mapper.ReservedRoomMapper;
 import org.bdyb.hotel.repository.ReservedRoomRepository;
 import org.bdyb.hotel.service.ReservedRoomService;
+import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
@@ -36,6 +38,8 @@ public class ReservedRoomServiceImpl implements ReservedRoomService {
 
     @Override
     public ReservedRoomDto addOne(ReservedRoomDto dtoToAdd) throws ConflictException {
+        dtoToAdd.setSince(new DateTime(dtoToAdd.getSince()).withHourOfDay(Constants.HOTEL_NIGHT_START_HOURS).toDate());
+        dtoToAdd.setUpTo(new DateTime(dtoToAdd.getUpTo()).withHourOfDay(Constants.HOTEL_NIGHT_END_HOURS).toDate());
         return reservedRoomMapper.mapToDto(reservedRoomRepository.save(reservedRoomMapper.mapToEntity(dtoToAdd)));
     }
 
@@ -66,5 +70,10 @@ public class ReservedRoomServiceImpl implements ReservedRoomService {
     @Override
     public List<ReservedRoomDto> findByCustomerId(Long customerId) {
         return reservedRoomMapper.mapToDto(reservedRoomRepository.findByCustomerId(customerId));
+    }
+
+    @Override
+    public List<ReservedRoomDto> findBetweenTwoDates(DateTime since, DateTime to) {
+        return reservedRoomMapper.mapToDto(reservedRoomRepository.findBetweenTwoDates(since.toDate(), to.toDate()));
     }
 }
