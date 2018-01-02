@@ -5,11 +5,10 @@ import org.bdyb.hotel.dto.DateRange;
 import org.bdyb.hotel.dto.RoomDto;
 import org.bdyb.hotel.service.CrudService;
 import org.bdyb.hotel.service.RoomService;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -23,5 +22,13 @@ public class RoomController extends AbstractCrudController<Room, RoomDto> {
     @RequestMapping(value = "/free", method = RequestMethod.POST)
     public List<RoomDto> findAllFree(@RequestBody DateRange dateRange) {
         return ((RoomService) service).findAllFree(dateRange);
+    }
+
+    @RequestMapping(value = "/freeByRoomType", method = RequestMethod.GET)
+    public List<RoomDto> findAllFreeByRoomType(
+            @RequestParam("since") @DateTimeFormat(pattern = "yyyy-MM-dd") Date since,
+            @RequestParam("to") @DateTimeFormat(pattern = "yyyy-MM-dd") Date to,
+            @RequestParam("roomType") String roomType) {
+        return ((RoomService) service).findFreeByRoomType(since, to, roomType);
     }
 }

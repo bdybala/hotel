@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -75,5 +76,10 @@ public class RoomServiceImpl implements RoomService {
     @Override
     public List<RoomDto> findAllFree(DateRange dateRange) {
         return roomMapper.mapToDto(roomRepository.findAllFree(dateRange.getSince(), dateRange.getUpTo()));
+    }
+
+    @Override
+    public List<RoomDto> findFreeByRoomType(Date since, Date to, String roomType) {
+        return roomMapper.mapToDto(roomRepository.findAllFreeByRoomType(since, to, roomType));
     }
 }

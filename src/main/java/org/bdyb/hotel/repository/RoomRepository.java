@@ -17,4 +17,13 @@ public interface RoomRepository extends JpaRepository<Room, Long> {
                     "(rr is null or ?1 > rr.upTo or ?2 < rr.since)"
     )
     List<Room> findAllFree(Date start, Date end);
+
+    @Query(
+            "select r " +
+                    "from Room r left outer join r.occupiedRooms o left outer join r.reservedRooms rr join r.roomType rt " +
+                    "where rt.name like ?3 AND " +
+                    "(o is null or ?1 > o.upTo or ?2 < o.since) AND " +
+                    "(rr is null or ?1 > rr.upTo or ?2 < rr.since)"
+    )
+    List<Room> findAllFreeByRoomType(Date since, Date to, String roomType);
 }

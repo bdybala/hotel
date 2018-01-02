@@ -86,6 +86,11 @@ PAYLOAD:
 }
 ```
 
+⋅⋅* Pobranie wolnych pokoi o typie
+```
+GET: /api/rooms/freeByRoomType?since=2018-01-01&to=2018-01-02&roomType=DOUBLE_ROOM
+```
+
 
 ⋅⋅* Dodanie rezerwacji dla klienta
 ```
@@ -105,10 +110,7 @@ PAYLOAD:
 
 ⋅⋅* Wyszukanie rezerwacji w przedziale czasowym
 ```
-GET: /api/reservedRooms/betweenTwoDates
-REQUEST PARAMS:
-    "since":"2018-01-03",
-    "to":"2018-01-08"
+GET: /api/reservedRooms/betweenTwoDates?since=2018-01-03&to=2018-01-08
 
 ```
 
