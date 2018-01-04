@@ -1,4 +1,64 @@
-1. Rest API
+1. Configuration
+
+Necessary procedures at Postgresql Database:
+```
+
+CREATE OR REPLACE FUNCTION countTotalPrice(public.hotel_rooms.id%TYPE, date, date)
+  RETURNS double precision AS
+$$
+DECLARE
+    d date := $2;
+	room_id public.hotel_rooms.id%TYPE := $1;
+    total_price double precision := 0;
+    temp_price double precision :=0;
+BEGIN
+
+LOOP
+    SELECT p.value
+    INTO temp_price
+    FROM public.hotel_prices p
+    WHERE p.rooms_id = room_id AND d BETWEEN p.since AND p.up_to;
+    total_price := total_price + temp_price;
+    d := d + 1;
+    exit WHEN d > $3;
+END LOOP;
+return total_price;
+END
+$$ LANGUAGE plpgsql;
+
+```
+```
+CREATE OR REPLACE FUNCTION getFreeRooms(public.hotel_room_types.name%TYPE, date, date)
+  RETURNS table(room_id bigint, max_capacity integer, room_number character varying(255), room_type character varying(255), total_price double precision) AS
+$$
+DECLARE
+    d date := $2;
+    total_price double precision := 0;
+    temp_price double precision :=0;
+BEGIN
+	RETURN QUERY
+	SELECT
+    	r.id room_id,
+        r.max_capacity max_capacity,
+        r."number" room_number,
+        rt.description room_type,
+        countTotalPrice(r.id, $2, $3) total_price
+    FROM public.hotel_rooms r JOIN public.hotel_room_types rt ON r.room_types_id = r.id
+    	LEFT OUTER JOIN public.hotel_occupied_rooms o ON o.rooms_id = r.id
+        LEFT OUTER JOIN public.hotel_reserved_rooms rr ON rr.rooms_id = r.id
+    WHERE rt.name LIKE $1 AND
+    	(o.id IS null OR $2 > o.up_to OR o.since > $3) AND
+        (rr.id IS null OR $2 > rr.up_to OR rr.since > $3);
+END
+$$ LANGUAGE plpgsql;
+
+
+select * FROM
+	getFreeRooms('DOUBLE_ROOM', '2017-12-30'::date, '2018-01-07'::date) 
+
+```
+
+2. Rest API
 
 ⋅⋅* Pobranie listy dostępnych ról
 ```
