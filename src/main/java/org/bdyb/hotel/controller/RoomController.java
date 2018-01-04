@@ -3,6 +3,7 @@ package org.bdyb.hotel.controller;
 import org.bdyb.hotel.domain.Room;
 import org.bdyb.hotel.dto.DateRange;
 import org.bdyb.hotel.dto.RoomDto;
+import org.bdyb.hotel.dto.RoomWithTotalPriceDto;
 import org.bdyb.hotel.service.CrudService;
 import org.bdyb.hotel.service.RoomService;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -25,7 +26,7 @@ public class RoomController extends AbstractCrudController<Room, RoomDto> {
     }
 
     @RequestMapping(value = "/freeByRoomType", method = RequestMethod.GET)
-    public List<RoomDto> findAllFreeByRoomType(
+    public List<RoomWithTotalPriceDto> findAllFreeByRoomType(
             @RequestParam("since") @DateTimeFormat(pattern = "yyyy-MM-dd") Date since,
             @RequestParam("to") @DateTimeFormat(pattern = "yyyy-MM-dd") Date to,
             @RequestParam("roomType") String roomType) {

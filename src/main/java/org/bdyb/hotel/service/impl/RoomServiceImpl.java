@@ -3,6 +3,7 @@ package org.bdyb.hotel.service.impl;
 import org.bdyb.hotel.domain.Room;
 import org.bdyb.hotel.dto.DateRange;
 import org.bdyb.hotel.dto.RoomDto;
+import org.bdyb.hotel.dto.RoomWithTotalPriceDto;
 import org.bdyb.hotel.exceptions.ConflictException;
 import org.bdyb.hotel.exceptions.EntityNotFoundException;
 import org.bdyb.hotel.mapper.RoomMapper;
@@ -13,9 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 @Primary
@@ -79,7 +78,23 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
-    public List<RoomDto> findFreeByRoomType(Date since, Date to, String roomType) {
-        return roomMapper.mapToDto(roomRepository.findAllFreeByRoomType(since, to, roomType));
+    public List<RoomWithTotalPriceDto> findFreeByRoomType(Date since, Date to, String roomType) {
+        String[] rooms = roomRepository.findRooms(roomType, since, to);
+        List<RoomWithTotalPriceDto> freeRooms = new ArrayList<>();
+
+        Arrays.asList(rooms).forEach(
+                s -> {
+                    String[] room = s.split(",");
+                    freeRooms.add(RoomWithTotalPriceDto.builder()
+                            .roomId(Long.valueOf(room[0]))
+                            .maxCapacity(Integer.valueOf(room[1]))
+                            .roomNumber(room[2])
+                            .roomType(room[3])
+                            .totalPrice(Double.valueOf(room[4]))
+                            .build());
+                }
+        );
+
+        return freeRooms;
     }
 }
