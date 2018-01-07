@@ -5,8 +5,10 @@ import org.bdyb.hotel.dto.PriceDto;
 import org.bdyb.hotel.dto.RoomIdAndDay;
 import org.bdyb.hotel.exceptions.EntityNotFoundException;
 import org.bdyb.hotel.service.PriceService;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -26,4 +28,12 @@ public class PriceController extends AbstractCrudController<Price, PriceDto> {
     public List<PriceDto> findByRoomId(@PathVariable("id") Long roomId) {
         return ((PriceService) service).findByRoomId(roomId);
     }
+
+    @RequestMapping(value = "/byRoomAndInterval", method = RequestMethod.GET)
+    public List<PriceDto> findByRoomId(@RequestParam("roomId") Long roomId,
+                                       @RequestParam("since") @DateTimeFormat(pattern = "yyyy-MM-dd") Date since,
+                                       @RequestParam("to") @DateTimeFormat(pattern = "yyyy-MM-dd") Date to) {
+        return ((PriceService) service).findByRoomAndInterval(roomId, since, to);
+    }
+
 }

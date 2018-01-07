@@ -27,6 +27,7 @@ public class InitCustomers {
                 customerService.addOne(CustomerDto.builder()
                         .firstName(name)
                         .lastName(surname)
+                        .pesel(i)
                         .birthday(birthday.plusYears(i).toDate())
                         .identityCard(IdentityCardDto.builder()
                                 .type(IdCardType.ID_CARD)

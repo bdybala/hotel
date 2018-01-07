@@ -5,6 +5,7 @@ import org.bdyb.hotel.dto.PriceDto;
 import org.bdyb.hotel.dto.RoomIdAndDay;
 import org.bdyb.hotel.exceptions.EntityNotFoundException;
 
+import java.util.Date;
 import java.util.List;
 
 public interface PriceService extends CrudService<Price, PriceDto> {
@@ -12,4 +13,6 @@ public interface PriceService extends CrudService<Price, PriceDto> {
     PriceDto findByRoomIdAndDay(RoomIdAndDay roomIdAndDay) throws EntityNotFoundException;
 
     List<PriceDto> findByRoomId(Long roomId);
+
+    List<PriceDto> findByRoomAndInterval(Long roomId, Date since, Date to);
 }

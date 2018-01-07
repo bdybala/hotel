@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -76,5 +77,11 @@ public class PriceServiceImpl implements PriceService {
     @Override
     public List<PriceDto> findByRoomId(Long roomId) {
         return priceMapper.mapToDto(priceRepository.findByRoomId(roomId));
+    }
+
+    @Override
+    public List<PriceDto> findByRoomAndInterval(Long roomId, Date since, Date to) {
+        return priceMapper.mapToDto(priceRepository.findByRoomIdAndInterval(roomId, since, to));
+
     }
 }

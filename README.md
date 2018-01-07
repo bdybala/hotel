@@ -200,6 +200,12 @@ PAYLOAD:
     "day":"2017-12-24"
 }
 ```
+
+⋅⋅* Sprawdzenie ceny pokoju w przediale dwóch dni
+```
+GET: /api/prices/byRoomAndInterval?roomId=1&since=2017-12-30&to=2018-01-07
+```
+
 ⋅⋅* Sprawdzenie cen pokoju
 ```
 GET: /api/prices/byRoom/{roomId}
