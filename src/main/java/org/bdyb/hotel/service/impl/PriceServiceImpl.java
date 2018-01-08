@@ -80,8 +80,8 @@ public class PriceServiceImpl implements PriceService {
     }
 
     @Override
-    public List<PriceDto> findByRoomAndInterval(Long roomId, Date since, Date to) {
-        return priceMapper.mapToDto(priceRepository.findByRoomIdAndInterval(roomId, since, to));
+    public List<PriceDto> findByRoomAndInterval(Long roomId, Long since, Long to) {
+        return priceMapper.mapToDto(priceRepository.findByRoomIdAndInterval(roomId, new Date(since), new Date(to)));
 
     }
 }

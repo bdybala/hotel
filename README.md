@@ -203,7 +203,7 @@ PAYLOAD:
 
 ⋅⋅* Sprawdzenie ceny pokoju w przediale dwóch dni
 ```
-GET: /api/prices/byRoomAndInterval?roomId=1&since=2017-12-30&to=2018-01-07
+GET: /api/prices/byRoomAndInterval?roomId=1&since=1514592000&to=1515283200
 ```
 
 ⋅⋅* Sprawdzenie cen pokoju

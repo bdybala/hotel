@@ -31,8 +31,8 @@ public class PriceController extends AbstractCrudController<Price, PriceDto> {
 
     @RequestMapping(value = "/byRoomAndInterval", method = RequestMethod.GET)
     public List<PriceDto> findByRoomId(@RequestParam("roomId") Long roomId,
-                                       @RequestParam("since") @DateTimeFormat(pattern = "yyyy-MM-dd") Date since,
-                                       @RequestParam("to") @DateTimeFormat(pattern = "yyyy-MM-dd") Date to) {
+                                       @RequestParam("since") Long since,
+                                       @RequestParam("to") Long to) {
         return ((PriceService) service).findByRoomAndInterval(roomId, since, to);
     }
 
