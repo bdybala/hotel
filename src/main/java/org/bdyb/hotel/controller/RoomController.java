@@ -27,8 +27,8 @@ public class RoomController extends AbstractCrudController<Room, RoomDto> {
 
     @RequestMapping(value = "/freeByRoomType", method = RequestMethod.GET)
     public List<RoomWithTotalPriceDto> findAllFreeByRoomType(
-            @RequestParam("since") @DateTimeFormat(pattern = "yyyy-MM-dd") Date since,
-            @RequestParam("to") @DateTimeFormat(pattern = "yyyy-MM-dd") Date to,
+            @RequestParam("since") Long since,
+            @RequestParam("to") Long to,
             @RequestParam("roomType") String roomType) {
         return ((RoomService) service).findFreeByRoomType(since, to, roomType);
     }

@@ -11,5 +11,5 @@ import java.util.List;
 public interface RoomService extends CrudService<Room, RoomDto> {
     List<RoomDto> findAllFree(DateRange dateRange);
 
-    List<RoomWithTotalPriceDto> findFreeByRoomType(Date since, Date to, String roomType);
+    List<RoomWithTotalPriceDto> findFreeByRoomType(Long epochSince, Long epochTo, String roomType);
 }
