@@ -30,7 +30,7 @@ public interface RoomRepository extends JpaRepository<Room, Long> {
 
     @Query(
             nativeQuery = true,
-            value = "SELECT\n" +
+            value = "SELECT DISTINCT \n" +
                     "    \tr.id room_id,\n" +
                     "        r.max_capacity max_capacity,\n" +
                     "        r.\"number\" room_number,\n" +
