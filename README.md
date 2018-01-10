@@ -79,6 +79,14 @@ PAYLOAD:
 }
 ```
 
+⋅⋅* Szukanie użytkowników po loginie i roli:
+
+```
+GET: /api/users/byUsernameAndRole?username=ad&roleName=ROLE_ADMINISTRATOR
+
+```
+
+
 ⋅⋅* Logowanie
 ```
 POST: /api/users/login

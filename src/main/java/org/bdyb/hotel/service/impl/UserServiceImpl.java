@@ -80,4 +80,11 @@ public class UserServiceImpl implements UserService {
         return userMapper.mapToDto(Optional.ofNullable(userRepository.findByUsernameAndPassword(loginDto.getUsername(), loginDto.getPassword()))
                 .orElseThrow(() -> new LoginFailedException("Login unsuccessful for: " + loginDto.getUsername())));
     }
+
+    @Override
+    public List<UserDto> findByUsernameAndRoleName(String username, String roleName) {
+        return userMapper.mapToDto(userRepository.findByUsernameAndRoleId(
+                username == null ? "" : username,
+                roleName == null ? "" : roleName));
+    }
 }
