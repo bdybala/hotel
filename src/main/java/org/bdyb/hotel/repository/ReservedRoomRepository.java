@@ -11,7 +11,8 @@ public interface ReservedRoomRepository extends JpaRepository<ReservedRoom, Long
     List<ReservedRoom> findByCustomerId(Long customerId);
 
     @Query(
-            "select r from ReservedRoom r where r.since between ?1 and ?2 or r.upTo between ?1 and ?2"
+            "select r from ReservedRoom r where r.since between ?1 and ?2 or r.upTo between ?1 and ?2 or " +
+                    "?1 between r.since and r.upTo"
     )
     List<ReservedRoom> findBetweenTwoDates(Date since, Date to);
 }

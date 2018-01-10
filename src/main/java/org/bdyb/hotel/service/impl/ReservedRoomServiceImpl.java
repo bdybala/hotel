@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -73,7 +74,7 @@ public class ReservedRoomServiceImpl implements ReservedRoomService {
     }
 
     @Override
-    public List<ReservedRoomDto> findBetweenTwoDates(DateTime since, DateTime to) {
-        return reservedRoomMapper.mapToDto(reservedRoomRepository.findBetweenTwoDates(since.toDate(), to.toDate()));
+    public List<ReservedRoomDto> findBetweenTwoDates(Long sinceEpoch, Long toEpoch) {
+        return reservedRoomMapper.mapToDto(reservedRoomRepository.findBetweenTwoDates(new Date(sinceEpoch), new Date(toEpoch)));
     }
 }

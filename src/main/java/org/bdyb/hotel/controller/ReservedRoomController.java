@@ -3,8 +3,6 @@ package org.bdyb.hotel.controller;
 import org.bdyb.hotel.domain.ReservedRoom;
 import org.bdyb.hotel.dto.ReservedRoomDto;
 import org.bdyb.hotel.service.ReservedRoomService;
-import org.joda.time.DateTime;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,7 +21,9 @@ public class ReservedRoomController extends AbstractCrudController<ReservedRoom,
     }
 
     @RequestMapping(value = "/betweenTwoDates", method = RequestMethod.GET)
-    public List<ReservedRoomDto> findBetweenTwoDates(@RequestParam("since") @DateTimeFormat(pattern = "yyyy-MM-dd") DateTime since, @DateTimeFormat(pattern = "yyyy-MM-dd") @RequestParam("to") DateTime to) {
-        return ((ReservedRoomService) service).findBetweenTwoDates(since, to);
+    public List<ReservedRoomDto> findBetweenTwoDates(
+            @RequestParam("since") Long sinceEpoch,
+            @RequestParam("to") Long toEpoch) {
+        return ((ReservedRoomService) service).findBetweenTwoDates(sinceEpoch, toEpoch);
     }
 }

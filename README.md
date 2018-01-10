@@ -178,7 +178,7 @@ PAYLOAD:
 
 ⋅⋅* Wyszukanie rezerwacji w przedziale czasowym
 ```
-GET: /api/reservedRooms/betweenTwoDates?since=2018-01-03&to=2018-01-08
+GET: /api/reservedRooms/betweenTwoDates?since=1514592000&to=1515283200
 
 ```
 
