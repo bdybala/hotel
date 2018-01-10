@@ -85,12 +85,18 @@ public class RoomServiceImpl implements RoomService {
         Arrays.asList(rooms).forEach(
                 s -> {
                     String[] room = s.split(",");
+                    Double price;
+                    if (room[4] == null) {
+                        price = 0D;
+                    } else {
+                        price = Double.valueOf(room[4]);
+                    }
                     freeRooms.add(RoomWithTotalPriceDto.builder()
                             .roomId(Long.valueOf(room[0]))
                             .maxCapacity(Integer.valueOf(room[1]))
                             .roomNumber(room[2])
                             .roomType(room[3])
-                            .totalPrice(Double.valueOf(room[4]))
+                            .totalPrice(price)
                             .build());
                 }
         );
