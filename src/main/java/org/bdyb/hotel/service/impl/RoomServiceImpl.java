@@ -86,7 +86,7 @@ public class RoomServiceImpl implements RoomService {
                 s -> {
                     String[] room = s.split(",");
                     Double price;
-                    if (room[4] == null) {
+                    if (Objects.equals(room[4], "null") || room[4] == null) {
                         price = 0D;
                     } else {
                         price = Double.valueOf(room[4]);
