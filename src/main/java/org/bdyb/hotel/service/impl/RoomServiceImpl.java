@@ -79,7 +79,7 @@ public class RoomServiceImpl implements RoomService {
 
     @Override
     public List<RoomWithTotalPriceDto> findFreeByRoomType(Long epochSince, Long epochTo, String roomType) {
-        String[] rooms = roomRepository.findRooms(roomType, new Date(epochSince), new Date(epochTo));
+        String[] rooms = roomRepository.findAllFreeByRoomType(roomType, new Date(epochSince), new Date(epochTo));
         List<RoomWithTotalPriceDto> freeRooms = new ArrayList<>();
 
         Arrays.asList(rooms).forEach(
