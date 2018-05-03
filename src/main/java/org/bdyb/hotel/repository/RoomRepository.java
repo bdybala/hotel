@@ -36,7 +36,7 @@ public interface RoomRepository extends JpaRepository<Room, Long> {
                     "        r.\"number\" room_number,\n" +
                     "        rt.description room_type,\n" +
                     "        countTotalPrice(r.id, ?2, ?3) total_price\n" +
-                    "    FROM public.hotel_rooms r JOIN public.hotel_room_types rt ON r.room_types_id = r.id\n" +
+                    "    FROM public.hotel_rooms r JOIN public.hotel_room_types rt ON r.room_types_id = rt.id\n" +
                     "    \tLEFT OUTER JOIN public.hotel_occupied_rooms o ON o.rooms_id = r.id\n" +
                     "        LEFT OUTER JOIN public.hotel_reserved_rooms rr ON rr.rooms_id = r.id\n" +
                     "    WHERE rt.name LIKE ?1 AND\n" +
