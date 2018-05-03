@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
 public interface CustomerRepository extends JpaRepository<Customer, Long>, JpaSpecificationExecutor<Customer> {
 
-    Boolean existsByPesel(Integer pesel);
+    Boolean existsByPesel(Long pesel);
 
     Customer findByIdentityCardNumber(String number);
 }

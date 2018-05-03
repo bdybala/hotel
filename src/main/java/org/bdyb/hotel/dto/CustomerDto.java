@@ -16,7 +16,7 @@ public class CustomerDto {
     private Long id;
     private String firstName;
     private String lastName;
-    private Integer pesel;
+    private Long pesel;
     private Date birthday;
     private Date createdTime;
     private String createdBy;

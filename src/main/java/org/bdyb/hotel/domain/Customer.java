@@ -24,7 +24,7 @@ public class Customer {
     private Long id;
     private String firstName;
     private String lastName;
-    private Integer pesel;
+    private Long pesel;
     private Date birthday;
     @CreatedDate
     private Date createdTime;
