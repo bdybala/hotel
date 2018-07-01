@@ -26,6 +26,7 @@ public class Room {
     @CreatedBy
     private String createdBy;
 
+    @Column(unique = true)
     private String number;
     private Integer maxCapacity;
     private boolean isFree;
