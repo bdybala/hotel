@@ -7,6 +7,7 @@ import org.bdyb.hotel.domain.User;
 import org.bdyb.hotel.dto.RegisterDto;
 import org.bdyb.hotel.dto.pagination.UserPaginationDto;
 import org.bdyb.hotel.exceptions.badRequest.SearchFieldNotExistingException;
+import org.bdyb.hotel.exceptions.badRequest.SortFieldNotExistingException;
 import org.bdyb.hotel.exceptions.conflict.UserAlreadyExistsConflictException;
 import org.bdyb.hotel.exceptions.notFound.RoleNotFoundException;
 import org.bdyb.hotel.repository.RoleRepository;
@@ -44,7 +45,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> searchUsers(UserPaginationDto userPaginationDto) throws SearchFieldNotExistingException {
+    public List<User> searchUsers(UserPaginationDto userPaginationDto) throws SearchFieldNotExistingException, SortFieldNotExistingException {
         if (userPaginationDto.getCurrentPage() == null) userPaginationDto.setCurrentPage(1);
         if (userPaginationDto.getPageSize() == null) userPaginationDto.setPageSize(Constants.DEFAULT_PAGE_SIZE);
         return userDao.findUsers(userPaginationDto);

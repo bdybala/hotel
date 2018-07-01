@@ -3,9 +3,11 @@ package org.bdyb.hotel.services;
 import org.bdyb.hotel.domain.User;
 import org.bdyb.hotel.dto.RegisterDto;
 import org.bdyb.hotel.dto.pagination.SearchFieldDto;
+import org.bdyb.hotel.dto.pagination.SortFieldDto;
 import org.bdyb.hotel.dto.pagination.UserPaginationDto;
 import org.bdyb.hotel.enums.RoleNameEnum;
 import org.bdyb.hotel.exceptions.badRequest.SearchFieldNotExistingException;
+import org.bdyb.hotel.exceptions.badRequest.SortFieldNotExistingException;
 import org.bdyb.hotel.exceptions.conflict.UserAlreadyExistsConflictException;
 import org.bdyb.hotel.exceptions.notFound.RoleNotFoundException;
 import org.bdyb.hotel.repository.RoleRepository;
@@ -16,6 +18,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Sort;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -71,24 +74,40 @@ public class UserIntegrationTest {
     }
 
     @Test(expected = SearchFieldNotExistingException.class)
-    public void searchUsersNegativeNotExistingSearchField() throws SearchFieldNotExistingException {
+    public void searchUsersNegativeNotExistingSearchField() throws SearchFieldNotExistingException, SortFieldNotExistingException {
         // given
 
         // when
-        List<User> users = userService.searchUsers(prepareSearchPagination(getSearchFieldsNotExisting(), 1));
+        List<User> users = userService.searchUsers(prepareSearchPagination(
+                getSearchFieldsNotExisting(),
+                getSortFieldsNotExisting(),
+                1));
+
+        // then
+        Assert.assertNotNull(users);
+    }
+    @Test(expected = SortFieldNotExistingException.class)
+    public void searchUsersNegativeNotExistingSortField() throws SortFieldNotExistingException, SearchFieldNotExistingException {
+        // given
+
+        // when
+        List<User> users = userService.searchUsers(prepareSearchPagination(
+                getSearchFieldsOk(),
+                getSortFieldsNotExisting(),
+                1));
 
         // then
         Assert.assertNotNull(users);
     }
 
     @Test
-    public void searchUsersPositive() throws SearchFieldNotExistingException {
+    public void searchUsersPositive() throws SearchFieldNotExistingException, SortFieldNotExistingException {
         // given
         int usersQuantity = 11;
         userRepository.save(prepareUsers(EMAIL, usersQuantity));
 
         // when
-        List<User> users = userService.searchUsers(prepareSearchPagination(getSearchFieldsOk(), 2));
+        List<User> users = userService.searchUsers(prepareSearchPagination(getSearchFieldsOk(), getSortFieldsOk(), 2));
 
         // then
         Assert.assertNotNull(users);
@@ -123,10 +142,11 @@ public class UserIntegrationTest {
         return registerDto;
     }
 
-    private UserPaginationDto prepareSearchPagination(List<SearchFieldDto> searchFields, int page) {
+    private UserPaginationDto prepareSearchPagination(List<SearchFieldDto> searchFields, List<SortFieldDto> sortFields, int page) {
         UserPaginationDto paginationDto = new UserPaginationDto();
         paginationDto.setCurrentPage(page);
         paginationDto.setSearchFields(searchFields);
+        paginationDto.setSortFields(sortFields);
         return paginationDto;
     }
 
@@ -140,5 +160,17 @@ public class UserIntegrationTest {
         List<SearchFieldDto> searchFields = new ArrayList<>();
         searchFields.add(new SearchFieldDto("email", EMAIL.substring(1, EMAIL.length() - 1)));
         return searchFields;
+    }
+
+    private List<SortFieldDto> getSortFieldsNotExisting() {
+        List<SortFieldDto> sortFields = new ArrayList<>();
+        sortFields.add(new SortFieldDto("username", Sort.Direction.ASC));
+        return sortFields;
+    }
+
+    private List<SortFieldDto> getSortFieldsOk() {
+        List<SortFieldDto> sortFields = new ArrayList<>();
+        sortFields.add(new SortFieldDto("email", Sort.Direction.ASC));
+        return sortFields;
     }
 }

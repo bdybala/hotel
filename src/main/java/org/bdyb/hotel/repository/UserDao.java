@@ -6,6 +6,7 @@ import org.bdyb.hotel.dto.pagination.SearchFieldDto;
 import org.bdyb.hotel.dto.pagination.SortFieldDto;
 import org.bdyb.hotel.dto.pagination.UserPaginationDto;
 import org.bdyb.hotel.exceptions.badRequest.SearchFieldNotExistingException;
+import org.bdyb.hotel.exceptions.badRequest.SortFieldNotExistingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,7 +28,7 @@ public class UserDao {
     private UserRepository userRepository;
 
     @Transactional
-    public List<User> findUsers(UserPaginationDto userPaginationDto) throws SearchFieldNotExistingException {
+    public List<User> findUsers(UserPaginationDto userPaginationDto) throws SearchFieldNotExistingException, SortFieldNotExistingException {
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();
         CriteriaQuery<User> query = cb.createQuery(User.class);
         Root<User> from = query.from(User.class);
@@ -41,8 +42,13 @@ public class UserDao {
             }
         }
 
-        if (userPaginationDto.getSortFields() != null)
-            query.orderBy(getOrderPredicates(cb, from, userPaginationDto.getSortFields()));
+        if (userPaginationDto.getSortFields() != null) {
+            try {
+                query.orderBy(getOrderPredicates(cb, from, userPaginationDto.getSortFields()));
+            } catch (IllegalArgumentException e) {
+                throw new SortFieldNotExistingException();
+            }
+        }
 
         long totalCount = userRepository.count();
 
