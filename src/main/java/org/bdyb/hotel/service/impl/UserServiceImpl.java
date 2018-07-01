@@ -46,7 +46,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<User> searchUsers(UserPaginationDto userPaginationDto) throws SearchFieldNotExistingException {
         if (userPaginationDto.getCurrentPage() == null) userPaginationDto.setCurrentPage(1);
-        if (userPaginationDto.getPageSize() == null) userPaginationDto.setCurrentPage(Constants.DEFAULT_PAGE_SIZE);
+        if (userPaginationDto.getPageSize() == null) userPaginationDto.setPageSize(Constants.DEFAULT_PAGE_SIZE);
         return userDao.findUsers(userPaginationDto);
     }
 

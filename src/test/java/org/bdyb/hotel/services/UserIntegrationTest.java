@@ -75,7 +75,7 @@ public class UserIntegrationTest {
         // given
 
         // when
-        List<User> users = userService.searchUsers(prepareSearchPagination(getSearchFieldsNotExisting()));
+        List<User> users = userService.searchUsers(prepareSearchPagination(getSearchFieldsNotExisting(), 1));
 
         // then
         Assert.assertNotNull(users);
@@ -84,14 +84,23 @@ public class UserIntegrationTest {
     @Test
     public void searchUsersPositive() throws SearchFieldNotExistingException {
         // given
-        userRepository.save(prepareUser(EMAIL));
+        int usersQuantity = 11;
+        userRepository.save(prepareUsers(EMAIL, usersQuantity));
 
         // when
-        List<User> users = userService.searchUsers(prepareSearchPagination(getSearchFieldsOk()));
+        List<User> users = userService.searchUsers(prepareSearchPagination(getSearchFieldsOk(), 2));
 
         // then
         Assert.assertNotNull(users);
-        Assert.assertEquals(1, users.size());
+        Assert.assertEquals(usersQuantity - 10, users.size());
+    }
+
+    private List<User> prepareUsers(String email, int size) {
+        List<User> users = new ArrayList<>();
+        for (int i = 0; i < size; i++) {
+            users.add(prepareUser(i + email));
+        }
+        return users;
     }
 
     private User prepareUser(String email) {
@@ -114,9 +123,9 @@ public class UserIntegrationTest {
         return registerDto;
     }
 
-    private UserPaginationDto prepareSearchPagination(List<SearchFieldDto> searchFields) {
+    private UserPaginationDto prepareSearchPagination(List<SearchFieldDto> searchFields, int page) {
         UserPaginationDto paginationDto = new UserPaginationDto();
-        paginationDto.setCurrentPage(1);
+        paginationDto.setCurrentPage(page);
         paginationDto.setSearchFields(searchFields);
         return paginationDto;
     }

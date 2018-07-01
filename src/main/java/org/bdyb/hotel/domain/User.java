@@ -2,7 +2,6 @@ package org.bdyb.hotel.domain;
 
 import lombok.*;
 import org.bdyb.hotel.config.Constants;
-import org.hibernate.validator.constraints.Email;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 
@@ -29,6 +28,7 @@ public class User {
 
     private String firstName;
     private String lastName;
+    @Column(unique = true)
     private String email;
     private String password;
 

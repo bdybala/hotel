@@ -6,6 +6,7 @@ import org.bdyb.hotel.dto.pagination.SearchFieldDto;
 import org.bdyb.hotel.dto.pagination.SortFieldDto;
 import org.bdyb.hotel.dto.pagination.UserPaginationDto;
 import org.bdyb.hotel.exceptions.badRequest.SearchFieldNotExistingException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,6 +23,8 @@ public class UserDao {
     @PersistenceContext
     private EntityManager entityManager;
 
+    @Autowired
+    private UserRepository userRepository;
 
     @Transactional
     public List<User> findUsers(UserPaginationDto userPaginationDto) throws SearchFieldNotExistingException {
@@ -41,7 +44,14 @@ public class UserDao {
         if (userPaginationDto.getSortFields() != null)
             query.orderBy(getOrderPredicates(cb, from, userPaginationDto.getSortFields()));
 
+        long totalCount = userRepository.count();
+
+        long startingPosition = (totalCount / userPaginationDto.getPageSize()) *
+                (userPaginationDto.getCurrentPage() - 1) * userPaginationDto.getPageSize();
+
         return entityManager.createQuery(query)
+                .setFirstResult((int) startingPosition)
+                .setMaxResults(userPaginationDto.getPageSize())
                 .getResultList();
 
     }
@@ -84,4 +94,5 @@ public class UserDao {
         });
         return orders;
     }
+
 }
