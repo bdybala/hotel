@@ -8,6 +8,7 @@ import org.bdyb.hotel.exceptions.notFound.RoomTypeNotFoundException;
 import org.bdyb.hotel.repository.RoomRepository;
 import org.bdyb.hotel.repository.RoomTypeRepository;
 import org.bdyb.hotel.service.RoomService;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,12 +53,15 @@ public class RoomIntegrationTest {
     }
 
     @Test
-    public void createNewRoomPositive() {
+    public void createNewRoomPositive() throws RoomTypeNotFoundException, RoomAlreadyExistsConflictException {
         // given
 
         // when
+        Room newRoom = roomService.createNewRoom(prepareNewRoomDto(SECOND_ROOM_NUMBER, true));
 
         //then
+        Assert.assertNotNull(newRoom);
+        Assert.assertEquals(1, roomRepository.count());
     }
 
     private Room prepareRoom() {

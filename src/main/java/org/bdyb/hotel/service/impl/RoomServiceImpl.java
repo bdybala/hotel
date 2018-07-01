@@ -22,7 +22,7 @@ public class RoomServiceImpl implements RoomService {
         if (roomRepository.existsByNumber(newRoomDto.getNumber())) {
             throw new RoomAlreadyExistsConflictException();
         }
-        RoomType roomType = roomTypeRepository.findByName(newRoomDto.getNumber())
+        RoomType roomType = roomTypeRepository.findByName(newRoomDto.getRoomTypeName())
                 .orElseThrow(RoomTypeNotFoundException::new);
         return roomRepository.save(Room.builder()
                 .number(newRoomDto.getNumber())
