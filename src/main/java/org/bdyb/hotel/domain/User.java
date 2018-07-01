@@ -21,16 +21,16 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String username;
-    @Email
-    private String email;
-    private String password;
-    private String firstName;
-    private String lastName;
     @CreatedDate
-    private Date createdTime;
+    @Builder.Default
+    private Date createdTime = new Date();
     @CreatedBy
     private String createdBy;
+
+    private String firstName;
+    private String lastName;
+    private String email;
+    private String password;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "roles_id")

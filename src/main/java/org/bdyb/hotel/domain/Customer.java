@@ -7,7 +7,6 @@ import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
 import java.util.Date;
-import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -22,18 +21,21 @@ public class Customer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String firstName;
-    private String lastName;
-    private Long pesel;
-    private Date birthday;
     @CreatedDate
     private Date createdTime;
     @CreatedBy
     private String createdBy;
 
+    private String firstName;
+    private String lastName;
+    private Long pesel;
+    private Date birthday;
+    private String email;
+    private String phoneNumber;
+
     @OneToOne(cascade = CascadeType.ALL)
     private IdentityCard identityCard;
 
     @ManyToMany(mappedBy = "customers")
-    private Set<OccupiedRoom> occupiedRooms;
+    private Set<Visit> visits;
 }

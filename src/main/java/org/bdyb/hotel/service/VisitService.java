@@ -1,4 +1,4 @@
 package org.bdyb.hotel.service;
 
-public interface CustomerService {
+public interface VisitService {
 }

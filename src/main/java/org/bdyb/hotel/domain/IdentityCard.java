@@ -23,12 +23,14 @@ public class IdentityCard {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Enumerated(EnumType.STRING)
-    private IdCardType type;
-    private String number;
-    private Date expiringDate;
     @CreatedDate
     private Date createdTime;
     @CreatedBy
     private String createdBy;
+
+    @Enumerated(EnumType.STRING)
+    private IdCardType type;
+    private String number;
+    private Date expiringDate;
+
 }

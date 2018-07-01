@@ -1,10 +1,13 @@
 package org.bdyb.hotel.repository;
 
 import org.bdyb.hotel.domain.Role;
+import org.bdyb.hotel.enums.RoleNameEnum;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface RoleRepository extends JpaRepository<Role, Long> {
-    Boolean existsByName(String name);
+import java.util.Optional;
 
-    Role findByName(String name);
+public interface RoleRepository extends JpaRepository<Role, Long> {
+    Boolean existsByName(RoleNameEnum name);
+
+    Optional<Role> findByName(RoleNameEnum roleName);
 }

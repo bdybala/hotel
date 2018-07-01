@@ -21,20 +21,23 @@ public class Room {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String number;
-    private Integer maxCapacity;
     @CreatedDate
     private Date createdTime;
     @CreatedBy
     private String createdBy;
+
+    private String number;
+    private Integer maxCapacity;
+    private boolean isFree;
+    private boolean isReserved;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "room_types_id")
     private RoomType roomType;
 
     @OneToMany(mappedBy = "room")
-    List<OccupiedRoom> occupiedRooms;
+    private List<Visit> visits;
 
     @OneToMany(mappedBy = "room")
-    List<ReservedRoom> reservedRooms;
+    private List<Reservation> reservations;
 }

@@ -14,20 +14,13 @@ public class Init {
     private InitRoomTypes initRoomTypes;
     @Autowired
     private InitRoles initRoles;
-    @Autowired
-    private InitRooms initRooms;
-    @Autowired
-    private InitCustomers initCustomers;
-    @Autowired
-    private InitUsers initUsers;
 
     @PostConstruct
     public void initAll() {
         initRoomTypes.init();
         initRoles.init();
-        initRooms.init();
-        initCustomers.init();
-        initUsers.init();
+//        initRooms.init();
+//        initCustomers.init();
     }
 
 }
