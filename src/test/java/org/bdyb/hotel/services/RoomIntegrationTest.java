@@ -80,6 +80,22 @@ public class RoomIntegrationTest {
         Assert.assertEquals(1, roomRepository.count());
     }
 
+    @Test(expected = RoomTypeNotFoundException.class)
+    public void findAvailableRoomsTestNegative() throws RoomTypeNotFoundException {
+        // given
+        Room savedRoom = roomRepository.save(TestUtils.getRoomBuilder()
+                .withRoomNumber(FIRST_ROOM_NUMBER)
+                .withRoomType(roomTypeRepository.findAll().get(0))
+                .withMaxCapacity(5)
+                .build());
+        List<Price> savedPrices = priceRepository.save(preparePricesForRoom(savedRoom, TestUtils.TOMORROW, TestUtils.IN_THREE_DAYS));
+
+        // when
+        List<Room> availableRooms = roomService.findAvailableRooms(prepareAvailabilityRequest(null));
+
+        // then
+    }
+
     @Test
     public void findAvailableRoomsTestPositiveAllFree() throws RoomTypeNotFoundException {
         // given
@@ -96,22 +112,6 @@ public class RoomIntegrationTest {
         // then
         Assert.assertNotNull(availableRooms);
         Assert.assertEquals(1, availableRooms.size());
-    }
-
-    @Test(expected = RoomTypeNotFoundException.class)
-    public void findAvailableRoomsTestNegative() throws RoomTypeNotFoundException {
-        // given
-        Room savedRoom = roomRepository.save(TestUtils.getRoomBuilder()
-                .withRoomNumber(FIRST_ROOM_NUMBER)
-                .withRoomType(roomTypeRepository.findAll().get(0))
-                .withMaxCapacity(5)
-                .build());
-        List<Price> savedPrices = priceRepository.save(preparePricesForRoom(savedRoom, TestUtils.TOMORROW, TestUtils.IN_THREE_DAYS));
-
-        // when
-        List<Room> availableRooms = roomService.findAvailableRooms(prepareAvailabilityRequest(null));
-
-        // then
     }
 
     private List<Price> preparePricesForRoom(Room savedRoom, Date since, Date upTo) {
