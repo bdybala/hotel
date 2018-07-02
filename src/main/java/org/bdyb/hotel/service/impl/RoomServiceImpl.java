@@ -3,17 +3,22 @@ package org.bdyb.hotel.service.impl;
 import lombok.RequiredArgsConstructor;
 import org.bdyb.hotel.domain.Room;
 import org.bdyb.hotel.domain.RoomType;
+import org.bdyb.hotel.dto.AvailabilityRequestDto;
 import org.bdyb.hotel.dto.NewRoomDto;
 import org.bdyb.hotel.exceptions.conflict.RoomAlreadyExistsConflictException;
 import org.bdyb.hotel.exceptions.notFound.RoomTypeNotFoundException;
+import org.bdyb.hotel.repository.RoomDao;
 import org.bdyb.hotel.repository.RoomRepository;
 import org.bdyb.hotel.repository.RoomTypeRepository;
 import org.bdyb.hotel.service.RoomService;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class RoomServiceImpl implements RoomService {
+    private final RoomDao roomDao;
     private final RoomRepository roomRepository;
     private final RoomTypeRepository roomTypeRepository;
 
@@ -29,5 +34,16 @@ public class RoomServiceImpl implements RoomService {
                 .maxCapacity(newRoomDto.getMaxCapacity())
                 .roomType(roomType)
                 .build());
+    }
+
+    @Override
+    public List<Room> findAvailableRooms(AvailabilityRequestDto availabilityRequestDto) throws RoomTypeNotFoundException {
+        RoomType roomType = roomTypeRepository.findByName(availabilityRequestDto.getRoomTypeName())
+                .orElseThrow(RoomTypeNotFoundException::new);
+        return roomDao.findAvailableRooms(
+                roomType,
+                availabilityRequestDto.getMaxCapacity(),
+                availabilityRequestDto.getSince(),
+                availabilityRequestDto.getUpTo());
     }
 }

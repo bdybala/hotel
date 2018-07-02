@@ -21,15 +21,19 @@ public class Price {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @CreatedDate
-    private Date createdTime;
+    @Builder.Default
+    private Date createdTime = new Date();
     @CreatedBy
     private String createdBy;
 
     private Double value;
-    private Date since;
-    private Date upTo;
+    private Integer dayOfMonth;
+    private Integer month;
+    private Integer year;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(
+            fetch = FetchType.LAZY,
+            cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @JoinColumn(name = "rooms_id")
     private Room room;
 }

@@ -22,15 +22,16 @@ public class Room {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @CreatedDate
-    private Date createdTime;
+    @Builder.Default
+    private Date createdTime = new Date();
     @CreatedBy
     private String createdBy;
 
     @Column(unique = true)
     private String number;
     private Integer maxCapacity;
-    private boolean isFree;
-    private boolean isReserved;
+    @Builder.Default
+    private boolean isFree = true;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "room_types_id")
@@ -41,4 +42,6 @@ public class Room {
 
     @OneToMany(mappedBy = "room")
     private List<Reservation> reservations;
+
+
 }

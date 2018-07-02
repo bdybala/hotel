@@ -12,17 +12,17 @@ public interface PriceRepository extends JpaRepository<Price, Long> {
 
     List<Price> findByRoomId(@NotNull Long roomId);
 
-    @Query(
-            "select p from Price p " +
-                    "where p.room.id = ?1 and ?2 between p.since and p.upTo"
-    )
-    Price findByRoomIdAndForDay(@NotNull Long roomId, @NotNull Date forDay);
+//    @Query(
+//            "select p from Price p " +
+//                    "where p.room.id = ?1 and ?2 between p.since and p.upTo"
+//    )
+//    Price findByRoomIdAndForDay(@NotNull Long roomId, @NotNull Date forDay);
 
-    @Query(
-            "select p from Price p " +
-                    "where p.room.id = ?1 and " +
-                    "(p.since between ?2 and ?3 or " +
-                    "p.upTo between ?2 and ?3 or ?2 between p.since and p.upTo)"
-    )
-    List<Price> findByRoomIdAndInterval(Long roomId, Date since, Date to);
+//    @Query(
+//            "select p from Price p " +
+//                    "where p.room.id = ?1 and " +
+//                    "(p.since between ?2 and ?3 or " +
+//                    "p.upTo between ?2 and ?3 or ?2 between p.since and p.upTo)"
+//    )
+//    List<Price> findByRoomIdAndInterval(Long roomId, Date since, Date to);
 }
