@@ -121,9 +121,7 @@ public class RoomIntegrationTest {
         for (DateTime i = start; i.isBefore(end); i = i.plusDays(1)) {
             Price price = Price.builder()
                     .value(PRICE)
-                    .dayOfMonth(i.getDayOfMonth())
-                    .month(i.getMonthOfYear())
-                    .year(i.getYear())
+                    .day(i.toDate())
                     .room(savedRoom)
                     .build();
             prices.add(price);

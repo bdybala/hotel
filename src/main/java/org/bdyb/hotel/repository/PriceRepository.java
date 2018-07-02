@@ -1,16 +1,14 @@
 package org.bdyb.hotel.repository;
 
 import org.bdyb.hotel.domain.Price;
+import org.bdyb.hotel.domain.Room;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
 
-import javax.validation.constraints.NotNull;
 import java.util.Date;
-import java.util.List;
 
 public interface PriceRepository extends JpaRepository<Price, Long> {
 
-    List<Price> findByRoomId(@NotNull Long roomId);
+    long countAllByRoomAndDayGreaterThanEqualAndDayLessThan(Room room, Date since, Date upTo);
 
 //    @Query(
 //            "select p from Price p " +

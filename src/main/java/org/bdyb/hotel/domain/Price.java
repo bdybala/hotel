@@ -27,9 +27,8 @@ public class Price {
     private String createdBy;
 
     private Double value;
-    private Integer dayOfMonth;
-    private Integer month;
-    private Integer year;
+    @Temporal(TemporalType.DATE)
+    private Date day;
 
     @ManyToOne(
             fetch = FetchType.LAZY,

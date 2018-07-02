@@ -3,6 +3,9 @@ package org.bdyb.hotel.repository;
 import org.bdyb.hotel.domain.Reservation;
 import org.bdyb.hotel.domain.Room;
 import org.bdyb.hotel.domain.RoomType;
+import org.joda.time.DateTime;
+import org.joda.time.Days;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -11,9 +14,13 @@ import javax.persistence.criteria.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Repository
 public class RoomDao {
+
+    @Autowired
+    private PriceRepository priceRepository;
 
     @PersistenceContext
     private EntityManager entityManager;
@@ -23,20 +30,32 @@ public class RoomDao {
         CriteriaQuery<Room> query = cb.createQuery(Room.class);
         Root<Room> from = query.from(Room.class);
 
-        // subquery
-        Subquery<Long> subquery = query.subquery(Long.class);
-        Root<Room> subRoot = subquery.from(Room.class);
+        // notReservedSubquery
+        Subquery<Long> notReservedSubquery = query.subquery(Long.class);
+        Root<Room> subRoot = notReservedSubquery.from(Room.class);
         Join<Room, Reservation> join = subRoot.join("reservations", JoinType.LEFT);
-        subquery.select(subRoot.get("id"));
-        subquery.where(getReservationSubQuery(cb, join, since, upTo));
-        //
+        notReservedSubquery.select(subRoot.get("id"));
+        notReservedSubquery.where(getReservationSubQuery(cb, join, since, upTo));
 
         Join<Room, RoomType> joinRoomType = from.join("roomType");
         query.select(from);
-        query.where(getSearchPredicates(cb, from, joinRoomType, maxCapacity, roomType, subquery));
-        return entityManager
+        query.where(getSearchPredicates(cb, from, joinRoomType, maxCapacity, roomType, notReservedSubquery));
+        List<Room> resultList = entityManager
                 .createQuery(query)
                 .getResultList();
+        int daysBetween = getDaysBetween(since, upTo);
+        return resultList.stream()
+                .filter(room -> countPrices(room, since, upTo) == daysBetween)
+                .collect(Collectors.toList());
+    }
+
+    private long countPrices(Room room, Date since, Date upTo) {
+        return priceRepository.countAllByRoomAndDayGreaterThanEqualAndDayLessThan(room, since, upTo);
+    }
+
+    private int getDaysBetween(Date since, Date upTo) {
+        return Days.daysBetween(new DateTime(since).toLocalDate(), new DateTime(upTo).toLocalDate())
+                .getDays();
     }
 
     private Predicate getSearchPredicates(
@@ -51,7 +70,6 @@ public class RoomDao {
         if (maxCapacity != null) {
             predicates.add(cb.lessThan(from.get("maxCapacity"), maxCapacity));
         }
-        predicates.add(cb.isTrue(from.get("isFree")));
         predicates.add(cb.in(from.get("id")).value(subquery));
         return cb.and(predicates.toArray(new Predicate[predicates.size()]));
     }
