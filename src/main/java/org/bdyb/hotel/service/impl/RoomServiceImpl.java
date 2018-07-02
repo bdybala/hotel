@@ -38,10 +38,10 @@ public class RoomServiceImpl implements RoomService {
 
     @Override
     public List<Room> findAvailableRooms(AvailabilityRequestDto availabilityRequestDto) throws RoomTypeNotFoundException {
-        RoomType roomType = roomTypeRepository.findByName(availabilityRequestDto.getRoomTypeName())
-                .orElseThrow(RoomTypeNotFoundException::new);
+        if (!roomTypeRepository.existsByName(availabilityRequestDto.getRoomTypeName()))
+            throw new RoomTypeNotFoundException();
         return roomDao.findAvailableRooms(
-                roomType,
+                availabilityRequestDto.getRoomTypeName(),
                 availabilityRequestDto.getMaxCapacity(),
                 availabilityRequestDto.getSince(),
                 availabilityRequestDto.getUpTo());
