@@ -1,13 +1,16 @@
 package org.bdyb.hotel.repository;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.bdyb.hotel.domain.User;
+import org.bdyb.hotel.dto.UserDto;
+import org.bdyb.hotel.dto.UserPaginationResponseDto;
 import org.bdyb.hotel.dto.pagination.SearchFieldDto;
 import org.bdyb.hotel.dto.pagination.SortFieldDto;
 import org.bdyb.hotel.dto.pagination.UserPaginationDto;
 import org.bdyb.hotel.exceptions.badRequest.SearchFieldNotExistingException;
 import org.bdyb.hotel.exceptions.badRequest.SortFieldNotExistingException;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.bdyb.hotel.mapper.UserToDtoMapper;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,19 +19,21 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.criteria.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Repository
+@RequiredArgsConstructor
 public class UserDao {
 
     @PersistenceContext
     private EntityManager entityManager;
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
+    private final UserToDtoMapper userToDtoMapper;
 
     @Transactional
-    public List<User> findUsers(UserPaginationDto userPaginationDto) throws SearchFieldNotExistingException, SortFieldNotExistingException {
+    public UserPaginationResponseDto findUsers(UserPaginationDto userPaginationDto) throws SearchFieldNotExistingException, SortFieldNotExistingException {
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();
         CriteriaQuery<User> query = cb.createQuery(User.class);
         Root<User> from = query.from(User.class);
@@ -55,10 +60,21 @@ public class UserDao {
         long startingPosition = (totalCount / userPaginationDto.getPageSize()) *
                 (userPaginationDto.getCurrentPage() - 1) * userPaginationDto.getPageSize();
 
-        return entityManager.createQuery(query)
+
+        List<UserDto> resultList = entityManager.createQuery(query)
                 .setFirstResult((int) startingPosition)
                 .setMaxResults(userPaginationDto.getPageSize())
-                .getResultList();
+                .getResultList()
+                .stream()
+                .map(userToDtoMapper::mapToDto)
+                .collect(Collectors.toList());
+
+        return UserPaginationResponseDto.builder()
+                .currentPage(Long.valueOf(userPaginationDto.getCurrentPage()))
+                .totalPages((totalCount / userPaginationDto.getPageSize()) + 1)
+                .totalUsers(totalCount)
+                .users(resultList)
+                .build();
 
     }
 

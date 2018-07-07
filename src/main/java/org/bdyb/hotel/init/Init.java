@@ -1,24 +1,26 @@
 package org.bdyb.hotel.init;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 
 @Component
 @Slf4j
+@RequiredArgsConstructor
 public class Init {
 
-    @Autowired
-    private InitRoomTypes initRoomTypes;
-    @Autowired
-    private InitRoles initRoles;
+
+    private final InitRoomTypes initRoomTypes;
+    private final InitRoles initRoles;
+    private final InitUsers initUsers;
 
     @PostConstruct
     public void initAll() {
         initRoomTypes.init();
         initRoles.init();
+        initUsers.init();
 //        initRooms.init();
 //        initCustomers.init();
     }
