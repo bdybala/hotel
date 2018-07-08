@@ -2,6 +2,7 @@ package org.bdyb.hotel.services;
 
 import org.bdyb.hotel.domain.User;
 import org.bdyb.hotel.dto.RegisterDto;
+import org.bdyb.hotel.dto.UserPaginationResponseDto;
 import org.bdyb.hotel.dto.pagination.SearchFieldDto;
 import org.bdyb.hotel.dto.pagination.SortFieldDto;
 import org.bdyb.hotel.dto.pagination.UserPaginationDto;
@@ -14,6 +15,7 @@ import org.bdyb.hotel.repository.RoleRepository;
 import org.bdyb.hotel.repository.UserRepository;
 import org.bdyb.hotel.service.UserService;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,9 +44,15 @@ public class UserIntegrationTest {
     @Autowired
     private RoleRepository roleRepository;
 
+    @Before
+    public void setup() {
+
+    }
+
     @Test(expected = UserAlreadyExistsConflictException.class)
     public void registerNegativeEmailAlreadyRegistered() throws UserAlreadyExistsConflictException, RoleNotFoundException {
         // given
+        userRepository.deleteAll();
         userRepository.save(prepareUser(EMAIL));
         // when
         userService.registerUser(prepareRegisterDto(false));
@@ -76,42 +84,40 @@ public class UserIntegrationTest {
     @Test(expected = SearchFieldNotExistingException.class)
     public void searchUsersNegativeNotExistingSearchField() throws SearchFieldNotExistingException, SortFieldNotExistingException {
         // given
-
         // when
-        List<User> users = userService.searchUsers(prepareSearchPagination(
+        userService.searchUsers(prepareSearchPagination(
                 getSearchFieldsNotExisting(),
                 getSortFieldsNotExisting(),
                 1));
 
         // then
-        Assert.assertNotNull(users);
     }
     @Test(expected = SortFieldNotExistingException.class)
     public void searchUsersNegativeNotExistingSortField() throws SortFieldNotExistingException, SearchFieldNotExistingException {
         // given
 
         // when
-        List<User> users = userService.searchUsers(prepareSearchPagination(
+        userService.searchUsers(prepareSearchPagination(
                 getSearchFieldsOk(),
                 getSortFieldsNotExisting(),
                 1));
 
         // then
-        Assert.assertNotNull(users);
     }
 
     @Test
     public void searchUsersPositive() throws SearchFieldNotExistingException, SortFieldNotExistingException {
         // given
+        userRepository.deleteAll();
         int usersQuantity = 11;
         userRepository.save(prepareUsers(EMAIL, usersQuantity));
 
         // when
-        List<User> users = userService.searchUsers(prepareSearchPagination(getSearchFieldsOk(), getSortFieldsOk(), 2));
+        UserPaginationResponseDto userPaginationResponseDto = userService.searchUsers(prepareSearchPagination(getSearchFieldsOk(), getSortFieldsOk(), 2));
 
         // then
-        Assert.assertNotNull(users);
-        Assert.assertEquals(usersQuantity - 10, users.size());
+        Assert.assertNotNull(userPaginationResponseDto);
+        Assert.assertEquals(usersQuantity - 10, userPaginationResponseDto.getUsers().size());
     }
 
     private List<User> prepareUsers(String email, int size) {
