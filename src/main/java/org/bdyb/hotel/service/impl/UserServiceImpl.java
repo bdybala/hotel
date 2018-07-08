@@ -11,6 +11,7 @@ import org.bdyb.hotel.exceptions.badRequest.SearchFieldNotExistingException;
 import org.bdyb.hotel.exceptions.badRequest.SortFieldNotExistingException;
 import org.bdyb.hotel.exceptions.conflict.UserAlreadyExistsConflictException;
 import org.bdyb.hotel.exceptions.notFound.RoleNotFoundException;
+import org.bdyb.hotel.exceptions.notFound.UserIdNotFoundException;
 import org.bdyb.hotel.repository.RoleRepository;
 import org.bdyb.hotel.repository.UserDao;
 import org.bdyb.hotel.repository.UserRepository;
@@ -48,6 +49,13 @@ public class UserServiceImpl implements UserService {
         if (userPaginationDto.getCurrentPage() == null) userPaginationDto.setCurrentPage(1);
         if (userPaginationDto.getPageSize() == null) userPaginationDto.setPageSize(Constants.DEFAULT_PAGE_SIZE);
         return userDao.findUsers(userPaginationDto);
+    }
+
+    @Override
+    public void deleteById(Long id) throws UserIdNotFoundException {
+        User user = userRepository.findOne(id);
+        if (user == null) throw new UserIdNotFoundException();
+        userRepository.delete(user);
     }
 
     private String getUserFromSecurityContext() {

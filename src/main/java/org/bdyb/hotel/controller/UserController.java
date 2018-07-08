@@ -8,6 +8,7 @@ import org.bdyb.hotel.exceptions.badRequest.SearchFieldNotExistingException;
 import org.bdyb.hotel.exceptions.badRequest.SortFieldNotExistingException;
 import org.bdyb.hotel.exceptions.conflict.UserAlreadyExistsConflictException;
 import org.bdyb.hotel.exceptions.notFound.RoleNotFoundException;
+import org.bdyb.hotel.exceptions.notFound.UserIdNotFoundException;
 import org.bdyb.hotel.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,6 +29,12 @@ public class UserController {
     @PostMapping
     public ResponseEntity<Void> registerUser(@RequestBody RegisterDto registerDto) throws UserAlreadyExistsConflictException, RoleNotFoundException {
         userService.registerUser(registerDto);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<Void> deleteUser(@PathVariable("id") Long id) throws UserIdNotFoundException {
+        userService.deleteById(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }

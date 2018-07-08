@@ -8,9 +8,12 @@ import org.bdyb.hotel.exceptions.badRequest.SearchFieldNotExistingException;
 import org.bdyb.hotel.exceptions.badRequest.SortFieldNotExistingException;
 import org.bdyb.hotel.exceptions.conflict.UserAlreadyExistsConflictException;
 import org.bdyb.hotel.exceptions.notFound.RoleNotFoundException;
+import org.bdyb.hotel.exceptions.notFound.UserIdNotFoundException;
 
 public interface UserService {
 
     User registerUser (RegisterDto registerDto) throws UserAlreadyExistsConflictException, RoleNotFoundException;
     UserPaginationResponseDto searchUsers(UserPaginationDto userPaginationDto) throws SearchFieldNotExistingException, SortFieldNotExistingException;
+
+    void deleteById(Long id) throws UserIdNotFoundException;
 }

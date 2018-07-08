@@ -13,8 +13,8 @@ public class InitUsers {
 
     private static final String EMAIL = "test@test.pl";
     private static final String PASSWORD = "123456";
-    private static final String FIRST_NAME = "Stefan";
-    private static final String LAST_NAME = "Czerczesow";
+    private static final String FIRST_NAME = "Volodymyr";
+    private static final String LAST_NAME = "Putin";
 
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
