@@ -56,10 +56,10 @@ public class UserDao {
         }
 
         long totalCount = userRepository.count();
+        long totalPages = ((totalCount - 1) / userPaginationDto.getPageSize()) + 1;
+        long currentPage = userPaginationDto.getCurrentPage() > totalPages ? totalPages : userPaginationDto.getCurrentPage();
 
-        long startingPosition = (totalCount / userPaginationDto.getPageSize()) *
-                (userPaginationDto.getCurrentPage() - 1) * userPaginationDto.getPageSize();
-
+        long startingPosition = (currentPage - 1) * userPaginationDto.getPageSize();
 
         List<UserDto> resultList = entityManager.createQuery(query)
                 .setFirstResult((int) startingPosition)
@@ -70,8 +70,8 @@ public class UserDao {
                 .collect(Collectors.toList());
 
         return UserPaginationResponseDto.builder()
-                .currentPage(Long.valueOf(userPaginationDto.getCurrentPage()))
-                .totalPages((totalCount / userPaginationDto.getPageSize()) + 1)
+                .currentPage(currentPage)
+                .totalPages(totalPages)
                 .totalUsers(totalCount)
                 .users(resultList)
                 .build();

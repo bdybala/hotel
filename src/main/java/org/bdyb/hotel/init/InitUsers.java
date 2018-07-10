@@ -20,14 +20,16 @@ public class InitUsers {
     private final RoleRepository roleRepository;
 
     public void init() {
-        if (!userRepository.existsByEmail(EMAIL)) {
-            User user = new User();
-            user.setEmail(EMAIL);
-            user.setPassword(PASSWORD);
-            user.setFirstName(FIRST_NAME);
-            user.setLastName(LAST_NAME);
-            user.setRole(roleRepository.findByName(RoleNameEnum.ROLE_ADMINISTRATOR).get());
-            userRepository.save(user);
+        for (int i = 0; i < 10; i++) {
+            if (!userRepository.existsByEmail(i + EMAIL)) {
+                User user = new User();
+                user.setEmail(i + EMAIL);
+                user.setPassword(PASSWORD);
+                user.setFirstName(FIRST_NAME);
+                user.setLastName(LAST_NAME);
+                user.setRole(roleRepository.findByName(RoleNameEnum.ROLE_ADMINISTRATOR).get());
+                userRepository.save(user);
+            }
         }
     }
 }
