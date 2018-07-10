@@ -22,8 +22,10 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping
-    public ResponseEntity<UserPaginationResponseDto> getAllUsers() throws SearchFieldNotExistingException, SortFieldNotExistingException {
-        return new ResponseEntity<>(userService.searchUsers(new UserPaginationDto()), HttpStatus.OK);
+    public ResponseEntity<UserPaginationResponseDto> getAllUsers(UserPaginationDto userPaginationDto) throws SearchFieldNotExistingException, SortFieldNotExistingException {
+        return new ResponseEntity<>(
+                userService.searchUsers(userPaginationDto != null ? userPaginationDto : new UserPaginationDto()),
+                HttpStatus.OK);
     }
 
     @PostMapping
