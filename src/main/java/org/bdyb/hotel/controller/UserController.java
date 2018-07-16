@@ -21,14 +21,14 @@ public class UserController {
 
     private final UserService userService;
 
-    @GetMapping
-    public ResponseEntity<UserPaginationResponseDto> getAllUsers(UserPaginationDto userPaginationDto) throws SearchFieldNotExistingException, SortFieldNotExistingException {
+    @PostMapping(value = "/search")
+    public ResponseEntity<UserPaginationResponseDto> getAllUsers(@RequestBody UserPaginationDto userPaginationDto) throws SearchFieldNotExistingException, SortFieldNotExistingException {
         return new ResponseEntity<>(
                 userService.searchUsers(userPaginationDto != null ? userPaginationDto : new UserPaginationDto()),
                 HttpStatus.OK);
     }
 
-    @PostMapping
+    @PostMapping(value = "/register")
     public ResponseEntity<Void> registerUser(@RequestBody RegisterDto registerDto) throws UserAlreadyExistsConflictException, RoleNotFoundException {
         userService.registerUser(registerDto);
         return new ResponseEntity<>(HttpStatus.OK);

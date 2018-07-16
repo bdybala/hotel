@@ -134,7 +134,7 @@ public class UserIntegrationTest {
         user.setPassword(PASSWORD);
         user.setFirstName(FIRST_NAME);
         user.setLastName(LAST_NAME);
-        user.setRole(roleRepository.findByName(RoleNameEnum.ROLE_ADMINISTRATOR).get());
+        user.setRole(roleRepository.findByRoleName(RoleNameEnum.ROLE_ADMINISTRATOR).get());
         return user;
     }
 

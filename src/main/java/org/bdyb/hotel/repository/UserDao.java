@@ -2,12 +2,14 @@ package org.bdyb.hotel.repository;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.bdyb.hotel.domain.Role;
 import org.bdyb.hotel.domain.User;
 import org.bdyb.hotel.dto.UserDto;
 import org.bdyb.hotel.dto.UserPaginationResponseDto;
 import org.bdyb.hotel.dto.pagination.SearchFieldDto;
 import org.bdyb.hotel.dto.pagination.SortFieldDto;
 import org.bdyb.hotel.dto.pagination.UserPaginationDto;
+import org.bdyb.hotel.enums.RoleNameEnum;
 import org.bdyb.hotel.exceptions.badRequest.SearchFieldNotExistingException;
 import org.bdyb.hotel.exceptions.badRequest.SortFieldNotExistingException;
 import org.bdyb.hotel.mapper.UserToDtoMapper;
@@ -38,10 +40,12 @@ public class UserDao {
         CriteriaQuery<User> query = cb.createQuery(User.class);
         Root<User> from = query.from(User.class);
 
+        Join<User, Role> joinRoles = from.join("role");
+
         query.select(from);
         if (userPaginationDto.getSearchFields() != null) {
             try {
-                query.where(getSearchPredicates(cb, from, userPaginationDto.getSearchFields()));
+                query.where(getSearchPredicates(cb, from, joinRoles, userPaginationDto.getSearchFields()));
             } catch (IllegalArgumentException e) {
                 throw new SearchFieldNotExistingException();
             }
@@ -78,14 +82,18 @@ public class UserDao {
 
     }
 
-    private Predicate getSearchPredicates(CriteriaBuilder cb, Root<User> from, List<SearchFieldDto> searchFields)
+    private Predicate getSearchPredicates(CriteriaBuilder cb, Root<User> from, Join<User, Role> joinRoles, List<SearchFieldDto> searchFields)
             throws IllegalArgumentException {
         List<Predicate> predicates = new ArrayList<>();
         searchFields.forEach(searchFieldDto -> {
             try {
-                predicates.add(cb.like(from.get(searchFieldDto.getName()), insertPercentageChars(searchFieldDto.getValue())));
+                if (searchFieldDto.getName().equals("roleName")) {
+                    predicates.add(cb.equal(joinRoles.get("name"), RoleNameEnum.valueOf(searchFieldDto.getValue())));
+                } else {
+                    predicates.add(cb.like(from.get(searchFieldDto.getName()), insertPercentageChars(searchFieldDto.getValue())));
+                }
             } catch (IllegalArgumentException e) {
-                log.error("Wrong attribute: " + searchFieldDto.getName());
+                log.error("Wrong attribute: " + searchFieldDto.getName() + " : " + searchFieldDto.getValue());
                 throw e;
             }
         });
