@@ -39,7 +39,6 @@ public class UserDao {
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();
         CriteriaQuery<User> query = cb.createQuery(User.class);
         Root<User> from = query.from(User.class);
-
         Join<User, Role> joinRoles = from.join("role");
 
         query.select(from);
@@ -59,7 +58,7 @@ public class UserDao {
             }
         }
 
-        long totalCount = userRepository.count();
+        long totalCount = entityManager.createQuery(query).getResultList().size();
         long totalPages = ((totalCount - 1) / userPaginationDto.getPageSize()) + 1;
         long currentPage = userPaginationDto.getCurrentPage() > totalPages ? totalPages : userPaginationDto.getCurrentPage();
 
