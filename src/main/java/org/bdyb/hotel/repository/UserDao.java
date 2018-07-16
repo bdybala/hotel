@@ -88,13 +88,13 @@ public class UserDao {
         searchFields.forEach(searchFieldDto -> {
             try {
                 if (searchFieldDto.getName().equals("roleName")) {
+                    predicates.add(cb.equal(joinRoles.get("name"), RoleNameEnum.valueOf(searchFieldDto.getValue())));
+                } else {
                     predicates.add(cb.like(
                             cb.upper(from.get(searchFieldDto.getName())),
                             insertPercentageChars(searchFieldDto.getValue()).toUpperCase()
                             )
                     );
-                } else {
-                    predicates.add(cb.like(from.get(searchFieldDto.getName()), insertPercentageChars(searchFieldDto.getValue())));
                 }
             } catch (IllegalArgumentException e) {
                 log.error("Wrong attribute: " + searchFieldDto.getName() + " : " + searchFieldDto.getValue());
