@@ -3,8 +3,15 @@ package org.bdyb.hotel.services;
 
 import org.bdyb.hotel.domain.Price;
 import org.bdyb.hotel.domain.Room;
+import org.bdyb.hotel.domain.RoomType;
 import org.bdyb.hotel.dto.AvailabilityRequestDto;
 import org.bdyb.hotel.dto.NewRoomDto;
+import org.bdyb.hotel.dto.RoomPaginationResponseDto;
+import org.bdyb.hotel.dto.pagination.PaginationDto;
+import org.bdyb.hotel.dto.pagination.SearchFieldDto;
+import org.bdyb.hotel.dto.pagination.SortFieldDto;
+import org.bdyb.hotel.exceptions.badRequest.SearchFieldNotExistingException;
+import org.bdyb.hotel.exceptions.badRequest.SortFieldNotExistingException;
 import org.bdyb.hotel.exceptions.conflict.RoomAlreadyExistsConflictException;
 import org.bdyb.hotel.exceptions.notFound.RoomTypeNotFoundException;
 import org.bdyb.hotel.repository.PriceRepository;
@@ -18,6 +25,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Sort;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -135,6 +143,64 @@ public class RoomIntegrationTest {
         Assert.assertEquals(1, availableRooms.size());
     }
 
+    @Test(expected = SearchFieldNotExistingException.class)
+    public void searchRoomsNegativeNotExistingSearchField() throws SearchFieldNotExistingException, SortFieldNotExistingException {
+        // given
+
+        // when
+        roomService.searchRooms(prepareSearchPagination(
+                getSearchFieldsNotExisting(),
+                getSortFieldsNotExisting(),
+                1));
+
+        // then
+    }
+
+    @Test(expected = SortFieldNotExistingException.class)
+    public void searchRoomsNegativeNotExistingSortField() throws SearchFieldNotExistingException, SortFieldNotExistingException {
+        // given
+
+        // when
+        roomService.searchRooms(prepareSearchPagination(
+                getSearchFieldsOk(),
+                getSortFieldsNotExisting(),
+                1));
+
+        // then
+    }
+
+    @Test
+    public void searchRoomsPositiveTwoPages() throws SearchFieldNotExistingException, SortFieldNotExistingException {
+        // given
+        roomRepository.deleteAll();
+        int roomsQuantity = 11;
+        prepareRoomEntity(roomsQuantity);
+
+        // when
+        RoomPaginationResponseDto roomPaginationResponseDto = roomService.searchRooms(prepareSearchPagination(
+                getSearchFieldsOk(),
+                getSortFieldsOk(),
+                2
+        ));
+
+        // then
+        Assert.assertNotNull(roomPaginationResponseDto);
+        Assert.assertEquals(roomsQuantity - 10, roomPaginationResponseDto.getRooms().size());
+    }
+
+    private void prepareRoomEntity(int roomsQuantity) {
+        RoomType roomType = roomTypeRepository.findAll().get(0);
+        for (int i = 0; i < roomsQuantity; i++) {
+            roomRepository.save(
+                    Room.builder()
+                            .number(FIRST_ROOM_NUMBER + i)
+                            .maxCapacity(5)
+                            .roomType(roomType)
+                            .build()
+            );
+        }
+    }
+
     private List<Price> preparePricesForRoom(Room savedRoom, Date since, Date upTo) {
         List<Price> prices = new ArrayList<>();
         DateTime start = new DateTime(since).withTimeAtStartOfDay();
@@ -164,5 +230,37 @@ public class RoomIntegrationTest {
         room.setMaxCapacity(5);
         room.setRoomTypeName(roomTypeExisting ? "QUAD" : "elo");
         return room;
+    }
+
+    private PaginationDto prepareSearchPagination(List<SearchFieldDto> searchFields, List<SortFieldDto> sortFields, int page) {
+        PaginationDto paginationDto = new PaginationDto();
+        paginationDto.setCurrentPage(page);
+        paginationDto.setSearchFields(searchFields);
+        paginationDto.setSortFields(sortFields);
+        return paginationDto;
+    }
+
+    private List<SearchFieldDto> getSearchFieldsNotExisting() {
+        List<SearchFieldDto> searchFields = new ArrayList<>();
+        searchFields.add(new SearchFieldDto("roomName", "number"));
+        return searchFields;
+    }
+
+    private List<SearchFieldDto> getSearchFieldsOk() {
+        List<SearchFieldDto> searchFields = new ArrayList<>();
+        searchFields.add(new SearchFieldDto("number", FIRST_ROOM_NUMBER));
+        return searchFields;
+    }
+
+    private List<SortFieldDto> getSortFieldsNotExisting() {
+        List<SortFieldDto> sortFields = new ArrayList<>();
+        sortFields.add(new SortFieldDto("roomName", Sort.Direction.ASC));
+        return sortFields;
+    }
+
+    private List<SortFieldDto> getSortFieldsOk() {
+        List<SortFieldDto> sortFields = new ArrayList<>();
+        sortFields.add(new SortFieldDto("number", Sort.Direction.ASC));
+        return sortFields;
     }
 }
