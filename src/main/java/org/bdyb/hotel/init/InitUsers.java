@@ -27,7 +27,7 @@ public class InitUsers {
                 user.setPassword(PASSWORD);
                 user.setFirstName(FIRST_NAME);
                 user.setLastName(LAST_NAME);
-                user.setRole(roleRepository.findByName(RoleNameEnum.ROLE_ADMINISTRATOR).get());
+                user.setRole(roleRepository.findByName(RoleNameEnum.ADMINISTRATOR).get());
                 userRepository.save(user);
             }
         }

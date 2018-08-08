@@ -134,7 +134,7 @@ public class UserIntegrationTest {
         user.setPassword(PASSWORD);
         user.setFirstName(FIRST_NAME);
         user.setLastName(LAST_NAME);
-        user.setRole(roleRepository.findByRoleName(RoleNameEnum.ROLE_ADMINISTRATOR).get());
+        user.setRole(roleRepository.findByName(RoleNameEnum.ADMINISTRATOR).get());
         return user;
     }
 
@@ -144,7 +144,7 @@ public class UserIntegrationTest {
         registerDto.setFirstName(FIRST_NAME);
         registerDto.setLastName(LAST_NAME);
         registerDto.setPassword(PASSWORD);
-        registerDto.setRoleNameEnum(withRole ? RoleNameEnum.ROLE_ADMINISTRATOR : null);
+        registerDto.setRoleNameEnum(withRole ? RoleNameEnum.ADMINISTRATOR : null);
         return registerDto;
     }
 

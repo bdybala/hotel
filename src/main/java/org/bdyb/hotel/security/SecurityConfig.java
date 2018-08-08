@@ -1,5 +1,6 @@
 package org.bdyb.hotel.security;
 
+import org.bdyb.hotel.enums.RoleNameEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -19,7 +20,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        auth.inMemoryAuthentication().withUser("admin").password("123456").roles("ADMIN");
+        auth.inMemoryAuthentication().withUser("admin").password("123456").roles(RoleNameEnum.ADMINISTRATOR.toString());
     }
 
 
