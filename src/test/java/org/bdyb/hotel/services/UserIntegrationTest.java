@@ -5,7 +5,7 @@ import org.bdyb.hotel.dto.RegisterDto;
 import org.bdyb.hotel.dto.UserPaginationResponseDto;
 import org.bdyb.hotel.dto.pagination.SearchFieldDto;
 import org.bdyb.hotel.dto.pagination.SortFieldDto;
-import org.bdyb.hotel.dto.pagination.UserPaginationDto;
+import org.bdyb.hotel.dto.pagination.PaginationDto;
 import org.bdyb.hotel.enums.RoleNameEnum;
 import org.bdyb.hotel.exceptions.badRequest.SearchFieldNotExistingException;
 import org.bdyb.hotel.exceptions.badRequest.SortFieldNotExistingException;
@@ -148,8 +148,8 @@ public class UserIntegrationTest {
         return registerDto;
     }
 
-    private UserPaginationDto prepareSearchPagination(List<SearchFieldDto> searchFields, List<SortFieldDto> sortFields, int page) {
-        UserPaginationDto paginationDto = new UserPaginationDto();
+    private PaginationDto prepareSearchPagination(List<SearchFieldDto> searchFields, List<SortFieldDto> sortFields, int page) {
+        PaginationDto paginationDto = new PaginationDto();
         paginationDto.setCurrentPage(page);
         paginationDto.setSearchFields(searchFields);
         paginationDto.setSortFields(sortFields);

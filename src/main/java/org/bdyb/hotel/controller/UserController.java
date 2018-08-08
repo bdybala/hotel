@@ -3,7 +3,7 @@ package org.bdyb.hotel.controller;
 import lombok.RequiredArgsConstructor;
 import org.bdyb.hotel.dto.RegisterDto;
 import org.bdyb.hotel.dto.UserPaginationResponseDto;
-import org.bdyb.hotel.dto.pagination.UserPaginationDto;
+import org.bdyb.hotel.dto.pagination.PaginationDto;
 import org.bdyb.hotel.exceptions.badRequest.SearchFieldNotExistingException;
 import org.bdyb.hotel.exceptions.badRequest.SortFieldNotExistingException;
 import org.bdyb.hotel.exceptions.conflict.UserAlreadyExistsConflictException;
@@ -22,9 +22,9 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping(value = "/search")
-    public ResponseEntity<UserPaginationResponseDto> getAllUsers(@RequestBody UserPaginationDto userPaginationDto) throws SearchFieldNotExistingException, SortFieldNotExistingException {
+    public ResponseEntity<UserPaginationResponseDto> getAllUsers(@RequestBody PaginationDto userPaginationDto) throws SearchFieldNotExistingException, SortFieldNotExistingException {
         return new ResponseEntity<>(
-                userService.searchUsers(userPaginationDto != null ? userPaginationDto : new UserPaginationDto()),
+                userService.searchUsers(userPaginationDto != null ? userPaginationDto : new PaginationDto()),
                 HttpStatus.OK);
     }
 

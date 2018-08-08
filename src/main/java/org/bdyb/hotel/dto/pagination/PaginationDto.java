@@ -11,7 +11,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserPaginationDto {
+public class PaginationDto {
 
     private Integer currentPage;
     private Integer pageSize;

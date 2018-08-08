@@ -1,10 +1,15 @@
 package org.bdyb.hotel.service.impl;
 
 import lombok.RequiredArgsConstructor;
+import org.bdyb.hotel.config.Constants;
 import org.bdyb.hotel.domain.Room;
 import org.bdyb.hotel.domain.RoomType;
 import org.bdyb.hotel.dto.AvailabilityRequestDto;
 import org.bdyb.hotel.dto.NewRoomDto;
+import org.bdyb.hotel.dto.RoomPaginationResponseDto;
+import org.bdyb.hotel.dto.pagination.PaginationDto;
+import org.bdyb.hotel.exceptions.badRequest.SearchFieldNotExistingException;
+import org.bdyb.hotel.exceptions.badRequest.SortFieldNotExistingException;
 import org.bdyb.hotel.exceptions.conflict.RoomAlreadyExistsConflictException;
 import org.bdyb.hotel.exceptions.notFound.RoomTypeNotFoundException;
 import org.bdyb.hotel.repository.RoomDao;
@@ -45,5 +50,12 @@ public class RoomServiceImpl implements RoomService {
                 availabilityRequestDto.getMaxCapacity(),
                 availabilityRequestDto.getSince(),
                 availabilityRequestDto.getUpTo());
+    }
+
+    @Override
+    public RoomPaginationResponseDto searchRooms(PaginationDto roomPaginationDto) throws SearchFieldNotExistingException, SortFieldNotExistingException {
+        if (roomPaginationDto.getCurrentPage() == null) roomPaginationDto.setCurrentPage(1);
+        if (roomPaginationDto.getPageSize() == null) roomPaginationDto.setPageSize(Constants.DEFAULT_PAGE_SIZE);
+        return roomDao.searchRooms(roomPaginationDto);
     }
 }

@@ -6,13 +6,14 @@ import org.bdyb.hotel.domain.Role;
 import org.bdyb.hotel.domain.User;
 import org.bdyb.hotel.dto.UserDto;
 import org.bdyb.hotel.dto.UserPaginationResponseDto;
+import org.bdyb.hotel.dto.pagination.PaginationDto;
 import org.bdyb.hotel.dto.pagination.SearchFieldDto;
 import org.bdyb.hotel.dto.pagination.SortFieldDto;
-import org.bdyb.hotel.dto.pagination.UserPaginationDto;
 import org.bdyb.hotel.enums.RoleNameEnum;
 import org.bdyb.hotel.exceptions.badRequest.SearchFieldNotExistingException;
 import org.bdyb.hotel.exceptions.badRequest.SortFieldNotExistingException;
 import org.bdyb.hotel.mapper.UserToDtoMapper;
+import org.bdyb.hotel.utils.MyStringUtils;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -35,7 +36,7 @@ public class UserDao {
     private final UserToDtoMapper userToDtoMapper;
 
     @Transactional
-    public UserPaginationResponseDto findUsers(UserPaginationDto userPaginationDto) throws SearchFieldNotExistingException, SortFieldNotExistingException {
+    public UserPaginationResponseDto findUsers(PaginationDto userPaginationDto) throws SearchFieldNotExistingException, SortFieldNotExistingException {
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();
         CriteriaQuery<User> query = cb.createQuery(User.class);
         Root<User> from = query.from(User.class);
@@ -89,9 +90,10 @@ public class UserDao {
                 if (searchFieldDto.getName().equals("roleName")) {
                     predicates.add(cb.equal(joinRoles.get("name"), RoleNameEnum.valueOf(searchFieldDto.getValue())));
                 } else {
-                    predicates.add(cb.like(
-                            cb.upper(from.get(searchFieldDto.getName())),
-                            insertPercentageChars(searchFieldDto.getValue()).toUpperCase()
+                    predicates.add(
+                            cb.like(
+                                    cb.upper(from.get(searchFieldDto.getName())),
+                                    MyStringUtils.insertPercentageChars(searchFieldDto.getValue()).toUpperCase()
                             )
                     );
                 }
@@ -101,16 +103,6 @@ public class UserDao {
             }
         });
         return cb.and(predicates.toArray(new Predicate[predicates.size()]));
-    }
-
-    private String insertPercentageChars(String value) {
-        if (!value.startsWith("%")) {
-            value = "%" + value;
-        }
-        if (!value.endsWith("%")) {
-            value = value + "%";
-        }
-        return value;
     }
 
     private List<Order> getOrderPredicates(CriteriaBuilder cb, Root<User> from, List<SortFieldDto> sortFields) {

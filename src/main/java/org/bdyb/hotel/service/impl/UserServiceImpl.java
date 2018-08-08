@@ -6,7 +6,7 @@ import org.bdyb.hotel.domain.Role;
 import org.bdyb.hotel.domain.User;
 import org.bdyb.hotel.dto.RegisterDto;
 import org.bdyb.hotel.dto.UserPaginationResponseDto;
-import org.bdyb.hotel.dto.pagination.UserPaginationDto;
+import org.bdyb.hotel.dto.pagination.PaginationDto;
 import org.bdyb.hotel.exceptions.badRequest.SearchFieldNotExistingException;
 import org.bdyb.hotel.exceptions.badRequest.SortFieldNotExistingException;
 import org.bdyb.hotel.exceptions.conflict.UserAlreadyExistsConflictException;
@@ -45,7 +45,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserPaginationResponseDto searchUsers(UserPaginationDto userPaginationDto) throws SearchFieldNotExistingException, SortFieldNotExistingException {
+    public UserPaginationResponseDto searchUsers(PaginationDto userPaginationDto) throws SearchFieldNotExistingException, SortFieldNotExistingException {
         if (userPaginationDto.getCurrentPage() == null) userPaginationDto.setCurrentPage(1);
         if (userPaginationDto.getPageSize() == null) userPaginationDto.setPageSize(Constants.DEFAULT_PAGE_SIZE);
         return userDao.findUsers(userPaginationDto);
