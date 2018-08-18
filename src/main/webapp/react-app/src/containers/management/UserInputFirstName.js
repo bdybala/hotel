@@ -2,14 +2,14 @@ import React, { Component } from 'react';
 
 import { FormGroup, ControlLabel, HelpBlock, FormControl, InputGroup } from 'react-bootstrap';
 
-class UserLastNameInput extends Component {
+class UserInputFirstName extends Component {
 	constructor(props) {
 		super(props);
 		this.handleChange = this.handleChange.bind(this);
 	}
 
 	getValidationState() {
-		return this.props.validate('lastName');
+		return this.props.validate('firstName');
 	}
 
 	handleChange(e) {
@@ -19,24 +19,24 @@ class UserLastNameInput extends Component {
 	render() {
 		return (
 			<FormGroup 
-				controlId="formLastNameInput"
+				controlId="formFirstNameInput"
 				validationState={this.getValidationState()}
 			>
-			<ControlLabel>Wpisz nazwisko: </ControlLabel>
+			<ControlLabel>Wpisz imię: </ControlLabel>
 			<InputGroup>
 				<InputGroup.Addon>Aa</InputGroup.Addon>
 				<FormControl
 					type="text"
 					value={this.props.value}
-					placeholder="Kowalski"
+					placeholder="Jan"
 					onChange={this.handleChange}
 				/>
 				<FormControl.Feedback />
 			</InputGroup>
-			<HelpBlock>Nazwisko powinno mieć conajmniej 3 znaki.</HelpBlock>
+			<HelpBlock>Imię powinno mieć conajmniej 3 znaki.</HelpBlock>
 			</FormGroup>
 		);
 	}
 }
 
-export default UserLastNameInput;
+export default UserInputFirstName;

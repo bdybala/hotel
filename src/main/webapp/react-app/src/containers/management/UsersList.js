@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import './UsersList.css';
 
 import { Table, Glyphicon, Button } from 'react-bootstrap';
 

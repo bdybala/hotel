@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { FormGroup, ControlLabel, FormControl, InputGroup, Glyphicon } from 'react-bootstrap';
 
 
-class UserRoleInput extends Component {
+class UserInputRole extends Component {
 	constructor(props) {
 		super(props)
 		this.handleChange = this.handleChange.bind(this);
@@ -45,4 +45,4 @@ class UserRoleInput extends Component {
 
 }
 
-export default UserRoleInput;
+export default UserInputRole;

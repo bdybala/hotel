@@ -2,11 +2,11 @@ import React, { Component } from 'react';
 
 import { Panel, Form, Glyphicon } from 'react-bootstrap';
 
-import UserPasswordInput from './UserPasswordInput';
-import UserFirstNameInput from './UserFirstNameInput';
-import UserLastNameInput from './UserLastNameInput';
-import UserEmailInput from './UserEmailInput';
-import UserRoleInput from './UserRoleInput';
+import UserInputPassword from './UserInputPassword';
+import UserInputFirstName from './UserInputFirstName';
+import UserInputLastName from './UserInputLastName';
+import UserInputEmail from './UserInputEmail';
+import UserInputRole from './UserInputRole';
 
 import './UserRegisterPanel.css';
 
@@ -208,11 +208,11 @@ class UserRegisterPanel extends Component {
 					 </Panel.Heading>
 						<Panel.Body collapsible>
 							<Form>
-								<UserFirstNameInput save={this.setFirstName} validate={this.getValidationState} />
-								<UserLastNameInput save={this.setLastName} validate={this.getValidationState} />
-								<UserEmailInput save={this.setEmail} validate={this.getValidationState} />
-								<UserPasswordInput save={this.setPassword} validate={this.getValidationState} />
-								<UserRoleInput 
+								<UserInputFirstName save={this.setFirstName} validate={this.getValidationState} />
+								<UserInputLastName save={this.setLastName} validate={this.getValidationState} />
+								<UserInputEmail save={this.setEmail} validate={this.getValidationState} />
+								<UserInputPassword save={this.setPassword} validate={this.getValidationState} />
+								<UserInputRole 
 									save={this.setRole} 
 									validate={this.getValidationState} 
 									showErrorModal={this.props.showErrorModal} 

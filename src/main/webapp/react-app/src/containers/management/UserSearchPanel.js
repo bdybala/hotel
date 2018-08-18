@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 
 import { Form, ControlLabel, FormControl, Glyphicon, Panel } from 'react-bootstrap';
 
-import './UserSearchPanel.css';
-
 
 class UserSearchPanel extends Component {
 	constructor(props) {

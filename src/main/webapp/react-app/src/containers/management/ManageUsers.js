@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import './ManageUsers.css';
 
 import { Button, Modal } from 'react-bootstrap';
 

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import { FormGroup, ControlLabel, HelpBlock, FormControl, InputGroup } from 'react-bootstrap';
 
-class UserEmailInput extends Component {
+class UserInputEmail extends Component {
 	constructor(props) {
 		super(props);
 		this.handleChange = this.handleChange.bind(this);
@@ -36,4 +36,4 @@ class UserEmailInput extends Component {
 	}
 }
 
-export default UserEmailInput;
+export default UserInputEmail;
