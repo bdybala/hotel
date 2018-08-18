@@ -49,7 +49,7 @@ class ManageUsers extends Component {
 		});
 	}
 	changePage(page) {
-		this.setState({ isLoadingUsers: true })
+		this.setState({ isLoadingUsers: true });
 		axios.post(API + FIND_USERS, {
 			currentPage: page,
 			searchFields: this.state.searchFields,
@@ -68,7 +68,7 @@ class ManageUsers extends Component {
 	}
 	
 	getRoles() {
-		this.setState({ isLoadingRoles: true })
+		this.setState({ isLoadingRoles: true });
 		axios.get(API + FIND_ROLES)
 		.then(response => this.setState({ roles: response.data, isLoadingRoles: false }))
 		.catch(error => {
@@ -78,7 +78,7 @@ class ManageUsers extends Component {
 	}
 
 	refreshUsersList() {
-		this.setState({ isLoadingUsers: true })
+		this.setState({ isLoadingUsers: true });
 		axios.post(API + FIND_USERS, {
 				currentPage: this.state.currentPage,
 				searchFields: this.state.searchFields,
@@ -150,8 +150,6 @@ class ManageUsers extends Component {
 		return (
 			<div className='ManageUsers'>
 				<UserRegisterPanel
-					showErrorModal={this.showErrorModal} 
-					fields={this.state.fields} 
 					registerUser={this.registerUser}
 					roles={this.state.roles} />
 

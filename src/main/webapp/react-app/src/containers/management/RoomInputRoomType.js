@@ -3,12 +3,12 @@ import React, {Component} from 'react';
 import {ControlLabel, FormControl, FormGroup, Glyphicon, InputGroup} from 'react-bootstrap';
 
 
-class UserInputRole extends Component {
+class RoomInputRoomType extends Component {
     constructor(props) {
         super(props);
         this.handleChange = this.handleChange.bind(this);
         this.state = {
-            roles: [],
+            roomTypes: [],
         }
     }
 
@@ -17,12 +17,12 @@ class UserInputRole extends Component {
     }
 
     getValidationState() {
-        return this.props.validate('role');
+        return this.props.validate('roomTypeName');
     }
 
     render() {
-        const listOfRoles = this.props.roles.map(function (item) {
-            return <option key={item} value={item}>{item}</option>
+        var listOfRoomTypes = this.props.roomTypes.map(function(item) {
+            return <option key={item.name} value={item.name}>{item.description}</option>
         });
 
         return (
@@ -30,9 +30,9 @@ class UserInputRole extends Component {
                 <ControlLabel>Wybierz rolę: </ControlLabel>
                 <InputGroup>
                     <InputGroup.Addon><Glyphicon glyph="glyphicon glyphicon-menu-hamburger"/></InputGroup.Addon>
-                    <FormControl componentClass="select" placeholder="Wybierz rolę" onChange={this.handleChange}>
+                    <FormControl componentClass="select" placeholder="Wybierz typ pokoju" onChange={this.handleChange}>
                         <option value='null' key='null'>---</option>
-                        {listOfRoles}
+                        {listOfRoomTypes}
                     </FormControl>
                 </InputGroup>
             </FormGroup>
@@ -40,4 +40,4 @@ class UserInputRole extends Component {
     }
 }
 
-export default UserInputRole;
+export default RoomInputRoomType;

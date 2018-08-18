@@ -11,6 +11,7 @@ import org.bdyb.hotel.dto.pagination.PaginationDto;
 import org.bdyb.hotel.exceptions.badRequest.SearchFieldNotExistingException;
 import org.bdyb.hotel.exceptions.badRequest.SortFieldNotExistingException;
 import org.bdyb.hotel.exceptions.conflict.RoomAlreadyExistsConflictException;
+import org.bdyb.hotel.exceptions.notFound.RoomIdNotFoundException;
 import org.bdyb.hotel.exceptions.notFound.RoomTypeNotFoundException;
 import org.bdyb.hotel.repository.RoomDao;
 import org.bdyb.hotel.repository.RoomRepository;
@@ -57,5 +58,12 @@ public class RoomServiceImpl implements RoomService {
         if (roomPaginationDto.getCurrentPage() == null) roomPaginationDto.setCurrentPage(1);
         if (roomPaginationDto.getPageSize() == null) roomPaginationDto.setPageSize(Constants.DEFAULT_PAGE_SIZE);
         return roomDao.searchRooms(roomPaginationDto);
+    }
+
+    @Override
+    public void deleteById(Long id) throws RoomIdNotFoundException {
+        Room room = roomRepository.findOne(id);
+        if (room == null) throw new RoomIdNotFoundException();
+        roomRepository.delete(room);
     }
 }

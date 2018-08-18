@@ -12,7 +12,7 @@ class RoomsList extends Component {
 	}
 
 	handleRemoveClick(id) {
-		this.props.deleteUser(id);
+		this.props.deleteRoom(id);
 	}
 
 	changePage(page) {
@@ -26,7 +26,7 @@ class RoomsList extends Component {
 			return <p> Loading... </p>;
 		}
 
-		if (this.props.users) {
+		if (this.props.rooms) {
 			var listOfRooms = this.props.rooms.map((item, i) => {
 				return <tr key={item.id}>
 							<th>{i+1}</th>
