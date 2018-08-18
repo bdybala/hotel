@@ -7,10 +7,7 @@ import org.bdyb.hotel.exceptions.badRequest.SortFieldNotExistingException;
 import org.bdyb.hotel.service.RoomService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -19,7 +16,7 @@ public class RoomController {
 
     private final RoomService roomService;
 
-    @GetMapping(value = "/search")
+    @PostMapping(value = "/search")
     public ResponseEntity searchRooms(@RequestBody PaginationDto roomPaginationDto) throws SearchFieldNotExistingException, SortFieldNotExistingException {
         return new ResponseEntity<>(
                 roomService.searchRooms(roomPaginationDto != null ? roomPaginationDto : new PaginationDto()),
