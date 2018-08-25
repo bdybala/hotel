@@ -2,6 +2,7 @@ package org.bdyb.hotel.services;
 
 
 import org.bdyb.hotel.domain.Price;
+import org.bdyb.hotel.domain.Reservation;
 import org.bdyb.hotel.domain.Room;
 import org.bdyb.hotel.domain.RoomType;
 import org.bdyb.hotel.dto.AvailabilityRequestDto;
@@ -15,6 +16,7 @@ import org.bdyb.hotel.exceptions.badRequest.SortFieldNotExistingException;
 import org.bdyb.hotel.exceptions.conflict.RoomAlreadyExistsConflictException;
 import org.bdyb.hotel.exceptions.notFound.RoomTypeNotFoundException;
 import org.bdyb.hotel.repository.PriceRepository;
+import org.bdyb.hotel.repository.ReservationRepository;
 import org.bdyb.hotel.repository.RoomRepository;
 import org.bdyb.hotel.repository.RoomTypeRepository;
 import org.bdyb.hotel.service.RoomService;
@@ -50,6 +52,8 @@ public class RoomIntegrationTest {
     private RoomTypeRepository roomTypeRepository;
     @Autowired
     private PriceRepository priceRepository;
+    @Autowired
+    private ReservationRepository reservationRepository;
 
     @Test(expected = RoomAlreadyExistsConflictException.class)
     public void createNewRoomNegativeNumberExists() throws RoomTypeNotFoundException, RoomAlreadyExistsConflictException {
@@ -141,6 +145,47 @@ public class RoomIntegrationTest {
         // then
         Assert.assertNotNull(availableRooms);
         Assert.assertEquals(1, availableRooms.size());
+    }
+
+    @Test
+    public void findAvailableRoomsPositiveReservedFiltered() throws RoomTypeNotFoundException {
+        // given
+        RoomType roomType = roomTypeRepository.findAll().get(0);
+        Room freeRoom = roomRepository.save(TestUtils.getRoomBuilder()
+                .withRoomNumber(FIRST_ROOM_NUMBER)
+                .withMaxCapacity(5)
+                .withRoomType(roomType)
+                .build());
+        Room reservedRoom = roomRepository.save(TestUtils.getRoomBuilder()
+                .withRoomNumber(SECOND_ROOM_NUMBER)
+                .withMaxCapacity(5)
+                .withRoomType(roomType)
+                .build());
+        priceRepository.save(preparePricesForRoom(freeRoom, TestUtils.THREE_DAYS_AGO, TestUtils.IN_FOUR_DAYS));
+        priceRepository.save(preparePricesForRoom(reservedRoom, TestUtils.THREE_DAYS_AGO, TestUtils.IN_FOUR_DAYS));
+        prepareReservation(reservedRoom, TestUtils.IN_THREE_DAYS, TestUtils.IN_FOUR_DAYS);
+
+        // when
+        List<Room> availableRoomsInTwoDays = roomService.findAvailableRooms(
+                prepareAvailabilityRequest(roomType.getName(), TestUtils.IN_AN_HOUR, TestUtils.IN_TWO_DAYS));
+        List<Room> availableRoomsInFourDays = roomService.findAvailableRooms(
+                prepareAvailabilityRequest(roomType.getName(), TestUtils.IN_AN_HOUR, TestUtils.IN_FOUR_DAYS));
+
+        // then
+        Assert.assertEquals(2, availableRoomsInTwoDays.size());
+        Assert.assertEquals(1, availableRoomsInFourDays.size());
+    }
+
+    private Reservation prepareReservation(Room room, Date since, Date upTo) {
+        return reservationRepository.save(Reservation.builder()
+                .since(since)
+                .upTo(upTo)
+                .firstName("FIRSTNAME")
+                .lastName("LASTNAME")
+                .email("EMAIL")
+                .phoneNumber("514514514")
+                .room(room)
+                .build());
     }
 
     @Test(expected = SearchFieldNotExistingException.class)
