@@ -8,6 +8,7 @@ import org.bdyb.hotel.domain.RoomType;
 import org.bdyb.hotel.dto.AvailabilityRequestDto;
 import org.bdyb.hotel.dto.NewRoomDto;
 import org.bdyb.hotel.dto.RoomPaginationResponseDto;
+import org.bdyb.hotel.dto.pagination.AvailabilityResponseDto;
 import org.bdyb.hotel.dto.pagination.PaginationDto;
 import org.bdyb.hotel.dto.pagination.SearchFieldDto;
 import org.bdyb.hotel.dto.pagination.SortFieldDto;
@@ -120,12 +121,12 @@ public class RoomIntegrationTest {
         List<Price> savedPrices = priceRepository.save(preparePricesForRoom(savedRoom, TestUtils.TOMORROW, TestUtils.IN_TWO_DAYS));
 
         // when
-        List<Room> availableRooms = roomService.findAvailableRooms(
+        AvailabilityResponseDto availableRooms = roomService.findAvailableRooms(
                 prepareAvailabilityRequest(savedRoom.getRoomType().getName(), TestUtils.TOMORROW, TestUtils.IN_THREE_DAYS));
 
         // then
-        Assert.assertNotNull(availableRooms);
-        Assert.assertEquals(0, availableRooms.size());
+        Assert.assertNotNull(availableRooms.getAvailableRooms());
+        Assert.assertEquals(0, availableRooms.getAvailableRooms().size());
     }
 
     @Test
@@ -139,12 +140,12 @@ public class RoomIntegrationTest {
         List<Price> savedPrices = priceRepository.save(preparePricesForRoom(savedRoom, TestUtils.TOMORROW, TestUtils.IN_THREE_DAYS));
 
         // when
-        List<Room> availableRooms = roomService.findAvailableRooms(
+        AvailabilityResponseDto availableRooms = roomService.findAvailableRooms(
                 prepareAvailabilityRequest(savedRoom.getRoomType().getName(), TestUtils.TOMORROW, TestUtils.IN_TWO_DAYS));
 
         // then
-        Assert.assertNotNull(availableRooms);
-        Assert.assertEquals(1, availableRooms.size());
+        Assert.assertNotNull(availableRooms.getAvailableRooms());
+        Assert.assertEquals(1, availableRooms.getAvailableRooms().size());
     }
 
     @Test
@@ -161,19 +162,19 @@ public class RoomIntegrationTest {
                 .withMaxCapacity(5)
                 .withRoomType(roomType)
                 .build());
-        priceRepository.save(preparePricesForRoom(freeRoom, TestUtils.THREE_DAYS_AGO, TestUtils.IN_FOUR_DAYS));
-        priceRepository.save(preparePricesForRoom(reservedRoom, TestUtils.THREE_DAYS_AGO, TestUtils.IN_FOUR_DAYS));
-        prepareReservation(reservedRoom, TestUtils.IN_THREE_DAYS, TestUtils.IN_FOUR_DAYS);
+        List<Price> firstRoomPrices = priceRepository.save(preparePricesForRoom(freeRoom, TestUtils.THREE_DAYS_AGO, TestUtils.IN_FOUR_DAYS));
+        List<Price> secondroomPrices = priceRepository.save(preparePricesForRoom(reservedRoom, TestUtils.THREE_DAYS_AGO, TestUtils.IN_FOUR_DAYS));
+        Reservation reservation = prepareReservation(reservedRoom, TestUtils.IN_THREE_DAYS, TestUtils.IN_FOUR_DAYS);
 
         // when
-        List<Room> availableRoomsInTwoDays = roomService.findAvailableRooms(
+        AvailabilityResponseDto availableRoomsInTwoDays = roomService.findAvailableRooms(
                 prepareAvailabilityRequest(roomType.getName(), TestUtils.IN_AN_HOUR, TestUtils.IN_TWO_DAYS));
-        List<Room> availableRoomsInFourDays = roomService.findAvailableRooms(
+        AvailabilityResponseDto availableRoomsInFourDays = roomService.findAvailableRooms(
                 prepareAvailabilityRequest(roomType.getName(), TestUtils.IN_AN_HOUR, TestUtils.IN_FOUR_DAYS));
 
         // then
-        Assert.assertEquals(2, availableRoomsInTwoDays.size());
-        Assert.assertEquals(1, availableRoomsInFourDays.size());
+        Assert.assertEquals(2, availableRoomsInTwoDays.getAvailableRooms().size());
+        Assert.assertEquals(1, availableRoomsInFourDays.getAvailableRooms().size());
     }
 
     private Reservation prepareReservation(Room room, Date since, Date upTo) {
@@ -249,7 +250,7 @@ public class RoomIntegrationTest {
     private List<Price> preparePricesForRoom(Room savedRoom, Date since, Date upTo) {
         List<Price> prices = new ArrayList<>();
         DateTime start = new DateTime(since).withTimeAtStartOfDay();
-        DateTime end = new DateTime(upTo).withTimeAtStartOfDay();
+        DateTime end = new DateTime(upTo).plusDays(1).withTimeAtStartOfDay();
         for (DateTime i = start; i.isBefore(end); i = i.plusDays(1)) {
             Price price = Price.builder()
                     .value(PRICE)

@@ -1,6 +1,7 @@
 package org.bdyb.hotel.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.bdyb.hotel.dto.AvailabilityRequestDto;
 import org.bdyb.hotel.dto.NewRoomDto;
 import org.bdyb.hotel.dto.pagination.PaginationDto;
 import org.bdyb.hotel.exceptions.badRequest.SearchFieldNotExistingException;
@@ -37,5 +38,10 @@ public class RoomController {
     public ResponseEntity<Void> deleteUser(@PathVariable("id") Long id) throws RoomIdNotFoundException {
         roomService.deleteById(id);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PostMapping(value = "/availability")
+    public ResponseEntity findAvailableRooms(@RequestBody AvailabilityRequestDto availabilityRequestDto) throws RoomTypeNotFoundException {
+        return new ResponseEntity<>(roomService.findAvailableRooms(availabilityRequestDto), HttpStatus.OK);
     }
 }

@@ -4,6 +4,7 @@ import org.bdyb.hotel.domain.Room;
 import org.bdyb.hotel.dto.AvailabilityRequestDto;
 import org.bdyb.hotel.dto.NewRoomDto;
 import org.bdyb.hotel.dto.RoomPaginationResponseDto;
+import org.bdyb.hotel.dto.pagination.AvailabilityResponseDto;
 import org.bdyb.hotel.dto.pagination.PaginationDto;
 import org.bdyb.hotel.exceptions.badRequest.SearchFieldNotExistingException;
 import org.bdyb.hotel.exceptions.badRequest.SortFieldNotExistingException;
@@ -16,7 +17,7 @@ import java.util.List;
 public interface RoomService {
     Room createNewRoom(NewRoomDto newRoomDto) throws RoomAlreadyExistsConflictException, RoomTypeNotFoundException;
 
-    List<Room> findAvailableRooms(AvailabilityRequestDto availabilityRequestDto) throws RoomTypeNotFoundException;
+    AvailabilityResponseDto findAvailableRooms(AvailabilityRequestDto availabilityRequestDto) throws RoomTypeNotFoundException;
 
     RoomPaginationResponseDto searchRooms(PaginationDto roomPaginationDto) throws SearchFieldNotExistingException, SortFieldNotExistingException;
 

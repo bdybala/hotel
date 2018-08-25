@@ -7,6 +7,7 @@ import org.bdyb.hotel.domain.RoomType;
 import org.bdyb.hotel.dto.AvailabilityRequestDto;
 import org.bdyb.hotel.dto.NewRoomDto;
 import org.bdyb.hotel.dto.RoomPaginationResponseDto;
+import org.bdyb.hotel.dto.pagination.AvailabilityResponseDto;
 import org.bdyb.hotel.dto.pagination.PaginationDto;
 import org.bdyb.hotel.exceptions.badRequest.SearchFieldNotExistingException;
 import org.bdyb.hotel.exceptions.badRequest.SortFieldNotExistingException;
@@ -43,14 +44,12 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
-    public List<Room> findAvailableRooms(AvailabilityRequestDto availabilityRequestDto) throws RoomTypeNotFoundException {
+    public AvailabilityResponseDto findAvailableRooms(AvailabilityRequestDto availabilityRequestDto) throws RoomTypeNotFoundException {
         if (!roomTypeRepository.existsByName(availabilityRequestDto.getRoomTypeName()))
             throw new RoomTypeNotFoundException();
-        return roomDao.findAvailableRooms(
-                availabilityRequestDto.getRoomTypeName(),
-                availabilityRequestDto.getMaxCapacity(),
-                availabilityRequestDto.getSince(),
-                availabilityRequestDto.getUpTo());
+        if (availabilityRequestDto.getCurrentPage() == null) availabilityRequestDto.setCurrentPage(1);
+        if (availabilityRequestDto.getPageSize() == null) availabilityRequestDto.setPageSize(Constants.DEFAULT_PAGE_SIZE);
+        return roomDao.findAvailableRooms(availabilityRequestDto);
     }
 
     @Override
