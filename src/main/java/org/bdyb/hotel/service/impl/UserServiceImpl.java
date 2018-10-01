@@ -53,8 +53,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void deleteById(Long id) throws UserIdNotFoundException {
-        User user = userRepository.findOne(id);
-        if (user == null) throw new UserIdNotFoundException();
+        User user = userRepository.findById(id).orElseThrow(UserIdNotFoundException::new);
         userRepository.delete(user);
     }
 
