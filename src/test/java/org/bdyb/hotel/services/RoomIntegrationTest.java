@@ -101,7 +101,7 @@ public class RoomIntegrationTest {
                 .withRoomType(roomTypeRepository.findAll().get(0))
                 .withMaxCapacity(5)
                 .build());
-        priceRepository.save(preparePricesForRoom(savedRoom, TestUtils.TOMORROW, TestUtils.IN_THREE_DAYS));
+        priceRepository.saveAll(preparePricesForRoom(savedRoom, TestUtils.TOMORROW, TestUtils.IN_THREE_DAYS));
 
         // when
         roomService.findAvailableRooms(
@@ -118,7 +118,7 @@ public class RoomIntegrationTest {
                 .withRoomType(roomTypeRepository.findAll().get(0))
                 .withMaxCapacity(5)
                 .build());
-        List<Price> savedPrices = priceRepository.save(preparePricesForRoom(savedRoom, TestUtils.TOMORROW, TestUtils.IN_TWO_DAYS));
+        List<Price> savedPrices = priceRepository.saveAll(preparePricesForRoom(savedRoom, TestUtils.TOMORROW, TestUtils.IN_TWO_DAYS));
 
         // when
         AvailabilityResponseDto availableRooms = roomService.findAvailableRooms(
@@ -137,7 +137,7 @@ public class RoomIntegrationTest {
                 .withRoomType(roomTypeRepository.findAll().get(0))
                 .withMaxCapacity(5)
                 .build());
-        List<Price> savedPrices = priceRepository.save(preparePricesForRoom(savedRoom, TestUtils.TOMORROW, TestUtils.IN_THREE_DAYS));
+        List<Price> savedPrices = priceRepository.saveAll(preparePricesForRoom(savedRoom, TestUtils.TOMORROW, TestUtils.IN_THREE_DAYS));
 
         // when
         AvailabilityResponseDto availableRooms = roomService.findAvailableRooms(
@@ -162,8 +162,8 @@ public class RoomIntegrationTest {
                 .withMaxCapacity(5)
                 .withRoomType(roomType)
                 .build());
-        List<Price> firstRoomPrices = priceRepository.save(preparePricesForRoom(freeRoom, TestUtils.THREE_DAYS_AGO, TestUtils.IN_FOUR_DAYS));
-        List<Price> secondroomPrices = priceRepository.save(preparePricesForRoom(reservedRoom, TestUtils.THREE_DAYS_AGO, TestUtils.IN_FOUR_DAYS));
+        List<Price> firstRoomPrices = priceRepository.saveAll(preparePricesForRoom(freeRoom, TestUtils.THREE_DAYS_AGO, TestUtils.IN_FOUR_DAYS));
+        List<Price> secondroomPrices = priceRepository.saveAll(preparePricesForRoom(reservedRoom, TestUtils.THREE_DAYS_AGO, TestUtils.IN_FOUR_DAYS));
         Reservation reservation = prepareReservation(reservedRoom, TestUtils.IN_THREE_DAYS, TestUtils.IN_FOUR_DAYS);
 
         // when

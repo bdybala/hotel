@@ -110,7 +110,7 @@ public class UserIntegrationTest {
         // given
         userRepository.deleteAll();
         int usersQuantity = 11;
-        userRepository.save(prepareUsers(EMAIL, usersQuantity));
+        userRepository.saveAll(prepareUsers(EMAIL, usersQuantity));
 
         // when
         UserPaginationResponseDto userPaginationResponseDto = userService.searchUsers(prepareSearchPagination(getSearchFieldsOk(), getSortFieldsOk(), 2));
