@@ -2,6 +2,8 @@ package org.bdyb.hotel.utils;
 
 import org.bdyb.hotel.domain.Room;
 import org.bdyb.hotel.domain.RoomType;
+import org.bdyb.hotel.dto.UserEditDto;
+import org.bdyb.hotel.enums.RoleNameEnum;
 import org.joda.time.DateTime;
 
 import java.util.Date;
@@ -58,4 +60,46 @@ public class TestUtils {
             return this;
         }
     }
+
+    public static UserEditBuilder getUserEditBuilder() {
+        return new UserEditBuilder();
+    }
+
+    public static class UserEditBuilder {
+        private UserEditDto userEditDto;
+
+        public UserEditBuilder() {
+            this.userEditDto = new UserEditDto();
+        }
+
+        public UserEditDto build() {
+            return userEditDto;
+        }
+
+        public UserEditBuilder withId(Long id) {
+            userEditDto.setId(id);
+            return this;
+        }
+
+        public UserEditBuilder withEmail(String email) {
+            userEditDto.setEmail(email);
+            return this;
+        }
+
+        public UserEditBuilder withFirstName(String firstName) {
+            userEditDto.setFirstName(firstName);
+            return this;
+        }
+
+        public UserEditBuilder withLastName(String lastName) {
+            userEditDto.setLastName(lastName);
+            return this;
+        }
+
+        public UserEditBuilder withRoleNameEnum(RoleNameEnum roleNameEnum) {
+            userEditDto.setRoleNameEnum(roleNameEnum);
+            return this;
+        }
+    }
+
 }

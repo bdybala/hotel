@@ -74,6 +74,7 @@ public class UserServiceImpl implements UserService {
 
         user.setFirstName(editDto.getFirstName());
         user.setLastName(editDto.getLastName());
+        user.setEmail(editDto.getEmail());
 
         if (!user.getRole().getName().equals(editDto.getRoleNameEnum())) {
             Role role = roleRepository.findByName(editDto.getRoleNameEnum())

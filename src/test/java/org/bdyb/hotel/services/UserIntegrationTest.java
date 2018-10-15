@@ -3,17 +3,19 @@ package org.bdyb.hotel.services;
 import org.bdyb.hotel.domain.User;
 import org.bdyb.hotel.dto.RegisterDto;
 import org.bdyb.hotel.dto.UserPaginationResponseDto;
+import org.bdyb.hotel.dto.pagination.PaginationDto;
 import org.bdyb.hotel.dto.pagination.SearchFieldDto;
 import org.bdyb.hotel.dto.pagination.SortFieldDto;
-import org.bdyb.hotel.dto.pagination.PaginationDto;
 import org.bdyb.hotel.enums.RoleNameEnum;
 import org.bdyb.hotel.exceptions.badRequest.SearchFieldNotExistingException;
 import org.bdyb.hotel.exceptions.badRequest.SortFieldNotExistingException;
 import org.bdyb.hotel.exceptions.conflict.UserAlreadyExistsConflictException;
 import org.bdyb.hotel.exceptions.notFound.RoleNotFoundException;
+import org.bdyb.hotel.exceptions.notFound.UserIdNotFoundException;
 import org.bdyb.hotel.repository.RoleRepository;
 import org.bdyb.hotel.repository.UserRepository;
 import org.bdyb.hotel.service.UserService;
+import org.bdyb.hotel.utils.TestUtils;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -92,6 +94,7 @@ public class UserIntegrationTest {
 
         // then
     }
+
     @Test(expected = SortFieldNotExistingException.class)
     public void searchUsersNegativeNotExistingSortField() throws SortFieldNotExistingException, SearchFieldNotExistingException {
         // given
@@ -120,6 +123,61 @@ public class UserIntegrationTest {
         Assert.assertEquals(usersQuantity - 10, userPaginationResponseDto.getUsers().size());
     }
 
+    @Test(expected = UserIdNotFoundException.class)
+    public void editUserNegativeWrongId() throws UserAlreadyExistsConflictException, UserIdNotFoundException, RoleNotFoundException {
+        // given
+        userRepository.deleteAll();
+        Long savedId = userRepository.save(prepareUser(EMAIL)).getId();
+
+        // when
+        userService.editUser(TestUtils.getUserEditBuilder().withId(savedId + 10).build());
+
+        // then
+
+    }
+
+    @Test(expected = UserAlreadyExistsConflictException.class)
+    public void editUserNegativeEmailTaken() throws UserAlreadyExistsConflictException, UserIdNotFoundException, RoleNotFoundException {
+        // given
+        final String TAKEN_EMAIL = "xxx" + EMAIL;
+        userRepository.deleteAll();
+        userRepository.save(prepareUser(TAKEN_EMAIL));
+        User savedUser = userRepository.save(prepareUser(EMAIL));
+
+        // when
+        userService.editUser(TestUtils.getUserEditBuilder()
+                .withId(savedUser.getId())
+                .withEmail(TAKEN_EMAIL)
+                .build());
+
+        // then
+
+    }
+
+    @Test
+    public void editUserPositive() throws UserAlreadyExistsConflictException, UserIdNotFoundException, RoleNotFoundException {
+        // given
+        userRepository.deleteAll();
+        User savedUser = userRepository.save(prepareUser(EMAIL));
+
+        // when
+        String newEmail = "2" + EMAIL;
+        User editedUser = userService.editUser(TestUtils.getUserEditBuilder()
+                .withId(savedUser.getId())
+                .withEmail(newEmail)
+                .withFirstName(LAST_NAME)
+                .withLastName(FIRST_NAME)
+                .withRoleNameEnum(RoleNameEnum.MANAGER)
+                .build());
+
+        // then
+        Assert.assertEquals(newEmail, editedUser.getEmail());
+        Assert.assertEquals(LAST_NAME, editedUser.getFirstName());
+        Assert.assertEquals(FIRST_NAME, editedUser.getLastName());
+        Assert.assertEquals(RoleNameEnum.MANAGER, editedUser.getRole().getName());
+
+    }
+
     private List<User> prepareUsers(String email, int size) {
         List<User> users = new ArrayList<>();
         for (int i = 0; i < size; i++) {
@@ -128,6 +186,7 @@ public class UserIntegrationTest {
         return users;
     }
 
+    // TODO move to TestUtils
     private User prepareUser(String email) {
         User user = new User();
         user.setEmail(email);
