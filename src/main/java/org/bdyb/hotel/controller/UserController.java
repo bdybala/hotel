@@ -2,6 +2,7 @@ package org.bdyb.hotel.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.bdyb.hotel.dto.RegisterDto;
+import org.bdyb.hotel.dto.UserEditDto;
 import org.bdyb.hotel.dto.UserPaginationResponseDto;
 import org.bdyb.hotel.dto.pagination.PaginationDto;
 import org.bdyb.hotel.exceptions.badRequest.SearchFieldNotExistingException;
@@ -31,6 +32,12 @@ public class UserController {
     @PostMapping(value = "/register")
     public ResponseEntity<Void> registerUser(@RequestBody RegisterDto registerDto) throws UserAlreadyExistsConflictException, RoleNotFoundException {
         userService.registerUser(registerDto);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PutMapping
+    public ResponseEntity<Void> editUser(@RequestBody UserEditDto userEditDto) throws UserAlreadyExistsConflictException, UserIdNotFoundException, RoleNotFoundException {
+        userService.editUser(userEditDto);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

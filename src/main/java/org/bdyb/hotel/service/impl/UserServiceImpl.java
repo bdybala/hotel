@@ -5,6 +5,7 @@ import org.bdyb.hotel.config.Constants;
 import org.bdyb.hotel.domain.Role;
 import org.bdyb.hotel.domain.User;
 import org.bdyb.hotel.dto.RegisterDto;
+import org.bdyb.hotel.dto.UserEditDto;
 import org.bdyb.hotel.dto.UserPaginationResponseDto;
 import org.bdyb.hotel.dto.pagination.PaginationDto;
 import org.bdyb.hotel.exceptions.badRequest.SearchFieldNotExistingException;
@@ -17,6 +18,8 @@ import org.bdyb.hotel.repository.UserDao;
 import org.bdyb.hotel.repository.UserRepository;
 import org.bdyb.hotel.service.UserService;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -55,6 +58,30 @@ public class UserServiceImpl implements UserService {
     public void deleteById(Long id) throws UserIdNotFoundException {
         User user = userRepository.findById(id).orElseThrow(UserIdNotFoundException::new);
         userRepository.delete(user);
+    }
+
+    @Override
+    public User editUser(UserEditDto editDto) throws UserIdNotFoundException, UserAlreadyExistsConflictException, RoleNotFoundException {
+        User user = userRepository.findById(editDto.getId())
+                .orElseThrow(UserIdNotFoundException::new);
+
+        Optional<Long> idByEmail = userRepository
+                .findByEmail(editDto.getEmail())
+                .map(User::getId);
+        if (idByEmail.isPresent() && !idByEmail.get().equals(editDto.getId())) {
+            throw new UserAlreadyExistsConflictException();
+        }
+
+        user.setFirstName(editDto.getFirstName());
+        user.setLastName(editDto.getLastName());
+
+        if (!user.getRole().getName().equals(editDto.getRoleNameEnum())) {
+            Role role = roleRepository.findByName(editDto.getRoleNameEnum())
+                    .orElseThrow(RoleNotFoundException::new);
+            user.setRole(role);
+        }
+        userRepository.save(user);
+        return user;
     }
 
     private String getUserFromSecurityContext() {
