@@ -15,6 +15,7 @@ import org.bdyb.hotel.dto.pagination.SortFieldDto;
 import org.bdyb.hotel.exceptions.badRequest.SearchFieldNotExistingException;
 import org.bdyb.hotel.exceptions.badRequest.SortFieldNotExistingException;
 import org.bdyb.hotel.exceptions.conflict.RoomAlreadyExistsConflictException;
+import org.bdyb.hotel.exceptions.notFound.RoomIdNotFoundException;
 import org.bdyb.hotel.exceptions.notFound.RoomTypeNotFoundException;
 import org.bdyb.hotel.repository.PriceRepository;
 import org.bdyb.hotel.repository.ReservationRepository;
@@ -220,7 +221,7 @@ public class RoomIntegrationTest {
         // given
         roomRepository.deleteAll();
         int roomsQuantity = 11;
-        prepareRoomEntity(roomsQuantity);
+        prepareRoomsEntity(roomsQuantity);
 
         // when
         RoomPaginationResponseDto roomPaginationResponseDto = roomService.searchRooms(prepareSearchPagination(
@@ -234,7 +235,76 @@ public class RoomIntegrationTest {
         Assert.assertEquals(roomsQuantity - 10, roomPaginationResponseDto.getRooms().size());
     }
 
-    private void prepareRoomEntity(int roomsQuantity) {
+    @Test(expected = RoomIdNotFoundException.class)
+    public void editRoomNegativeWrongId() throws RoomIdNotFoundException, RoomAlreadyExistsConflictException, RoomTypeNotFoundException {
+        // given
+        roomRepository.deleteAll();
+        prepareRoomEntity(FIRST_ROOM_NUMBER);
+
+        // when
+        roomService.editRoom(TestUtils.getRoomEditBuilder()
+                .withId(10L)
+                .build());
+
+        //then
+
+    }
+
+    @Test(expected = RoomAlreadyExistsConflictException.class)
+    public void editRoomNegativeNumberExists() throws RoomIdNotFoundException, RoomAlreadyExistsConflictException, RoomTypeNotFoundException {
+        // given
+        roomRepository.deleteAll();
+        roomRepository.save(prepareRoomEntity(FIRST_ROOM_NUMBER));
+        Room savedRoom = roomRepository.save(prepareRoomEntity(SECOND_ROOM_NUMBER));
+
+        // when
+        roomService.editRoom(TestUtils.getRoomEditBuilder()
+                .withId(savedRoom.getId())
+                .withNumber(FIRST_ROOM_NUMBER)
+                .withMaxCapacity(5)
+                .build());
+
+        //then
+
+    }
+
+    @Test
+    public void editRoomPositive() throws RoomIdNotFoundException, RoomAlreadyExistsConflictException, RoomTypeNotFoundException {
+        // given
+        roomRepository.deleteAll();
+        Room savedRoom = roomRepository.save(prepareRoomEntity(FIRST_ROOM_NUMBER));
+        Long savedRoomId = savedRoom.getId();
+        RoomType roomType = savedRoom.getRoomType();
+        RoomType newRoomType = roomTypeRepository.findAll().get(1);
+        Integer savedRoomMaxCapacity = savedRoom.getMaxCapacity();
+        Integer newMaxCapacity = savedRoomMaxCapacity + 2;
+
+
+        // when
+        Room editedRoom = roomService.editRoom(TestUtils.getRoomEditBuilder()
+                .withId(savedRoomId)
+                .withNumber(SECOND_ROOM_NUMBER)
+                .withMaxCapacity(newMaxCapacity)
+                .withRoomTypeName(newRoomType.getName())
+                .build());
+
+        //then
+        Assert.assertEquals(SECOND_ROOM_NUMBER, editedRoom.getNumber());
+        Assert.assertEquals(newMaxCapacity, editedRoom.getMaxCapacity());
+        Assert.assertEquals(newRoomType.getName(), editedRoom.getRoomType().getName());
+
+    }
+
+    private Room prepareRoomEntity(String number) {
+        RoomType roomType = roomTypeRepository.findAll().get(0);
+        return Room.builder()
+                .number(number)
+                .maxCapacity(6)
+                .roomType(roomType)
+                .build();
+    }
+
+    private void prepareRoomsEntity(int roomsQuantity) {
         RoomType roomType = roomTypeRepository.findAll().get(0);
         for (int i = 0; i < roomsQuantity; i++) {
             roomRepository.save(

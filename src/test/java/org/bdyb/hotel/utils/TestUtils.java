@@ -2,6 +2,7 @@ package org.bdyb.hotel.utils;
 
 import org.bdyb.hotel.domain.Room;
 import org.bdyb.hotel.domain.RoomType;
+import org.bdyb.hotel.dto.RoomEditDto;
 import org.bdyb.hotel.dto.UserEditDto;
 import org.bdyb.hotel.enums.RoleNameEnum;
 import org.joda.time.DateTime;
@@ -32,6 +33,10 @@ public class TestUtils {
         return new RoomBuilder();
     }
 
+    public static RoomEditBuilder getRoomEditBuilder() {
+        return new RoomEditBuilder();
+    }
+
     public static class RoomBuilder {
         private Room room;
 
@@ -57,6 +62,38 @@ public class TestUtils {
 
         public RoomBuilder withMaxCapacity(Integer capacity) {
             room.setMaxCapacity(capacity);
+            return this;
+        }
+    }
+
+    public static class RoomEditBuilder {
+        private RoomEditDto roomEditDto;
+
+        public RoomEditBuilder() {
+            this.roomEditDto = new RoomEditDto();
+        }
+
+        public RoomEditDto build() {
+            return roomEditDto;
+        }
+
+        public RoomEditBuilder withId(Long id) {
+            roomEditDto.setId(id);
+            return this;
+        }
+
+        public RoomEditBuilder withNumber(String number) {
+            roomEditDto.setNumber(number);
+            return this;
+        }
+
+        public RoomEditBuilder withMaxCapacity(Integer maxCapacity) {
+            roomEditDto.setMaxCapacity(maxCapacity);
+            return this;
+        }
+
+        public RoomEditBuilder withRoomTypeName(String roomTypeName) {
+            roomEditDto.setRoomTypeName(roomTypeName);
             return this;
         }
     }
