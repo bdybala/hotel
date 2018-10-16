@@ -8,10 +8,11 @@ import UserSearchPanel from './UserSearchPanel';
 
 import axios from 'axios';
 
-const API = 'http://192.168.0.227:8080/api';
+const API = 'http://192.168.124.1:8080/api';
 const FIND_USERS = '/users/search';
 const DELETE_USERS = '/users';
 const REGISTER_USER = '/users/register';
+const EDIT_USER = '/users';
 const FIND_ROLES = '/roles';
 
 class ManageUsers extends Component {
@@ -23,11 +24,12 @@ class ManageUsers extends Component {
 		this.getRoles = this.getRoles.bind(this);
 		this.removeUser = this.removeUser.bind(this);
 		this.registerUser = this.registerUser.bind(this);
+		this.editUser = this.editUser.bind(this);
 		this.changePage = this.changePage.bind(this);
 
 		this.updateSearchFields = this.updateSearchFields.bind(this);
 
-		this.state = { 
+		this.state = {
 			show: false,
 			errorMessage: 'ddddd',
 			users: [],
@@ -43,7 +45,7 @@ class ManageUsers extends Component {
 		this.setState({ show: false });
 	}
 	showErrorModal(errorMessage) {
-		this.setState({ 
+		this.setState({
 			show: true,
 			errorMessage: errorMessage,
 		});
@@ -55,7 +57,7 @@ class ManageUsers extends Component {
 			searchFields: this.state.searchFields,
 		})
 		.then(result => {
-			this.setState({ 
+			this.setState({
 				currentPage: result.data.currentPage,
 				totalPages: result.data.totalPages,
 				users: result.data.users,
@@ -66,7 +68,7 @@ class ManageUsers extends Component {
 			this.showErrorModal(error.message);
 		})
 	}
-	
+
 	getRoles() {
 		this.setState({ isLoadingRoles: true });
 		axios.get(API + FIND_ROLES)
@@ -84,7 +86,7 @@ class ManageUsers extends Component {
 				searchFields: this.state.searchFields,
 		})
 		.then(result => {
-			this.setState({ 
+			this.setState({
 				currentPage: result.data.currentPage,
 				totalPages: result.data.totalPages,
 				users: result.data.users,
@@ -104,7 +106,7 @@ class ManageUsers extends Component {
 				searchFields: obj,
 		})
 		.then(result => {
-			this.setState({ 
+			this.setState({
 				currentPage: result.data.currentPage,
 				totalPages: result.data.totalPages,
 				users: result.data.users,
@@ -146,6 +148,26 @@ class ManageUsers extends Component {
 			});
 	}
 
+	editUser(editedUser) {
+		axios.put(API + EDIT_USER, {
+			id: editedUser.id,
+            firstName: editedUser.firstName,
+            lastName: editedUser.lastName,
+            email: editedUser.email,
+            roleNameEnum: editedUser.roleName,
+		})
+        .then(result => {
+            this.refreshUsersList();
+        })
+        .catch(error => {
+            if (error.response.status === 409) {
+                this.showErrorModal('Użytkownik o takim e-mail istnieje już w systemie!');
+            } else {
+                this.showErrorModal(error.response.data.exception);
+            }
+        })
+	}
+
 	render() {
 		return (
 			<div className='ManageUsers'>
@@ -154,18 +176,20 @@ class ManageUsers extends Component {
 					roles={this.state.roles} />
 
 				<UserSearchPanel
-					showErrorModal={this.showErrorModal} 
+					showErrorModal={this.showErrorModal}
 					updateSearchFields={this.updateSearchFields}
 					roles={this.state.roles} />
-				
-				<UsersList 
-					changePage={this.changePage} 
-					users={this.state.users} 
+
+				<UsersList
+					changePage={this.changePage}
+					users={this.state.users}
 					currentPage={this.state.currentPage}
 					totalPages={this.state.totalPages}
-					isLoading={this.state.isLoadingUsers} 
-					deleteUser={this.removeUser} />
-			
+					isLoading={this.state.isLoadingUsers}
+					deleteUser={this.removeUser}
+					roles={this.state.roles}
+					editUser={this.editUser}/>
+
 				<Modal show={this.state.show} onHide={this.closeErrorModal}>
 					<Modal.Header>
 						<Modal.Title>Wystąpił błąd!</Modal.Title>

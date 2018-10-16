@@ -3,6 +3,7 @@ import React, {Component} from 'react';
 import {Button, ButtonToolbar, Glyphicon, Table} from 'react-bootstrap';
 
 import CustomPagination from './CustomPagination';
+import UserEdit from './UserEdit';
 
 class UsersList extends Component {
     constructor(props) {
@@ -47,12 +48,12 @@ class UsersList extends Component {
                     {this.props.users.map((item, i) => {
                         return (<tbody key={item.id}>
                             <tr>
-                                <th>{i + 1}</th>
-                                <th>{item.firstName}</th>
-                                <th>{item.lastName}</th>
-                                <th>{item.email}</th>
-                                <th>{item.roleName}</th>
-                                <th>
+                                <td>{i + 1}</td>
+                                <td>{item.firstName}</td>
+                                <td>{item.lastName}</td>
+                                <td>{item.email}</td>
+                                <td>{item.roleName}</td>
+                                <td>
                                     <ButtonToolbar>
                                         <Button bsStyle="danger"
                                                 onClick={(e) => this.handleRemoveClick(item.id, e)}>
@@ -62,12 +63,13 @@ class UsersList extends Component {
                                             <Glyphicon glyph='glyphicon glyphicon-edit'/>
                                         </Button>
                                     </ButtonToolbar>
-                                </th>
+                                </td>
                             </tr>
                             {this.state.usersToEdit.includes(item.id) ?
-                                <tr>
-                                    <td colSpan={6}>TEST</td>
-                                </tr>
+                                <UserEdit
+                                    roles={this.props.roles}
+                                    user={item}
+                                    editUser={this.props.editUser}/>
                                 : null}
 
                             </tbody>
