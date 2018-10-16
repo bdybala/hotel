@@ -76,13 +76,17 @@ public class UserServiceImpl implements UserService {
         user.setLastName(editDto.getLastName());
         user.setEmail(editDto.getEmail());
 
-        if (!user.getRole().getName().equals(editDto.getRoleNameEnum())) {
+        if (roleNameHasBeenEdited(editDto, user)) {
             Role role = roleRepository.findByName(editDto.getRoleNameEnum())
                     .orElseThrow(RoleNotFoundException::new);
             user.setRole(role);
         }
         userRepository.save(user);
         return user;
+    }
+
+    private boolean roleNameHasBeenEdited(UserEditDto editDto, User user) {
+        return !user.getRole().getName().equals(editDto.getRoleNameEnum());
     }
 
     private String getUserFromSecurityContext() {

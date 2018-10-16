@@ -3,6 +3,7 @@ package org.bdyb.hotel.controller;
 import lombok.RequiredArgsConstructor;
 import org.bdyb.hotel.dto.AvailabilityRequestDto;
 import org.bdyb.hotel.dto.NewRoomDto;
+import org.bdyb.hotel.dto.RoomEditDto;
 import org.bdyb.hotel.dto.pagination.PaginationDto;
 import org.bdyb.hotel.exceptions.badRequest.SearchFieldNotExistingException;
 import org.bdyb.hotel.exceptions.badRequest.SortFieldNotExistingException;
@@ -31,6 +32,12 @@ public class RoomController {
     @PostMapping
     public ResponseEntity addNewRoom(@RequestBody NewRoomDto newRoomDto) throws RoomTypeNotFoundException, RoomAlreadyExistsConflictException {
         roomService.createNewRoom(newRoomDto);
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
+    @PutMapping
+    public ResponseEntity editRoom(@RequestBody RoomEditDto roomEditDto) throws RoomIdNotFoundException, RoomAlreadyExistsConflictException, RoomTypeNotFoundException {
+        roomService.editRoom(roomEditDto);
         return new ResponseEntity(HttpStatus.OK);
     }
 

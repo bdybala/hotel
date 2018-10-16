@@ -6,10 +6,13 @@ import org.springframework.data.jpa.repository.Query;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 public interface RoomRepository extends JpaRepository<Room, Long> {
 
     boolean existsByNumber(String number);
+
+    Optional<Room> findByNumber(String number);
 //
 //    @Query(
 //            "select r from Room r left outer join r.occupiedRooms o left outer join r.reservedRooms rr " +
