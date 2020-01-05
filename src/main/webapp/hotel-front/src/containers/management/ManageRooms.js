@@ -8,7 +8,7 @@ import RoomSearchPanel from './RoomSearchPanel.js'
 import axios from 'axios';
 import RoomAddPanel from "./RoomAddPanel";
 
-const API = 'http://192.168.124.1:8080/api';
+const API = 'http://localhost:8080/api';
 const CREATE_ROOM = '/rooms';
 const FIND_ROOMS = '/rooms/search';
 const FIND_ROOM_TYPES = '/roomTypes';

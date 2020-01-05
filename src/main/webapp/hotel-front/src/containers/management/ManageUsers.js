@@ -8,7 +8,7 @@ import UserSearchPanel from './UserSearchPanel';
 
 import axios from 'axios';
 
-const API = 'http://192.168.124.1:8080/api';
+const API = 'http://localhost:8080/api';
 const FIND_USERS = '/users/search';
 const DELETE_USERS = '/users';
 const REGISTER_USER = '/users/register';

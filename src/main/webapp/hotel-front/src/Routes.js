@@ -1,12 +1,12 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 
-import Home from './containers/Home';
+import Home from '../../hotel-front/src/containers/Home';
 import Availability from './Availability';
 import Rooms from './Rooms';
-import ManageUsers from './containers/management/ManageUsers';
-import ManageRooms from './containers/management/ManageRooms';
-import ManageReservations from './containers/management/ManageReservations';
+import ManageUsers from '../../hotel-front/src/containers/management/ManageUsers';
+import ManageRooms from '../../hotel-front/src/containers/management/ManageRooms';
+import ManageReservations from '../../hotel-front/src/containers/management/ManageReservations';
 import About from './About';
 
 export default () =>
