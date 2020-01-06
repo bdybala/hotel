@@ -1,5 +1,7 @@
 package org.bdyb.hotel.service.impl;
 
+import java.util.List;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.bdyb.hotel.config.Constants;
 import org.bdyb.hotel.domain.Room;
@@ -15,13 +17,12 @@ import org.bdyb.hotel.exceptions.badRequest.SortFieldNotExistingException;
 import org.bdyb.hotel.exceptions.conflict.RoomAlreadyExistsConflictException;
 import org.bdyb.hotel.exceptions.notFound.RoomIdNotFoundException;
 import org.bdyb.hotel.exceptions.notFound.RoomTypeNotFoundException;
+import org.bdyb.hotel.mapper.RoomToDtoMapper;
 import org.bdyb.hotel.repository.RoomDao;
 import org.bdyb.hotel.repository.RoomRepository;
 import org.bdyb.hotel.repository.RoomTypeRepository;
 import org.bdyb.hotel.service.RoomService;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -29,6 +30,7 @@ public class RoomServiceImpl implements RoomService {
     private final RoomDao roomDao;
     private final RoomRepository roomRepository;
     private final RoomTypeRepository roomTypeRepository;
+    private final RoomToDtoMapper roomToDtoMapper;
 
     @Override
     public Room createNewRoom(NewRoomDto newRoomDto) throws RoomAlreadyExistsConflictException, RoomTypeNotFoundException {
@@ -46,12 +48,15 @@ public class RoomServiceImpl implements RoomService {
 
     @Override
     public AvailabilityResponseDto findAvailableRooms(AvailabilityRequestDto availabilityRequestDto) throws RoomTypeNotFoundException {
+        // todo remove roomType
         if (!roomTypeRepository.existsByName(availabilityRequestDto.getRoomTypeName()))
             throw new RoomTypeNotFoundException();
         if (availabilityRequestDto.getCurrentPage() == null) availabilityRequestDto.setCurrentPage(1);
         if (availabilityRequestDto.getPageSize() == null)
             availabilityRequestDto.setPageSize(Constants.DEFAULT_PAGE_SIZE);
-        return roomDao.findAvailableRooms(availabilityRequestDto);
+        List<Room> availableRooms = roomDao.findAvailableRooms(availabilityRequestDto);
+        return AvailabilityResponseDto.builder()
+            .availableRooms(roomToDtoMapper.mapToDto(availableRooms)).build();
     }
 
     @Override

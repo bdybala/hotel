@@ -40,7 +40,7 @@ public class RoomDao {
     @PersistenceContext
     private EntityManager entityManager;
 
-    public AvailabilityResponseDto findAvailableRooms(AvailabilityRequestDto availabilityRequestDto) {
+    public List<Room> findAvailableRooms(AvailabilityRequestDto availabilityRequestDto) {
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();
         CriteriaQuery<Room> query = cb.createQuery(Room.class);
         Root<Room> from = query.from(Room.class);
@@ -72,9 +72,7 @@ public class RoomDao {
                 availabilityRequestDto.getRoomTypeName(),
                 notReservedSubquery,
                 hasEveryPriceSubquery));
-        return AvailabilityResponseDto.builder()
-                .availableRooms(entityManager.createQuery(query).getResultList())
-                .build();
+        return entityManager.createQuery(query).getResultList();
     }
 
     private Predicate getPricesWhereQuery(CriteriaBuilder cb, Root<Price> hasEveryPriceFrom, Date since, Date upTo) {
@@ -103,15 +101,19 @@ public class RoomDao {
             Integer maxCapacity, String roomType, Subquery<Long> subquery, Subquery<Long> idInSubquery) {
         List<Predicate> predicates = new ArrayList<>();
         // roomType
-        if (joinRoomType != null) {
-            predicates.add(cb.like(joinRoomType.get("name"), roomType));
-        }
+        // todo don't bother about roomType
+//        if (joinRoomType != null) {
+//            predicates.add(cb.like(joinRoomType.get("name"), roomType));
+//        }
+
+        // todo inverse predicate? greatherThan
         // maxCapacity
         if (maxCapacity != null) {
-            predicates.add(cb.lessThan(from.get("maxCapacity"), maxCapacity));
+            predicates.add(cb.greaterThan(from.get("maxCapacity"), maxCapacity));
         }
         predicates.add(cb.in(from.get("id")).value(subquery));
-        predicates.add(cb.in(from.get("id")).value(idInSubquery));
+        // todo temp remove filtering PRICES from query - show only don't reserved
+//        predicates.add(cb.in(from.get("id")).value(idInSubquery));
         return cb.and(predicates.toArray(new Predicate[predicates.size()]));
     }
 

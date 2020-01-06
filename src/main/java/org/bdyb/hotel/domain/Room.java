@@ -33,7 +33,7 @@ public class Room {
     @Builder.Default
     private boolean isFree = true;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "room_types_id")
     private RoomType roomType;
 
