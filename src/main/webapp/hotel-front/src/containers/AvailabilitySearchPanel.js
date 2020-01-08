@@ -32,12 +32,11 @@ class AvailabilitySearchPanel extends Component {
   }
 
   handleSearch() {
-    this.props.updateSearchFields(this.state.upTo, this.state.from,
+    this.props.updateSearchFields(this.state.from, this.state.upTo,
         this.state.capacity);
   }
 
   checkForm() {
-    console.log(this.state);
     if (this.state.from.trim() === '' || this.state.upTo.trim() === ''
         || this.state.capacity.trim() === '') {
       this.setState({formValid: false});

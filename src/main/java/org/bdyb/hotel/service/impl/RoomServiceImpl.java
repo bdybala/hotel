@@ -22,6 +22,7 @@ import org.bdyb.hotel.repository.RoomDao;
 import org.bdyb.hotel.repository.RoomRepository;
 import org.bdyb.hotel.repository.RoomTypeRepository;
 import org.bdyb.hotel.service.RoomService;
+import org.bdyb.hotel.utils.DateTimeUtils;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -54,6 +55,8 @@ public class RoomServiceImpl implements RoomService {
         if (availabilityRequestDto.getCurrentPage() == null) availabilityRequestDto.setCurrentPage(1);
         if (availabilityRequestDto.getPageSize() == null)
             availabilityRequestDto.setPageSize(Constants.DEFAULT_PAGE_SIZE);
+        availabilityRequestDto.setSince(DateTimeUtils.truncateHours(availabilityRequestDto.getSince()));
+        availabilityRequestDto.setUpTo(DateTimeUtils.truncateHours(availabilityRequestDto.getUpTo()));
         List<Room> availableRooms = roomDao.findAvailableRooms(availabilityRequestDto);
         return AvailabilityResponseDto.builder()
             .availableRooms(roomToDtoMapper.mapToDto(availableRooms)).build();

@@ -32,7 +32,7 @@ public class Reservation {
     private String email;
     private String phoneNumber;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "rooms_id")
     private Room room;
 }

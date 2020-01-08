@@ -6,11 +6,11 @@ class AvailabilityList extends Component {
   constructor(props) {
     super(props);
     this.changePage = this.changePage.bind(this);
-    this.handleMakeReservation = this.handleMakeReservation.bind(this);
-
+    this.handleChooseRoomToBook = this.handleChooseRoomToBook.bind(this);
   }
-  handleMakeReservation(id) {
-    this.props.handleMakeReservation(id);
+
+  handleChooseRoomToBook(room) {
+    this.props.chooseRoomToBook(room);
   }
 
   changePage(page) {
@@ -33,7 +33,7 @@ class AvailabilityList extends Component {
           <th>{item.roomTypeDescription}</th>
           <th>
             <Button bsStyle="primary"
-                    onClick={(e) => this.handleMakeReservation(item.id, e)}>
+                    onClick={(e) => this.handleChooseRoomToBook(item, e)}>
               <Glyphicon glyph='glyphicon glyphicon-ok'/>
             </Button>
           </th>

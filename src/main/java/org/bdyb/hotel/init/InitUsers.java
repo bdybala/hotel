@@ -14,7 +14,7 @@ public class InitUsers {
     private static final String EMAIL = "admin@admin.pl";
     private static final String PASSWORD = "123456";
     private static final String FIRST_NAME = "Volodymyr";
-    private static final String LAST_NAME = "Putin";
+    private static final String LAST_NAME = "Kowalski";
 
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;

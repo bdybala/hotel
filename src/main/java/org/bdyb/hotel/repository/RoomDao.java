@@ -85,9 +85,9 @@ public class RoomDao {
 
     private Predicate getReservationSubQuery(CriteriaBuilder cb, Join<Room, Reservation> subRoot, Date since, Date upTo) {
         List<Predicate> predicates = new ArrayList<>();
-        predicates.add(cb.isNull(subRoot.get("upTo")));
-        predicates.add(cb.lessThanOrEqualTo(subRoot.get("upTo"), since));
-        predicates.add(cb.greaterThanOrEqualTo(subRoot.get("since"), upTo));
+        predicates.add(cb.and(cb.lessThan(subRoot.get("since"), upTo), cb.greaterThan(subRoot.get("since"), since)));
+        predicates.add(cb.and(cb.lessThan(subRoot.get("upTo"), upTo), cb.greaterThan(subRoot.get("upTo"), since)));
+        predicates.add(cb.and(cb.equal(subRoot.get("since"), since), cb.equal(subRoot.get("upTo"), upTo)));
         return cb.or(predicates.toArray(new Predicate[predicates.size()]));
     }
 
@@ -106,12 +106,11 @@ public class RoomDao {
 //            predicates.add(cb.like(joinRoomType.get("name"), roomType));
 //        }
 
-        // todo inverse predicate? greatherThan
         // maxCapacity
         if (maxCapacity != null) {
-            predicates.add(cb.greaterThan(from.get("maxCapacity"), maxCapacity));
+            predicates.add(cb.greaterThanOrEqualTo(from.get("maxCapacity"), maxCapacity));
         }
-        predicates.add(cb.in(from.get("id")).value(subquery));
+        predicates.add(cb.in(from.get("id")).value(subquery).not());
         // todo temp remove filtering PRICES from query - show only don't reserved
 //        predicates.add(cb.in(from.get("id")).value(idInSubquery));
         return cb.and(predicates.toArray(new Predicate[predicates.size()]));
