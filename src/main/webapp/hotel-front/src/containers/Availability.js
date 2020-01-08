@@ -92,7 +92,6 @@ class Availability extends Component {
   newReservation(reservation) {
     console.log('New reservation for customer');
     console.log(reservation);
-    //  todo send POST request with new reservation
     axios.post(API + MAKE_RESERVATION, {
       roomId: reservation.room.id,
       since: this.state.since,
@@ -113,7 +112,8 @@ class Availability extends Component {
   clearChoice() {
     this.setState({
       showReservationPanel: false,
-      chosenRoom: null
+      chosenRoom: null,
+      availableRooms: [],
     });
   }
 

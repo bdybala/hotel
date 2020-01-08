@@ -27,9 +27,9 @@ class App extends Component {
                   <LinkContainer to="/availability">
                     <NavItem eventKey={3}> Dostepność</NavItem>
                   </LinkContainer>
-                  <LinkContainer to="/rooms">
-                    <NavItem eventKey={4}> Pokoje</NavItem>
-                  </LinkContainer>
+                  {/*<LinkContainer to="/rooms">*/}
+                  {/*  <NavItem eventKey={4}> Pokoje</NavItem>*/}
+                  {/*</LinkContainer>*/}
                   <NavDropdown eventKey={5} title="Zarządzanie" id="basic-nav-dropdown">
                     <LinkContainer to="/manage/users">
                       <MenuItem eventKey={5.1}>Użytkownicy</MenuItem>
