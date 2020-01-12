@@ -4,6 +4,7 @@ import {Form, Glyphicon, Panel} from 'react-bootstrap';
 import RoomInputNumber from "./RoomInputNumber";
 import RoomInputMaxCapacity from "./RoomInputMaxCapacity";
 import RoomInputRoomType from "./RoomInputRoomType";
+import RoomInputPrice from "./RoomInputPrice";
 
 class UserRegisterPanel extends Component {
 
@@ -13,6 +14,7 @@ class UserRegisterPanel extends Component {
         this.setRoomNumber = this.setRoomNumber.bind(this);
         this.setMaxCapacity = this.setMaxCapacity.bind(this);
         this.setRoomTypeName = this.setRoomTypeName.bind(this);
+        this.setPrice = this.setPrice.bind(this);
 
         this.handleClick = this.handleClick.bind(this);
         this.getValidationState = this.getValidationState.bind(this);
@@ -22,12 +24,14 @@ class UserRegisterPanel extends Component {
             number: '',
             maxCapacity: '',
             roomTypeName: '',
+            price: '',
         };
 
         this.state = {
             number: '',
             maxCapacity: '',
             roomTypeName: '',
+            price: '',
         };
     }
 
@@ -41,6 +45,10 @@ class UserRegisterPanel extends Component {
 
     setRoomTypeName(roomTypeName) {
         this.setState({roomTypeName: roomTypeName})
+    }
+
+    setPrice(price) {
+        this.setState({price: price})
     }
 
     getValidationState(field) {
@@ -86,6 +94,15 @@ class UserRegisterPanel extends Component {
                 }
                 this.validationArray.roomTypeName = true;
                 result = 'success';
+                break;
+            case 'price':
+                if (this.state.price === '') {
+                    this.validationArray.price = false;
+                    result = null;
+                } else {
+                    this.validationArray.price = true;
+                    result = 'success';
+                }
                 break;
             default:
                 result = 'warning';
@@ -136,6 +153,7 @@ class UserRegisterPanel extends Component {
                             <RoomInputMaxCapacity save={this.setMaxCapacity} validate={this.getValidationState}/>
                             <RoomInputRoomType roomTypes={this.props.roomTypes} save={this.setRoomTypeName}
                                                validate={this.getValidationState}/>
+                            <RoomInputPrice save={this.setPrice} validate={this.getValidationState}/>
                             <button type="button" className="btn btn-primary" onClick={this.handleClick}>
                                 Dodaj
                             </button>

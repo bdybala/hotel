@@ -135,6 +135,7 @@ class ManageRooms extends Component {
     }
 
     createNewRoom(newUser) {
+        // todo ADD price
         axios.post(API + CREATE_ROOM, {
             number: newUser.number,
             maxCapacity: newUser.maxCapacity,
