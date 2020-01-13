@@ -9,6 +9,7 @@ import ManageRooms from '../../hotel-front/src/containers/management/ManageRooms
 import ManageReservations from '../../hotel-front/src/containers/management/ManageReservations';
 import About from './containers/About';
 import Register from './containers/Register';
+import Login from './containers/Login';
 
 export default () =>
 	<Switch>
@@ -20,4 +21,5 @@ export default () =>
     	<Route exact path="/manage/reservations" component={ManageReservations} />
 		<Route path="/about" component={About} />
 		<Route exact path="/register" component={Register} />
+		<Route exact path="/login" component={Login} />
 	</Switch>

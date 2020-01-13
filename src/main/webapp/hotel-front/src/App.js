@@ -46,7 +46,9 @@ class App extends Component {
                   <LinkContainer to="/register">
                     <NavItem eventKey={5} href="#">Rejestracja</NavItem>
                   </LinkContainer>
-                  <NavItem eventKey={6} href="#">Zaloguj</NavItem>
+                  <LinkContainer to="/login">
+                    <NavItem eventKey={6} href="#">Zaloguj</NavItem>
+                  </LinkContainer>
                 </Nav>
               </Navbar.Collapse>
             </Navbar>

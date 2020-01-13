@@ -182,7 +182,7 @@ class ManageRooms extends Component {
                     </Modal.Header>
                     <Modal.Body> {this.state.errorMessage} </Modal.Body>
                     <Modal.Footer>
-                        <Button onClick={this.closeErrorModal}>Close</Button>
+                        <Button onClick={this.closeErrorModal}>Zamknij</Button>
                     </Modal.Footer>
                 </Modal>
             </div>
