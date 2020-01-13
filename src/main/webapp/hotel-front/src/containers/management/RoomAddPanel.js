@@ -6,7 +6,7 @@ import RoomInputMaxCapacity from "./RoomInputMaxCapacity";
 import RoomInputRoomType from "./RoomInputRoomType";
 import RoomInputPrice from "./RoomInputPrice";
 
-class UserRegisterPanel extends Component {
+class RoomAddPanel extends Component {
 
     constructor(props) {
         super(props);
@@ -165,4 +165,4 @@ class UserRegisterPanel extends Component {
     }
 }
 
-export default UserRegisterPanel;
+export default RoomAddPanel;

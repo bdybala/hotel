@@ -133,7 +133,7 @@ class ManageUsers extends Component {
 				firstName: newUser.firstName,
 				lastName: newUser.lastName,
 				email: newUser.email,
-				password: newUser.firstPassword,
+				password: newUser.password,
 				roleNameEnum: newUser.roleNameEnum,
 			})
 			.then(result => {

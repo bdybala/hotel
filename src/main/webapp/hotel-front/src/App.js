@@ -22,28 +22,31 @@ class App extends Component {
               <Navbar.Collapse>
                 <Nav>
                   <LinkContainer to="/about">
-                    <NavItem eventKey={2}> O stronie</NavItem>
+                    <NavItem eventKey={1}> O stronie</NavItem>
                   </LinkContainer>
                   <LinkContainer to="/availability">
-                    <NavItem eventKey={3}> Dostepność</NavItem>
+                    <NavItem eventKey={2}> Dostepność</NavItem>
                   </LinkContainer>
                   {/*<LinkContainer to="/rooms">*/}
-                  {/*  <NavItem eventKey={4}> Pokoje</NavItem>*/}
+                  {/*  <NavItem eventKey={3}> Pokoje</NavItem>*/}
                   {/*</LinkContainer>*/}
-                  <NavDropdown eventKey={5} title="Zarządzanie" id="basic-nav-dropdown">
+                  <NavDropdown eventKey={4} title="Zarządzanie" id="basic-nav-dropdown">
                     <LinkContainer to="/manage/users">
-                      <MenuItem eventKey={5.1}>Użytkownicy</MenuItem>
+                      <MenuItem eventKey={4.1}>Użytkownicy</MenuItem>
                     </LinkContainer>
                     <LinkContainer to="/manage/rooms">
-                      <MenuItem eventKey={5.2}>Pokoje</MenuItem>
+                      <MenuItem eventKey={4.2}>Pokoje</MenuItem>
                     </LinkContainer>
                     <LinkContainer to="/manage/reservations">
-                      <MenuItem eventKey={5.3}>Rezerwacje</MenuItem>
+                      <MenuItem eventKey={4.3}>Rezerwacje</MenuItem>
                     </LinkContainer>
                   </NavDropdown>
                 </Nav>
                 <Nav pullRight>
-                  <NavItem eventKey={1} href="#">Zaloguj</NavItem>
+                  <LinkContainer to="/register">
+                    <NavItem eventKey={5} href="#">Rejestracja</NavItem>
+                  </LinkContainer>
+                  <NavItem eventKey={6} href="#">Zaloguj</NavItem>
                 </Nav>
               </Navbar.Collapse>
             </Navbar>

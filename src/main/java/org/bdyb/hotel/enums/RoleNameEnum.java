@@ -6,7 +6,8 @@ public enum RoleNameEnum {
     MAID("Pokojówka"),
     RECEPTIONIST("Recepcjonista"),
     MANAGER("Menadżer"),
-    ADMINISTRATOR("Administrator");
+    ADMINISTRATOR("Administrator"),
+    GUEST("Gość");
 
     @Getter
     private String description;
