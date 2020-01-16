@@ -5,7 +5,7 @@ import { Form, ControlLabel, FormControl, Glyphicon, Panel } from 'react-bootstr
 
 class RoomSearchPanel extends Component {
 	constructor(props) {
-		super(props)
+		super(props);
 		
 		this.handleSearch = this.handleSearch.bind(this);
 		this.handleNumberChange = this.handleNumberChange.bind(this);
@@ -98,7 +98,7 @@ class RoomSearchPanel extends Component {
 									<option value='' key='null'>---</option>
 									{listOfRoomTypes}
 								</FormControl>{' '}
-								<button type="button" className= "btn btn-primary" onClick={this.handleSearch}>
+								<button type="button" className="btn btn-primary" onClick={this.handleSearch}>
 									Szukaj
 								</button>
 							</Form>

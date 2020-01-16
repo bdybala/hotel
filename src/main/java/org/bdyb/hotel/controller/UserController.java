@@ -1,10 +1,13 @@
 package org.bdyb.hotel.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.bdyb.hotel.dto.LoginRequestDto;
+import org.bdyb.hotel.dto.LoginResponseDto;
 import org.bdyb.hotel.dto.RegisterDto;
 import org.bdyb.hotel.dto.UserEditDto;
 import org.bdyb.hotel.dto.UserPaginationResponseDto;
 import org.bdyb.hotel.dto.pagination.PaginationDto;
+import org.bdyb.hotel.exceptions.LoginFailedException;
 import org.bdyb.hotel.exceptions.badRequest.SearchFieldNotExistingException;
 import org.bdyb.hotel.exceptions.badRequest.SortFieldNotExistingException;
 import org.bdyb.hotel.exceptions.conflict.UserAlreadyExistsConflictException;
@@ -33,6 +36,12 @@ public class UserController {
     public ResponseEntity<Void> registerUser(@RequestBody RegisterDto registerDto) throws UserAlreadyExistsConflictException, RoleNotFoundException {
         userService.registerUser(registerDto);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PostMapping(value = "/login")
+    public ResponseEntity<LoginResponseDto> login(@RequestBody LoginRequestDto loginRequestDto)
+        throws LoginFailedException {
+        return new ResponseEntity<>(userService.login(loginRequestDto), HttpStatus.OK);
     }
 
     @PutMapping

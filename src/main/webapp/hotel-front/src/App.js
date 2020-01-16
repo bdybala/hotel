@@ -1,60 +1,121 @@
-import React, { Component } from 'react';
-import { BrowserRouter as Router, NavLink } from 'react-router-dom';
-import { Nav, Navbar, NavItem, MenuItem, NavDropdown} from 'react-bootstrap';
-import { LinkContainer } from 'react-router-bootstrap';
+import React, {Component} from 'react';
+import {BrowserRouter as Router, NavLink, Redirect} from 'react-router-dom';
+import {MenuItem, Nav, Navbar, NavDropdown, NavItem} from 'react-bootstrap';
+import {LinkContainer} from 'react-router-bootstrap';
 
 import Routes from './Routes';
+import UserContext from './UserContext'
 
 import './App.css';
+import CookieManager from "./CookieManager";
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+
+    this.loginUser = this.loginUser.bind(this);
+    this.logoutUser = this.logoutUser.bind(this);
+
+    this.state = {
+      loggedUser: null,
+      firstName: null,
+      lastName: null,
+      role: null,
+      redirect: null,
+    };
+  }
+
+  componentDidMount() {
+    if (CookieManager.getLogin()) {
+      this.updateStateLoggedUser(CookieManager.getLogin());
+    }
+  }
+
+  loginUser(loggedUser) {
+    this.updateStateLoggedUser(loggedUser);
+    CookieManager.setLogin(loggedUser);
+  }
+
+  updateStateLoggedUser(loggedUser) {
+    this.setState({
+      loggedUser: loggedUser,
+      firstName: loggedUser.firstName,
+      lastName: loggedUser.lastName,
+      role: loggedUser.roleName,
+      redirect: null,
+    });
+  }
+
+  logoutUser() {
+    this.setState({
+      loggedUser: null,
+      firstName: null,
+      lastName: null,
+      role: null,
+      redirect: "/",
+    });
+    console.log('Logging out');
+    CookieManager.clearLogin();
+  }
+
   render() {
     return (
-        <Router>
-          <div className="App container">
-            <Navbar fluid collapseOnSelect>
-              <Navbar.Header>
-                <Navbar.Brand>
-                  <NavLink to="/">Hata ERP</NavLink>
-                </Navbar.Brand>
-              </Navbar.Header>
-              <Navbar.Toggle />
-              <Navbar.Collapse>
-                <Nav>
-                  <LinkContainer to="/about">
-                    <NavItem eventKey={1}> O stronie</NavItem>
-                  </LinkContainer>
-                  <LinkContainer to="/availability">
-                    <NavItem eventKey={2}> Dostepność</NavItem>
-                  </LinkContainer>
-                  {/*<LinkContainer to="/rooms">*/}
-                  {/*  <NavItem eventKey={3}> Pokoje</NavItem>*/}
-                  {/*</LinkContainer>*/}
-                  <NavDropdown eventKey={4} title="Zarządzanie" id="basic-nav-dropdown">
-                    <LinkContainer to="/manage/users">
-                      <MenuItem eventKey={4.1}>Użytkownicy</MenuItem>
+        <UserContext.Provider value={this.state.loggedUser}>
+          <Router>
+            {this.state.redirect && <Redirect to={this.state.redirect}/>}
+            <div className="App container">
+              <Navbar fluid collapseOnSelect>
+                <Navbar.Header>
+                  <Navbar.Brand>
+                    <NavLink to="/">Hata ERP</NavLink>
+                  </Navbar.Brand>
+                </Navbar.Header>
+                <Navbar.Toggle/>
+                <Navbar.Collapse>
+                  <Nav>
+                    <LinkContainer to="/about">
+                      <NavItem eventKey={1}> O stronie</NavItem>
                     </LinkContainer>
-                    <LinkContainer to="/manage/rooms">
-                      <MenuItem eventKey={4.2}>Pokoje</MenuItem>
+                    <LinkContainer to="/availability">
+                      <NavItem eventKey={2}> Dostepność</NavItem>
                     </LinkContainer>
-                    <LinkContainer to="/manage/reservations">
-                      <MenuItem eventKey={4.3}>Rezerwacje</MenuItem>
+                    {this.state.role === 'ADMINISTRATOR' && <NavDropdown
+                        eventKey={3} title="Zarządzanie"
+                        id="basic-nav-dropdown">
+                      <LinkContainer to="/manage/users">
+                        <MenuItem eventKey={3.1}>Użytkownicy</MenuItem>
+                      </LinkContainer>
+                      <LinkContainer to="/manage/rooms">
+                        <MenuItem eventKey={3.2}>Pokoje</MenuItem>
+                      </LinkContainer>
+                      <LinkContainer to="/manage/reservations">
+                        <MenuItem eventKey={3.3}>Rezerwacje</MenuItem>
+                      </LinkContainer>
+                    </NavDropdown>
+                    }
+                  </Nav>
+                  <Nav pullRight>
+                    <NavItem
+                        disabled>{this.state.firstName} {this.state.lastName}</NavItem>
+                    {!this.state.loggedUser && <LinkContainer to="/register">
+                      <NavItem eventKey={4} href="#">Rejestracja</NavItem>
                     </LinkContainer>
-                  </NavDropdown>
-                </Nav>
-                <Nav pullRight>
-                  <LinkContainer to="/register">
-                    <NavItem eventKey={5} href="#">Rejestracja</NavItem>
-                  </LinkContainer>
-                  <LinkContainer to="/login">
-                    <NavItem eventKey={6} href="#">Zaloguj</NavItem>
-                  </LinkContainer>
-                </Nav>
-              </Navbar.Collapse>
-            </Navbar>
-            <Routes />
-          </div>
-        </Router>
+                    }
+                    {!this.state.loggedUser && <LinkContainer to="/login">
+                      <NavItem eventKey={5} href="#">Zaloguj</NavItem>
+                    </LinkContainer>
+                    }
+                    {this.state.loggedUser &&
+                    <NavItem eventKey={6} href="#"
+                             onClick={() => this.logoutUser()}>Wyloguj</NavItem>
+                    }
+                  </Nav>
+                </Navbar.Collapse>
+              </Navbar>
+              <Routes handleLogin={this.loginUser}/>
+            </div>
+          </Router>
+        </UserContext.Provider>
     );
   }
 }

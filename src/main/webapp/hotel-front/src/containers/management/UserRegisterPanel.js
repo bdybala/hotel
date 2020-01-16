@@ -172,7 +172,8 @@ class UserRegisterPanel extends Component {
 
     handleClick() {
         if (this.containsFalse()) {
-            console.log(this.state);
+            console.warn(this.state);
+            console.warn(this.validationArray);
         } else {
             const newUser = {
                 firstName: this.state.firstName,

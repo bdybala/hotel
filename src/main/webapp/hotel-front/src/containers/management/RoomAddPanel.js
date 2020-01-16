@@ -112,8 +112,8 @@ class RoomAddPanel extends Component {
 
     handleClick() {
         if (this.containsFalse()) {
-            console.log(this.state);
-            console.log(this.validationArray);
+            console.warn(this.state);
+            console.warn(this.validationArray);
         } else {
             const newRoom = {
                 number: this.state.number,

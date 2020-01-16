@@ -19,7 +19,6 @@ class LoginPanel extends Component {
   }
 
   handleClick() {
-    console.log(this.state);
 
     const credentials = {
       email: this.state.email,

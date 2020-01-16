@@ -4,10 +4,13 @@ import lombok.RequiredArgsConstructor;
 import org.bdyb.hotel.config.Constants;
 import org.bdyb.hotel.domain.Role;
 import org.bdyb.hotel.domain.User;
+import org.bdyb.hotel.dto.LoginRequestDto;
+import org.bdyb.hotel.dto.LoginResponseDto;
 import org.bdyb.hotel.dto.RegisterDto;
 import org.bdyb.hotel.dto.UserEditDto;
 import org.bdyb.hotel.dto.UserPaginationResponseDto;
 import org.bdyb.hotel.dto.pagination.PaginationDto;
+import org.bdyb.hotel.exceptions.LoginFailedException;
 import org.bdyb.hotel.exceptions.badRequest.SearchFieldNotExistingException;
 import org.bdyb.hotel.exceptions.badRequest.SortFieldNotExistingException;
 import org.bdyb.hotel.exceptions.conflict.UserAlreadyExistsConflictException;
@@ -83,6 +86,19 @@ public class UserServiceImpl implements UserService {
         }
         userRepository.save(user);
         return user;
+    }
+
+    @Override
+    public LoginResponseDto login(LoginRequestDto loginRequestDto) throws LoginFailedException {
+        User user = userRepository
+            .findByEmailAndPassword(loginRequestDto.getLogin(), loginRequestDto.getPassword())
+            .orElseThrow(LoginFailedException::new);
+        return LoginResponseDto.builder()
+            .login(user.getEmail())
+            .firstName(user.getFirstName())
+            .lastName(user.getLastName())
+            .roleName(user.getRole().getName())
+            .build();
     }
 
     private boolean roleNameHasBeenEdited(UserEditDto editDto, User user) {

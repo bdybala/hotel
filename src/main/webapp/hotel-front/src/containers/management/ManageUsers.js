@@ -124,7 +124,7 @@ class ManageUsers extends Component {
 				this.refreshUsersList();
 			})
 			.catch(error => {
-				console.log(error);
+				console.error(error);
 			})
 	}
 

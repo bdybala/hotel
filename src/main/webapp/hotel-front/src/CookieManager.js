@@ -6,7 +6,6 @@ class CookieManager extends Component {
 
   static getLogin() {
     const cookies = new Cookies();
-    console.log(cookies.get(this._cookieName));
     return cookies.get(this._cookieName);
   }
 
