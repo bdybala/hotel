@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {ControlLabel, FormControl, FormGroup, HelpBlock, InputGroup} from "react-bootstrap";
+import {ControlLabel, FormControl, FormGroup, InputGroup} from "react-bootstrap";
 
 
 class RoomInputNumber extends Component {
@@ -33,7 +33,6 @@ class RoomInputNumber extends Component {
                     />
                     <FormControl.Feedback/>
                 </InputGroup>
-                <HelpBlock>Nieprawidłowy numer pokoju.</HelpBlock>
             </FormGroup>
         );
     }

@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {ControlLabel, FormControl, FormGroup, HelpBlock, InputGroup} from "react-bootstrap";
+import {ControlLabel, FormControl, FormGroup, InputGroup} from "react-bootstrap";
 
 
 class RoomInputMaxCapacity extends Component {
@@ -33,7 +33,6 @@ class RoomInputMaxCapacity extends Component {
                     />
                     <FormControl.Feedback/>
                 </InputGroup>
-                <HelpBlock>Błędna pojemność pokoju</HelpBlock>
             </FormGroup>
         );
     }

@@ -22,12 +22,21 @@ class UserInputEmail extends Component {
 				<ControlLabel>Wpisz e-mail: </ControlLabel>
 				<InputGroup>
 					<InputGroup.Addon>@</InputGroup.Addon>
-					<FormControl
-						type="email"
-						value={this.props.value}
-						placeholder="email@example.com"
-						onChange={this.handleChange}
+					{this.props.readOnly && <FormControl
+							type="email"
+							value={this.props.value}
+							placeholder="email@example.com"
+							onChange={this.handleChange}
+							readOnly
 					/>
+					}
+					{!this.props.readOnly && <FormControl
+							type="email"
+							value={this.props.value}
+							placeholder="email@example.com"
+							onChange={this.handleChange}
+					/>
+					}
 				</InputGroup>
 				<FormControl.Feedback />
 				<HelpBlock>Nie używaj polskich znaków ani znaków specjalnych (np. !#$%^&*)</HelpBlock>

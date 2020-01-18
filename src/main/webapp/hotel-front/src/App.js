@@ -26,14 +26,14 @@ class App extends Component {
   }
 
   componentDidMount() {
-    if (CookieManager.getLogin()) {
-      this.updateStateLoggedUser(CookieManager.getLogin());
+    if (CookieManager.getLoggedUser()) {
+      this.updateStateLoggedUser(CookieManager.getLoggedUser());
     }
   }
 
   loginUser(loggedUser) {
     this.updateStateLoggedUser(loggedUser);
-    CookieManager.setLogin(loggedUser);
+    CookieManager.setLoggedUser(loggedUser);
   }
 
   updateStateLoggedUser(loggedUser) {
@@ -76,9 +76,11 @@ class App extends Component {
                     <LinkContainer to="/about">
                       <NavItem eventKey={1}> O stronie</NavItem>
                     </LinkContainer>
-                    <LinkContainer to="/availability">
+                    {(this.state.role === 'ADMINISTRATOR' || this.state.role === 'GUEST') && <LinkContainer
+                        to="/availability">
                       <NavItem eventKey={2}> Dostepność</NavItem>
                     </LinkContainer>
+                    }
                     {this.state.role === 'ADMINISTRATOR' && <NavDropdown
                         eventKey={3} title="Zarządzanie"
                         id="basic-nav-dropdown">

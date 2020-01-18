@@ -27,7 +27,7 @@ class RoomInputRoomType extends Component {
 
         return (
             <FormGroup controlId="formRoleInput" validationState={this.getValidationState()}>
-                <ControlLabel>Wybierz rolę: </ControlLabel>
+                <ControlLabel>Wybierz typ pokoju: </ControlLabel>
                 <InputGroup>
                     <InputGroup.Addon><Glyphicon glyph="glyphicon glyphicon-menu-hamburger"/></InputGroup.Addon>
                     <FormControl componentClass="select" placeholder="Wybierz typ pokoju" onChange={this.handleChange}>

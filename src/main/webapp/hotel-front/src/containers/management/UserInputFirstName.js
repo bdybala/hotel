@@ -25,12 +25,21 @@ class UserInputFirstName extends Component {
 			<ControlLabel>Wpisz imię: </ControlLabel>
 			<InputGroup>
 				<InputGroup.Addon>Aa</InputGroup.Addon>
-				<FormControl
-					type="text"
-					value={this.props.value}
-					placeholder="Jan"
-					onChange={this.handleChange}
+				{this.props.readOnly && <FormControl
+						type="text"
+						value={this.props.value}
+						placeholder="Jan"
+						onChange={this.handleChange}
+						readOnly
 				/>
+				}
+				{!this.props.readOnly && <FormControl
+						type="text"
+						value={this.props.value}
+						placeholder="Jan"
+						onChange={this.handleChange}
+				/>
+				}
 				<FormControl.Feedback />
 			</InputGroup>
 			<HelpBlock>Imię powinno mieć conajmniej 3 znaki.</HelpBlock>

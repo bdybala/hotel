@@ -3,6 +3,7 @@ import UserInputFirstName from "./management/UserInputFirstName";
 import UserInputLastName from "./management/UserInputLastName";
 import UserInputEmail from "./management/UserInputEmail";
 import {Form, Panel} from "react-bootstrap";
+import CookieManager from "../CookieManager";
 
 class AvailabilityNewReservation extends Component {
   constructor(props) {
@@ -16,18 +17,32 @@ class AvailabilityNewReservation extends Component {
     this.getValidationState = this.getValidationState.bind(this);
     this.containsFalse = this.containsFalse.bind(this);
 
+    let loggedUser = CookieManager.getLoggedUser();
+
+    if (loggedUser.roleName === 'GUEST') {
+      this.state = {
+        lastName: loggedUser.firstName,
+        firstName: loggedUser.lastName,
+        email: loggedUser.login,
+        disable: false,
+        isGuest: true,
+      };
+    } else {
+      this.state = {
+        lastName: '',
+        firstName: '',
+        email: '',
+        disable: true,
+        isGuest: false,
+      };
+    }
+
     this.validationArray = {
       lastName: '',
       firstName: '',
       email: '',
     };
 
-    this.state = {
-      lastName: '',
-      firstName: '',
-      email: '',
-      disable: true,
-    };
   }
 
   getValidationState(field) {
@@ -136,11 +151,14 @@ class AvailabilityNewReservation extends Component {
               <Panel.Body>
                 <Form>
                   <UserInputFirstName save={this.setFirstName}
-                                      validate={this.getValidationState}/>
+                                      validate={this.getValidationState}
+                                      readOnly={this.state.isGuest}/>
                   <UserInputLastName save={this.setLastName}
-                                     validate={this.getValidationState}/>
+                                     validate={this.getValidationState}
+                                     readOnly={this.state.isGuest}/>
                   <UserInputEmail save={this.setEmail}
-                                  validate={this.getValidationState}/>
+                                  validate={this.getValidationState}
+                                  readOnly={this.state.isGuest}/>
                   <button type="button" className="btn btn-primary"
                           onClick={this.handleClick}
                           disabled={this.state.disable}>

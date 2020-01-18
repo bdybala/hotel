@@ -25,12 +25,21 @@ class UserInputLastName extends Component {
 			<ControlLabel>Wpisz nazwisko: </ControlLabel>
 			<InputGroup>
 				<InputGroup.Addon>Aa</InputGroup.Addon>
-				<FormControl
-					type="text"
-					value={this.props.value}
-					placeholder="Kowalski"
-					onChange={this.handleChange}
+				{this.props.readOnly && <FormControl
+						type="text"
+						value={this.props.value}
+						placeholder="Kowalski"
+						onChange={this.handleChange}
+						readOnly
 				/>
+				}
+				{!this.props.readOnly && <FormControl
+						type="text"
+						value={this.props.value}
+						placeholder="Kowalski"
+						onChange={this.handleChange}
+				/>
+				}
 				<FormControl.Feedback />
 			</InputGroup>
 			<HelpBlock>Nazwisko powinno mieć conajmniej 3 znaki.</HelpBlock>
