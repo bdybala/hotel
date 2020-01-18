@@ -1,5 +1,8 @@
 import React, {Component} from 'react';
 import {ControlLabel, Form, FormControl} from "react-bootstrap";
+import DayPickerInput from 'react-day-picker/DayPickerInput';
+
+import 'react-day-picker/lib/style.css';
 
 class AvailabilitySearchPanel extends Component {
   constructor(props) {
@@ -18,12 +21,12 @@ class AvailabilitySearchPanel extends Component {
     }
   }
 
-  handleFromChange(e) {
-    this.setState({from: e.target.value}, this.checkForm);
+  handleFromChange(day) {
+    this.setState({from: day}, this.checkForm);
   }
 
-  handleUpToChange(e) {
-    this.setState({upTo: e.target.value}, this.checkForm);
+  handleUpToChange(day) {
+    this.setState({upTo: day}, this.checkForm);
   }
 
   handleCapacityChange(e) {
@@ -37,7 +40,7 @@ class AvailabilitySearchPanel extends Component {
   }
 
   checkForm() {
-    if (this.state.from.trim() === '' || this.state.upTo.trim() === ''
+    if (this.state.from === null || this.state.upTo === null
         || this.state.capacity.trim() === '') {
       this.setState({formValid: false});
     } else {
@@ -49,17 +52,25 @@ class AvailabilitySearchPanel extends Component {
     return (
         <div className="AvailabilitySearchPanel">
           <Form inline>
+
             <ControlLabel> Od </ControlLabel>{'  '}
-            <FormControl value={this.state.from}
-                         onChange={this.handleFromChange}
-                         type="text"
-                         placeholder="2019-02-02"/>
-
+            <DayPickerInput
+                onDayChange={this.handleFromChange}
+                dayPickerProps={{
+                  month: new Date(),
+                  showWeekNumbers: true,
+                  todayButton: 'Dzisiaj',
+                }}
+            />
             <ControlLabel> Do </ControlLabel>{'  '}
-            <FormControl value={this.state.upTo}
-                         onChange={this.handleUpToChange} type="text"
-                         placeholder="2019-02-02"/>
-
+            <DayPickerInput
+                onDayChange={this.handleUpToChange}
+                dayPickerProps={{
+                  month: new Date(),
+                  showWeekNumbers: true,
+                  todayButton: 'Dzisiaj',
+                }}
+            />
             <ControlLabel> Liczba gości </ControlLabel>{'  '}
             <FormControl value={this.state.capacity}
                          onChange={this.handleCapacityChange} type="text"
