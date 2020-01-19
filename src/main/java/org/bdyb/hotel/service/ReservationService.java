@@ -11,4 +11,9 @@ public interface ReservationService {
 
   List<ReservationDto> getAll();
 
+  List<ReservationDto> getAllByEmail(String email);
+
+  ReservationDto editReservation(ReservationDto reservationDto) throws EntityNotFoundException;
+
+  void removeReservation(Long id);
 }

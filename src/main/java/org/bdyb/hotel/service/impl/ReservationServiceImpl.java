@@ -42,7 +42,39 @@ public class ReservationServiceImpl implements ReservationService {
   @Override
   public List<ReservationDto> getAll() {
     List<Reservation> all = reservationRepository.findAll();
-    return all.stream().map(entity -> ReservationDto.builder()
+    return mapToDtos(all);
+  }
+
+  @Override
+  public List<ReservationDto> getAllByEmail(String email) {
+    List<Reservation> all = reservationRepository.findAllByEmail(email);
+    return mapToDtos(all);
+  }
+
+  @Override
+  public ReservationDto editReservation(ReservationDto reservationDto)
+      throws EntityNotFoundException {
+    Reservation reservation = reservationRepository.findById(reservationDto.getId())
+        .orElseThrow(EntityNotFoundException::new);
+
+    reservation.setSince(reservationDto.getSince());
+    reservation.setUpTo(reservationDto.getUpTo());
+    return mapToDto(reservationRepository.save(reservation));
+  }
+
+  @Override
+  public void removeReservation(Long id) {
+    reservationRepository.deleteById(id);
+  }
+
+  private List<ReservationDto> mapToDtos(List<Reservation> all) {
+    return all.stream().map(this::mapToDto)
+        .collect(Collectors.toList());
+  }
+
+  private ReservationDto mapToDto(Reservation entity) {
+    return ReservationDto.builder()
+        .id(entity.getId())
         .firstName(entity.getFirstName())
         .lastName(entity.getLastName())
         .email(entity.getEmail())
@@ -51,7 +83,6 @@ public class ReservationServiceImpl implements ReservationService {
             .build())
         .since(entity.getSince())
         .upTo(entity.getUpTo())
-        .build())
-        .collect(Collectors.toList());
+        .build();
   }
 }

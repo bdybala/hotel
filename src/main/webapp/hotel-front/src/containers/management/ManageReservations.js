@@ -2,6 +2,8 @@ import React, {Component} from 'react';
 import ReservationList from "./ReservationList";
 
 import axios from 'axios';
+import CookieManager from "../../CookieManager";
+import {Button, Modal} from "react-bootstrap";
 
 const API = 'http://localhost:8080/api';
 const MAKE_RESERVATION = '/reservation';
@@ -10,19 +12,60 @@ class ManageReservations extends Component {
   constructor(props) {
     super(props);
 
+    this.closeErrorModal = this.closeErrorModal.bind(this);
+    this.showErrorModal = this.showErrorModal.bind(this);
+
+    let loggedUser = CookieManager.getLoggedUser();
     this.state = {
+      show: false,
+      errorMessage: '',
       reservations: [],
       isLoading: false,
+      loggedUser: loggedUser,
     }
   }
 
+  closeErrorModal() {
+    this.setState({show: false});
+  }
+
+  showErrorModal(errorMessage) {
+    this.setState({
+      show: true,
+      errorMessage: errorMessage,
+    });
+  }
+
   getReservations() {
-    axios.get(API + MAKE_RESERVATION)
+    if (this.state.loggedUser.roleName === 'GUEST') {
+      axios.get(API + MAKE_RESERVATION, {
+        params: {email: this.state.loggedUser.login}
+      })
+      .then(response => {
+        this.setState({reservations: response.data, isLoading: false});
+      })
+      .catch(error => {
+        this.setState({isLoading: true});
+        this.showErrorModal(error.message);
+      })
+    } else {
+      axios.get(API + MAKE_RESERVATION)
+      .then(response => {
+        this.setState({reservations: response.data, isLoading: false});
+      })
+      .catch(error => {
+        this.setState({isLoading: true});
+        this.showErrorModal(error.message);
+      })
+    }
+  }
+
+  removeReservation(id) {
+    axios.delete(API + MAKE_RESERVATION + "/" + id)
     .then(response => {
-      this.setState({reservations: response.data, isLoading: false});
+      this.getReservations();
     })
     .catch(error => {
-      this.setState({isLoading: true});
       this.showErrorModal(error.message);
     })
   }
@@ -30,7 +73,18 @@ class ManageReservations extends Component {
   render() {
     return (
         <div className="ManageReservations">
-          <ReservationList reservations={this.state.reservations}/>
+          <ReservationList reservations={this.state.reservations}
+                           removeReservation={this.removeReservation}/>
+
+          <Modal show={this.state.show} onHide={this.closeErrorModal}>
+            <Modal.Header>
+              <Modal.Title>Wystąpił błąd!</Modal.Title>
+            </Modal.Header>
+            <Modal.Body> {this.state.errorMessage} </Modal.Body>
+            <Modal.Footer>
+              <Button onClick={this.closeErrorModal}>Zamknij</Button>
+            </Modal.Footer>
+          </Modal>
         </div>
     )
   }

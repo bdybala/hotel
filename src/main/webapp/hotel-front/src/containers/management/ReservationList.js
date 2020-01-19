@@ -1,7 +1,17 @@
 import React, {Component} from 'react';
-import {Table} from "react-bootstrap";
+import {Button, ButtonToolbar, Glyphicon, Table} from "react-bootstrap";
 
 class ReservationList extends Component {
+
+  constructor(props) {
+    super(props);
+
+    this.state = {};
+  }
+
+  handleRemoveClick(id) {
+    this.props.removeReservation(id);
+  }
 
   render() {
     const isLoading = this.props.isLoading;
@@ -12,14 +22,24 @@ class ReservationList extends Component {
 
     if (this.props.reservations) {
       var listOfReservations = this.props.reservations.map((item, i) => {
-        return <tr key={i}>
+        return <tbody key={i}>
+        <tr>
           <td>{i + 1}</td>
           <td>{item.room.number}</td>
           <td>{item.firstName} {item.lastName}</td>
           <td>{item.email}</td>
           <td>{new Date(item.since).toDateString()}</td>
           <td>{new Date(item.upTo).toDateString()}</td>
+          <td>
+            <ButtonToolbar>
+              <Button bsStyle="danger"
+                      onClick={(e) => this.handleRemoveClick(item.id, e)}>
+                <Glyphicon glyph='glyphicon glyphicon-remove'/>
+              </Button>
+            </ButtonToolbar>
+          </td>
         </tr>
+        </tbody>
       });
     }
     return (
@@ -34,11 +54,10 @@ class ReservationList extends Component {
               <th>Email</th>
               <th>Od</th>
               <th>Do</th>
+              <th>Opcje</th>
             </tr>
             </thead>
-            <tbody>
             {listOfReservations}
-            </tbody>
           </Table>
         </div>
     );

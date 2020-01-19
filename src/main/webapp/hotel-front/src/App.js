@@ -81,17 +81,19 @@ class App extends Component {
                       <NavItem eventKey={2}> Dostepność</NavItem>
                     </LinkContainer>
                     }
+                    {(this.state.role === 'ADMINISTRATOR' || this.state.role === 'GUEST') && <LinkContainer
+                        to="/manage/reservations">
+                      <NavItem eventKey={3}> Rezerwacje</NavItem>
+                    </LinkContainer>
+                    }
                     {this.state.role === 'ADMINISTRATOR' && <NavDropdown
-                        eventKey={3} title="Zarządzanie"
+                        eventKey={4} title="Zarządzanie"
                         id="basic-nav-dropdown">
                       <LinkContainer to="/manage/users">
-                        <MenuItem eventKey={3.1}>Użytkownicy</MenuItem>
+                        <MenuItem eventKey={4.1}>Użytkownicy</MenuItem>
                       </LinkContainer>
                       <LinkContainer to="/manage/rooms">
-                        <MenuItem eventKey={3.2}>Pokoje</MenuItem>
-                      </LinkContainer>
-                      <LinkContainer to="/manage/reservations">
-                        <MenuItem eventKey={3.3}>Rezerwacje</MenuItem>
+                        <MenuItem eventKey={4.2}>Pokoje</MenuItem>
                       </LinkContainer>
                     </NavDropdown>
                     }

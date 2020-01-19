@@ -14,6 +14,7 @@ import lombok.Setter;
 @AllArgsConstructor
 public class ReservationDto {
 
+  private Long id;
   private Date since;
   private Date upTo;
   private String firstName;
