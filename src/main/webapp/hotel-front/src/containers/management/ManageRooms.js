@@ -2,11 +2,11 @@ import React, {Component} from 'react';
 
 import {Button, Modal} from 'react-bootstrap';
 
-import RoomsList from './RoomsList.js'
-import RoomSearchPanel from './RoomSearchPanel.js'
+import RoomsList from './rooms/RoomsList.js'
+import RoomSearchPanel from './rooms/RoomSearchPanel.js'
 
 import axios from 'axios';
-import RoomAddPanel from "./RoomAddPanel";
+import RoomAddPanel from "./rooms/RoomAddPanel";
 
 const API = 'http://localhost:8080/api';
 const CREATE_ROOM = '/rooms';
@@ -135,7 +135,7 @@ class ManageRooms extends Component {
     }
 
     createNewRoom(newUser) {
-        // todo ADD price
+        // todo ADD price in json
         axios.post(API + CREATE_ROOM, {
             number: newUser.number,
             maxCapacity: newUser.maxCapacity,

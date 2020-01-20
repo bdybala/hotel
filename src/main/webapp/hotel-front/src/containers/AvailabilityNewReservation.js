@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
-import UserInputFirstName from "./management/UserInputFirstName";
-import UserInputLastName from "./management/UserInputLastName";
-import UserInputEmail from "./management/UserInputEmail";
+import UserInputFirstName from "./management/users/UserInputFirstName";
+import UserInputLastName from "./management/users/UserInputLastName";
+import UserInputEmail from "./management/users/UserInputEmail";
 import {Form, Panel} from "react-bootstrap";
 import CookieManager from "../CookieManager";
 

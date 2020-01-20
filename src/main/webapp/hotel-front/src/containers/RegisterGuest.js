@@ -2,12 +2,12 @@ import React, {Component} from 'react';
 
 import {Form, Panel} from 'react-bootstrap';
 
-import UserInputPassword from './management/UserInputPassword';
-import UserInputFirstName from './management/UserInputFirstName';
-import UserInputLastName from './management/UserInputLastName';
-import UserInputEmail from './management/UserInputEmail';
+import UserInputPassword from './management/users/UserInputPassword';
+import UserInputFirstName from './management/users/UserInputFirstName';
+import UserInputLastName from './management/users/UserInputLastName';
+import UserInputEmail from './management/users/UserInputEmail';
 
-import './management/UserRegisterPanel.css';
+import './management/users/UserRegisterPanel.css';
 
 class RegisterGuest extends Component {
   constructor(props, context) {

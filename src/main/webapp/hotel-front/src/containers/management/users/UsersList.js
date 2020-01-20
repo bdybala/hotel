@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 
 import {Button, ButtonToolbar, Glyphicon, Table} from 'react-bootstrap';
 
-import CustomPagination from './CustomPagination';
+import CustomPagination from '../CustomPagination';
 import UserEdit from './UserEdit';
 
 class UsersList extends Component {

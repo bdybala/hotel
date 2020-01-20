@@ -1,16 +1,27 @@
 import React, {Component} from 'react';
 import {Button, ButtonToolbar, Glyphicon, Table} from "react-bootstrap";
+import CookieManager from "../../../CookieManager";
 
 class ReservationList extends Component {
 
   constructor(props) {
     super(props);
 
-    this.state = {};
+    this.handleChooseReservation = this.handleChooseReservation.bind(this);
+    this.handleRemoveClick = this.handleRemoveClick.bind(this);
+
+    let loggedUser = CookieManager.getLoggedUser();
+    this.state = {
+      loggedUser: loggedUser
+    };
   }
 
   handleRemoveClick(id) {
     this.props.removeReservation(id);
+  }
+
+  handleChooseReservation(reservation) {
+    this.props.handleChooseReservation(reservation);
   }
 
   render() {
@@ -36,6 +47,13 @@ class ReservationList extends Component {
                       onClick={(e) => this.handleRemoveClick(item.id, e)}>
                 <Glyphicon glyph='glyphicon glyphicon-remove'/>
               </Button>
+              {this.state.loggedUser.roleName === 'ADMINISTRATOR' && <Button
+                  bsStyle="primary"
+                  onClick={(e) => this.handleChooseReservation(item)}>
+                <Glyphicon glyph='glyphicon glyphicon-pencil'
+                />
+              </Button>
+              }
             </ButtonToolbar>
           </td>
         </tr>

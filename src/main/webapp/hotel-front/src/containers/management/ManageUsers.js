@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 
 import { Button, Modal } from 'react-bootstrap';
 
-import UsersList from './UsersList';
-import UserRegisterPanel from './UserRegisterPanel';
-import UserSearchPanel from './UserSearchPanel';
+import UsersList from './users/UsersList';
+import UserRegisterPanel from './users/UserRegisterPanel';
+import UserSearchPanel from './users/UserSearchPanel';
 
 import axios from 'axios';
 

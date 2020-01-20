@@ -80,6 +80,8 @@ public class ReservationServiceImpl implements ReservationService {
         .email(entity.getEmail())
         .room(RoomDto.builder()
             .number(entity.getRoom().getNumber())
+            .maxCapacity(entity.getRoom().getMaxCapacity())
+            .roomTypeName(entity.getRoom().getRoomType().getName())
             .build())
         .since(entity.getSince())
         .upTo(entity.getUpTo())

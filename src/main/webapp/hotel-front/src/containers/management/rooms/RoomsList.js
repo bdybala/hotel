@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import { Table, Glyphicon, Button } from 'react-bootstrap';
 
-import CustomPagination from './CustomPagination';
+import CustomPagination from '../CustomPagination';
 
 class RoomsList extends Component {
 	constructor(props) {

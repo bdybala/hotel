@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Form, Panel} from "react-bootstrap";
-import UserInputEmail from "./management/UserInputEmail";
-import SinglePasswordInput from "./management/SinglePasswordInput";
+import UserInputEmail from "./management/users/UserInputEmail";
+import SinglePasswordInput from "./SinglePasswordInput";
 
 class LoginPanel extends Component {
   constructor(props) {

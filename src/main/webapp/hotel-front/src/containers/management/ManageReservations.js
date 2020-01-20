@@ -1,9 +1,10 @@
 import React, {Component} from 'react';
-import ReservationList from "./ReservationList";
+import ReservationList from "./reservations/ReservationList";
 
 import axios from 'axios';
 import CookieManager from "../../CookieManager";
 import {Button, Modal} from "react-bootstrap";
+import ReservationsNewCheckIn from "./reservations/ReservationsNewCheckIn";
 
 const API = 'http://localhost:8080/api';
 const MAKE_RESERVATION = '/reservation';
@@ -14,6 +15,8 @@ class ManageReservations extends Component {
 
     this.closeErrorModal = this.closeErrorModal.bind(this);
     this.showErrorModal = this.showErrorModal.bind(this);
+    this.removeReservation = this.removeReservation.bind(this);
+    this.handleChooseReservation = this.handleChooseReservation.bind(this);
 
     let loggedUser = CookieManager.getLoggedUser();
     this.state = {
@@ -22,6 +25,8 @@ class ManageReservations extends Component {
       reservations: [],
       isLoading: false,
       loggedUser: loggedUser,
+      chosenReservation: null,
+      showCheckInPanel: false,
     }
   }
 
@@ -70,11 +75,26 @@ class ManageReservations extends Component {
     })
   }
 
+  handleChooseReservation(item) {
+    console.log(item);
+    this.setState({
+      showCheckInPanel: true,
+      chosenReservation: item
+    });
+  }
+
   render() {
     return (
         <div className="ManageReservations">
           <ReservationList reservations={this.state.reservations}
-                           removeReservation={this.removeReservation}/>
+                           removeReservation={this.removeReservation}
+                           handleChooseReservation={this.handleChooseReservation}/>
+
+          <ReservationsNewCheckIn
+              doCheckIn={this.doCheckIn}
+              show={this.state.showCheckInPanel}
+              reservation={this.state.chosenReservation}
+          />
 
           <Modal show={this.state.show} onHide={this.closeErrorModal}>
             <Modal.Header>
