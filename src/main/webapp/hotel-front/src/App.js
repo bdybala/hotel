@@ -95,6 +95,9 @@ class App extends Component {
                       <LinkContainer to="/manage/rooms">
                         <MenuItem eventKey={4.2}>Pokoje</MenuItem>
                       </LinkContainer>
+                      <LinkContainer to="/manage/visits">
+                        <MenuItem eventKey={4.3}>Wizyty</MenuItem>
+                      </LinkContainer>
                     </NavDropdown>
                     }
                   </Nav>

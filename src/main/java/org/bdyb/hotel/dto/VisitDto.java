@@ -1,22 +1,24 @@
 package org.bdyb.hotel.dto;
 
+import java.util.Date;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 
 @Getter
 @Setter
 @Builder
-@ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class NewVisitDto {
+public class VisitDto {
 
-  private Long reservationId;
+  private Long id;
+  private RoomDto room;
   private List<GuestDto> guests;
+  private Date since;
+  private Date upTo;
 
 }

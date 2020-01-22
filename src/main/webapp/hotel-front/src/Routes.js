@@ -13,6 +13,7 @@ import ManageReservations
 import About from './containers/About';
 import Register from './containers/Register';
 import Login from './containers/Login';
+import ManageVisits from "./containers/management/ManageVisits";
 
 class Routes extends Component {
   constructor(props) {
@@ -33,6 +34,7 @@ class Routes extends Component {
       <Route exact path="/manage/users" component={ManageUsers}/>
       <Route exact path="/manage/rooms" component={ManageRooms}/>
       <Route exact path="/manage/reservations" component={ManageReservations}/>
+      <Route exact path="/manage/visits" component={ManageVisits}/>
       <Route path="/about" component={About}/>
       <Route exact path="/register" component={Register}/>
       <Route exact path="/login"

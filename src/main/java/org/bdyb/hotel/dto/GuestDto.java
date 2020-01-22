@@ -1,6 +1,5 @@
 package org.bdyb.hotel.dto;
 
-import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -14,9 +13,10 @@ import lombok.ToString;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class NewVisitDto {
+public class GuestDto {
 
-  private Long reservationId;
-  private List<GuestDto> guests;
-
+  private String firstName;
+  private String lastName;
+  private String pesel;
+  private String idCardNumber;
 }

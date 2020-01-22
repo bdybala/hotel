@@ -1,11 +1,14 @@
 package org.bdyb.hotel.controller;
 
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.bdyb.hotel.dto.NewVisitDto;
+import org.bdyb.hotel.dto.VisitDto;
 import org.bdyb.hotel.exceptions.notFound.ReservationNotFoundException;
 import org.bdyb.hotel.service.VisitService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,6 +26,11 @@ public class VisitController {
       throws ReservationNotFoundException {
     visitService.addVisit(newVisitDto);
     return new ResponseEntity(HttpStatus.OK);
+  }
+
+  @GetMapping
+  public ResponseEntity<List<VisitDto>> getAll() {
+    return new ResponseEntity<>(visitService.getAll(), HttpStatus.OK);
   }
 
 }
