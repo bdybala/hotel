@@ -13,7 +13,7 @@ class ReservationsNewCheckIn extends Component {
     this.onFirstNameChange = this.onFirstNameChange.bind(this);
     this.onLastNameChange = this.onLastNameChange.bind(this);
     this.onPeselChange = this.onPeselChange.bind(this);
-    this.onIdCardNrChange = this.onIdCardNrChange.bind(this);
+    this.onIdCardNumberChange = this.onIdCardNumberChange.bind(this);
     this.removeCheckedUser = this.removeCheckedUser.bind(this);
 
     this.state = {
@@ -28,14 +28,15 @@ class ReservationsNewCheckIn extends Component {
       firstName: '',
       lastName: '',
       pesel: '',
-      email: '',
-      idCardNr: '',
+      idCardNumber: '',
     });
     this.setState({checkedUsers: oldArray}, this.checkForm());
   }
 
   handleCheckInClick() {
     console.log(this.state.checkedUsers);
+    this.props.doCheckIn(this.props.reservation, this.state.checkedUsers);
+    this.setState({checkedUsers: []})
     // todo Handle new Visit started:
     // todo  BACKEND: flag reservation as 'checked' and don't show it on FRONT (GET reservations)
     // todo FRONT: hide panel and refresh
@@ -66,10 +67,10 @@ class ReservationsNewCheckIn extends Component {
     this.setState({checkedUsers}, this.checkForm());
   }
 
-  onIdCardNrChange(index, idCardNr) {
+  onIdCardNumberChange(index, idCardNumber) {
     let checkedUsers = [...this.state.checkedUsers];
     let updatedUser = checkedUsers[index];
-    updatedUser.idCardNr = idCardNr;
+    updatedUser.idCardNumber = idCardNumber;
     checkedUsers[index] = updatedUser;
     this.setState({checkedUsers}, this.checkForm());
   }
@@ -81,7 +82,7 @@ class ReservationsNewCheckIn extends Component {
       var formValid = true;
       this.state.checkedUsers.forEach(user => {
         if (user.firstName.trim() === '' || user.lastName.trim() === ''
-            || user.pesel.trim() === '' || user.idCardNr.trim() === '') {
+            || user.pesel.trim() === '' || user.idCardNumber.trim() === '') {
           formValid = false;
         }
       });
@@ -109,7 +110,7 @@ class ReservationsNewCheckIn extends Component {
           onFirstNameChange={this.onFirstNameChange}
           onLastNameChange={this.onLastNameChange}
           onPeselChange={this.onPeselChange}
-          onIdCardNrChange={this.onIdCardNrChange}
+          onIdCardNumberChange={this.onIdCardNumberChange}
           removeCheckedUser={this.removeCheckedUser}
       > </ReservationCheckingCustomer>
     });

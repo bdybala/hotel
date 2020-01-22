@@ -8,6 +8,7 @@ import ReservationsNewCheckIn from "./reservations/ReservationsNewCheckIn";
 
 const API = 'http://localhost:8080/api';
 const MAKE_RESERVATION = '/reservation';
+const ADD_VISIT = '/visit';
 
 class ManageReservations extends Component {
   constructor(props) {
@@ -17,6 +18,8 @@ class ManageReservations extends Component {
     this.showErrorModal = this.showErrorModal.bind(this);
     this.removeReservation = this.removeReservation.bind(this);
     this.handleChooseReservation = this.handleChooseReservation.bind(this);
+    this.doCheckIn = this.doCheckIn.bind(this);
+    this.clearChoice = this.clearChoice.bind(this);
 
     let loggedUser = CookieManager.getLoggedUser();
     this.state = {
@@ -80,6 +83,28 @@ class ManageReservations extends Component {
     this.setState({
       showCheckInPanel: true,
       chosenReservation: item
+    });
+  }
+
+  doCheckIn(reservation, checkedUsers) {
+    axios.post(API + ADD_VISIT, {
+      reservationId: reservation.id,
+      guests: checkedUsers,
+    })
+    .then(result => {
+      this.clearChoice();
+      this.getReservations();
+    })
+    .catch(error => {
+      this.setState({isLoadingRooms: false});
+      this.showErrorModal(error.message);
+    });
+  }
+
+  clearChoice() {
+    this.setState({
+      showCheckInPanel: false,
+      chosenReservation: null
     });
   }
 

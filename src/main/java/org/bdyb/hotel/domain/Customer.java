@@ -28,13 +28,11 @@ public class Customer {
 
     private String firstName;
     private String lastName;
-    private Long pesel;
+    private String pesel;
     private Date birthday;
     private String email;
     private String phoneNumber;
-
-    @OneToOne(cascade = CascadeType.ALL)
-    private IdentityCard identityCard;
+    private String idCardNumber;
 
     @ManyToMany(mappedBy = "customers")
     private Set<Visit> visits;

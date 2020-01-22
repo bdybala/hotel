@@ -14,11 +14,10 @@ class ReservationCheckingCustomer extends Component {
     this.handleFirstNameChange = this.handleFirstNameChange.bind(this);
     this.handleLastNameChange = this.handleLastNameChange.bind(this);
     this.handlePeselChange = this.handlePeselChange.bind(this);
-    this.handleIdCardNrChange = this.handleIdCardNrChange.bind(this);
+    this.handleIdCardNumberChange = this.handleIdCardNumberChange.bind(this);
     this.handleRemoveClick = this.handleRemoveClick.bind(this);
 
-    this.state = {
-    };
+    this.state = {};
   }
 
   handleFirstNameChange(e) {
@@ -37,9 +36,9 @@ class ReservationCheckingCustomer extends Component {
     this.props.onPeselChange(this.props.index, e.target.value);
   }
 
-  handleIdCardNrChange(e) {
+  handleIdCardNumberChange(e) {
     this.setState({idCardNumber: e.target.value});
-    this.props.onIdCardNrChange(this.props.index, e.target.value);
+    this.props.onIdCardNumberChange(this.props.index, e.target.value);
   }
 
   handleRemoveClick() {
@@ -66,7 +65,7 @@ class ReservationCheckingCustomer extends Component {
                    placeholder="90010112379"/>{' '}
       <ControlLabel>Nr Dowodu</ControlLabel>{' '}
       <FormControl value={this.props.user.idCardNumber}
-                   onChange={this.handleIdCardNrChange} type="text"
+                   onChange={this.handleIdCardNumberChange} type="text"
                    placeholder="CHN22333"/>{' '}
       <hr/>
     </Form>)

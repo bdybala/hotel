@@ -37,10 +37,10 @@ public class Room {
     @JoinColumn(name = "room_types_id")
     private RoomType roomType;
 
-    @OneToMany(mappedBy = "room")
+    @OneToMany(mappedBy = "room", fetch = FetchType.LAZY)
     private List<Visit> visits;
 
-    @OneToMany(mappedBy = "room")
+    @OneToMany(mappedBy = "room", fetch = FetchType.LAZY)
     private List<Reservation> reservations;
 
 

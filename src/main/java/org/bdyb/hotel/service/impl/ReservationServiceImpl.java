@@ -41,13 +41,13 @@ public class ReservationServiceImpl implements ReservationService {
 
   @Override
   public List<ReservationDto> getAll() {
-    List<Reservation> all = reservationRepository.findAll();
+    List<Reservation> all = reservationRepository.findAllByCheckedInFalse();
     return mapToDtos(all);
   }
 
   @Override
   public List<ReservationDto> getAllByEmail(String email) {
-    List<Reservation> all = reservationRepository.findAllByEmail(email);
+    List<Reservation> all = reservationRepository.findAllByEmailAndCheckedInFalse(email);
     return mapToDtos(all);
   }
 

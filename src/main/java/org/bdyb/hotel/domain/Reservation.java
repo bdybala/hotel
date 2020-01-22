@@ -31,6 +31,7 @@ public class Reservation {
     private String lastName;
     private String email;
     private String phoneNumber;
+    private boolean checkedIn;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "rooms_id")

@@ -74,7 +74,7 @@ class App extends Component {
                 <Navbar.Collapse>
                   <Nav>
                     <LinkContainer to="/about">
-                      <NavItem eventKey={1}> O stronie</NavItem>
+                      <NavItem eventKey={1}> O hotelu</NavItem>
                     </LinkContainer>
                     {(this.state.role === 'ADMINISTRATOR' || this.state.role === 'GUEST') && <LinkContainer
                         to="/availability">

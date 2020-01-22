@@ -29,7 +29,7 @@ public class Visit {
     private Date since;
     private Date upTo;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "rooms_id")
     private Room room;
 
